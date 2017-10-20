@@ -86,9 +86,13 @@ macro_rules! implement_common {
                 $name::MAX
             }
 
-            pub fn new(v: $type) -> $name {
-                assert!(v <= $name::MAX.0 && v >= $name::MIN.0);
-                $name(v)
+            /// Crates a new variable
+            ///
+            /// # Panic
+            /// This function will panic if `value` is not representable by this type
+            pub fn new(value: $type) -> $name {
+                assert!(value <= $name::MAX.0 && value >= $name::MIN.0);
+                $name(value)
             }
 
             /// Wrapping (modular) subtraction. Computes `self - other`,
