@@ -1,0 +1,8 @@
+[package]
+name = "ux"
+version = "0.0.1"
+authors = ["Kjetil Kjeka <kjetilkjeka@gmail.com>"]
+
+description = "Non standard integer types like `u7`, `u9`, `u10`, `u63`, `i7`, `i9` etc"
+
+[dependencies]
