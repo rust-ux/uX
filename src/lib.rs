@@ -1,5 +1,14 @@
-#![no_std]
+#![cfg_attr(not(feature="std"), no_std)]
 
+
+mod lib {
+    pub mod core {
+        #[cfg(feature="std")]
+        pub use std::*;
+        #[cfg(not(feature="std"))]
+        pub use core::*;
+    }
+}
 
 macro_rules! define_unsigned {
     ($name:ident, $bits:expr, $type:ty) => {
