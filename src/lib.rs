@@ -251,3 +251,35 @@ define_signed!(i62, 62, i64);
 define_signed!(i63, 63, i64);
 
             
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn min_max_values() {
+        assert_eq!(u2::MAX, u2(3));
+        assert_eq!(u3::MAX, u3(7));
+        assert_eq!(u7::MAX, u7(127));
+        assert_eq!(u9::MAX, u9(511));
+
+        
+        assert_eq!(i2::MAX, i2(1));
+        assert_eq!(i3::MAX, i3(3));
+        assert_eq!(i7::MAX, i7(63));
+        assert_eq!(i9::MAX, i9(255));
+
+        
+        assert_eq!(u2::MIN, u2(0));
+        assert_eq!(u3::MIN, u3(0));
+        assert_eq!(u7::MIN, u7(0));
+        assert_eq!(u9::MIN, u9(0));
+
+        
+        assert_eq!(i2::MIN, i2(-2));
+        assert_eq!(i3::MIN, i3(-4));
+        assert_eq!(i7::MIN, i7(-64));
+        assert_eq!(i9::MIN, i9(-256));
+
+        
+    }
+}
