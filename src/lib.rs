@@ -10,6 +10,11 @@ mod lib {
     }
 }
 
+use lib::core::hash::{
+    Hash,
+    Hasher,
+};
+
 use lib::core::cmp::{
     Ordering,
     Ord,
@@ -94,6 +99,12 @@ macro_rules! implement_common {
         impl Ord for $name {
             fn cmp(&self, other: &$name) -> Ordering {
                 self.mask().0.cmp(&other.mask().0)
+            }
+        }
+
+        impl Hash for $name {
+            fn hash<H: Hasher>(&self, h: &mut H) {
+                self.mask().0.hash(h)
             }
         }
         
