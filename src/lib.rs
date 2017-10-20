@@ -40,6 +40,9 @@ macro_rules! define_unsigned {
             pub const MAX: Self = $name(((1 as $type) << $bits) -1 );
             pub const MIN: Self = $name(0);
 
+            fn mask(self) -> Self {
+                $name(self.0 & ( ((1 as $type) << $bits).overflowing_sub(1).0))
+            }
         }
         
         implement_common!($name, $bits, $type);
@@ -57,6 +60,13 @@ macro_rules! define_signed {
             pub const MAX: Self = $name(((1 as $type) << ($bits - 1)) - 1);
             pub const MIN: Self = $name(-((1 as $type) << ($bits - 1)));
 
+            fn mask(self) -> Self {
+                if ( self.0 & (1<<($bits-1)) ) == 0 {
+                    $name(self.0 & ( ((1 as $type) << $bits).overflowing_sub(1).0))
+                } else {
+                    $name(self.0 | !( ((1 as $type) << $bits).overflowing_sub(1).0))
+                }
+            }
         }
         
         implement_common!($name, $bits, $type);
@@ -76,9 +86,6 @@ macro_rules! implement_common {
                 $name::MAX
             }
             
-            fn mask(self) -> Self {
-                $name(self.0 & ( ((1 as $type) << $bits).overflowing_sub(1).0))
-            }
         }
 
         
@@ -283,7 +290,19 @@ define_signed!(i63, 63, i64);
 #[cfg(test)]
 mod tests {
     use super::*;
-
+    
+    #[test]
+    fn test_masking() {
+        assert_eq!(u4(0b11000110).mask().0, 0b00000110);
+        assert_eq!(u4(0b00001000).mask().0, 0b00001000);
+        assert_eq!(u4(0b00001110).mask().0, 0b00001110);
+        
+        assert_eq!(i4(0b11000110u8 as i8).mask().0, 0b00000110u8 as i8);
+        assert_eq!(i4(0b00001000u8 as i8).mask().0, 0b11111000u8 as i8);
+        assert_eq!(i4(0b00001110u8 as i8).mask().0, 0b11111110u8 as i8);
+        
+    }
+    
     #[test]
     fn min_max_values() {
         assert_eq!(u2::MAX, u2(3));
