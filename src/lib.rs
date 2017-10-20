@@ -86,6 +86,26 @@ macro_rules! implement_common {
                 $name::MAX
             }
 
+            pub fn new(v: $type) -> $name {
+                assert!(v <= $name::MAX.0 && v >= $name::MIN.0);
+                $name(v)
+            }
+            
+            /// Wrapping (modular) addition. Computes `self + other`,
+            /// wrapping around at the boundary of the type.
+            ///
+            /// # Examples
+            ///
+            /// Basic usage:
+            ///
+            /// ```
+            /// use ux::*;
+            ///
+            /// assert_eq!(i5::MAX.wrapping_add(i5::new(1)), i5::MIN);
+            ///
+            /// assert_eq!(i5::new(10).wrapping_add(i5::new(5)), i5::new(15));
+            /// assert_eq!(i5::new(15).wrapping_add(i5::new(5)), i5::new(-12));
+            /// ```
             pub fn wrapping_add(self, rhs: Self) -> Self {
                 $name(self.0.wrapping_add(rhs.0)).mask()
             }
