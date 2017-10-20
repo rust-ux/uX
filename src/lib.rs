@@ -16,15 +16,22 @@ macro_rules! define_unsigned {
             }
         }
         
+        implement_common_traits!($name, $bits, $type);
+        
+    }
+}
+
+macro_rules! implement_common_traits {
+    ($name:ident, $bits:expr, $type:ty) => {
         impl PartialEq for $name {
             fn eq(&self, other: &Self) -> bool {
                 self.mask().0 == other.mask().0
             }
         }
-
+        
         impl Eq for $name {}
-
-    }
+        
+    };
 }
 
 
