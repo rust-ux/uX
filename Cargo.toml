@@ -21,4 +21,5 @@ default = ["std"]
 std = []
 
 [badges]
+travis-ci = {repository = "kjetilkjeka/uX", branch = "master"}
 maintenance = {status = "actively-developed"}
