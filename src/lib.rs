@@ -10,6 +10,12 @@ mod lib {
     }
 }
 
+use lib::core::cmp::{
+    Ordering,
+    Ord,
+    PartialOrd,
+};
+
 use lib::core::fmt::{
     Display,
     Formatter,
@@ -79,6 +85,18 @@ macro_rules! implement_common {
         
         impl Eq for $name {}
 
+        impl PartialOrd for $name {
+            fn partial_cmp(&self, other: &$name) -> Option<Ordering> {
+                self.mask().0.partial_cmp(&other.mask().0)
+            }
+        }
+
+        impl Ord for $name {
+            fn cmp(&self, other: &$name) -> Ordering {
+                self.mask().0.cmp(&other.mask().0)
+            }
+        }
+        
         // Implement formating functions
         impl Display for $name {
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
