@@ -10,6 +10,15 @@ mod lib {
     }
 }
 
+use lib::core::fmt::{
+    Display,
+    Formatter,
+    UpperHex,
+    LowerHex,
+    Octal,
+    Binary,
+};
+
 macro_rules! define_unsigned {
     ($name:ident, $bits:expr, $type:ty) => {
         #[allow(non_camel_case_types)]
@@ -39,6 +48,38 @@ macro_rules! implement_common_traits {
         }
         
         impl Eq for $name {}
+
+        // Implement formating functions
+        impl Display for $name {
+            fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
+                let &$name(ref value) = self;
+                <$type as Display>::fmt(value, f)
+            }
+        }
+        impl UpperHex for $name {
+            fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
+                let &$name(ref value) = self;
+                <$type as UpperHex>::fmt(value, f)
+            }
+        }
+        impl LowerHex for $name {
+            fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
+                let &$name(ref value) = self;
+                <$type as LowerHex>::fmt(value, f)
+            }
+        }
+        impl Octal for $name {
+            fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
+                let &$name(ref value) = self;
+                <$type as Octal>::fmt(value, f)
+            }
+        }
+        impl Binary for $name {
+            fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
+                let &$name(ref value) = self;
+                <$type as Binary>::fmt(value, f)
+            }
+        }
         
     };
 }
