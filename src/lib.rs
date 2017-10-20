@@ -10,6 +10,11 @@ mod lib {
     }
 }
 
+use lib::core::ops::{
+    Shr,
+    Shl,
+};
+
 use lib::core::hash::{
     Hash,
     Hasher,
@@ -193,6 +198,23 @@ macro_rules! implement_common {
                 <$type as Binary>::fmt(value, f)
             }
         }
+
+        impl Shr<usize> for $name {
+            type Output = $name;
+
+            fn shr(self, rhs: usize) -> $name {
+                $name(self.mask().0.shr(rhs))
+            }
+        }
+
+        impl Shl<usize> for $name {
+            type Output = $name;
+
+            fn shl(self, rhs: usize) -> $name {
+                $name(self.mask().0.shl(rhs))
+            }
+        }
+
         
     };
 }
@@ -385,6 +407,23 @@ mod tests {
         
         assert_eq!(i7::MAX.wrapping_add(i7(1)), i7::MIN);
         assert_eq!(i7::MAX.wrapping_add(i7(4)), i7(-61));
+    }
+
+    #[test]
+    fn test_shr() {
+        assert_eq!(u5(8) >> 1, u5(4));
+        assert_eq!(u5::MAX >> 4, u5(1));
+        
+        assert_eq!(i7(-1) >> 5, i7(-1));
+    }
+    
+    #[test]
+    fn test_shl() {
+        assert_eq!(u5(16) << 1, u5(32));
+        assert_eq!(u5::MAX << 4, u5(16));
+        
+        assert_eq!(i5(16) << 1, i5(0));
+        assert_eq!(i7(1) << 3, i7(8));
     }
 
 }
