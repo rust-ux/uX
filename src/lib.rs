@@ -90,6 +90,25 @@ macro_rules! implement_common {
                 assert!(v <= $name::MAX.0 && v >= $name::MIN.0);
                 $name(v)
             }
+
+            /// Wrapping (modular) subtraction. Computes `self - other`,
+            /// wrapping around at the boundary of the type.
+            ///
+            /// # Examples
+            ///
+            /// Basic usage:
+            ///
+            /// ```
+            /// use ux::*;
+            ///
+            /// assert_eq!(i5::MIN.wrapping_sub(i5::new(1)), i5::MAX);
+            ///
+            /// assert_eq!(i5::new(-10).wrapping_sub(i5::new(5)), i5::new(-15));
+            /// assert_eq!(i5::new(-15).wrapping_sub(i5::new(5)), i5::new(12));
+            /// ```
+            pub fn wrapping_sub(self, rhs: Self) -> Self {
+                $name(self.0.wrapping_sub(rhs.0)).mask()
+            }
             
             /// Wrapping (modular) addition. Computes `self + other`,
             /// wrapping around at the boundary of the type.
