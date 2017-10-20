@@ -27,20 +27,33 @@ macro_rules! define_unsigned {
 
         impl $name {
             pub const MAX: Self = $name(((1 as $type) << $bits) -1 );
-            pub const MIN: Self = $name(0 as $type);
+            pub const MIN: Self = $name(0);
 
-            fn mask(self) -> Self {
-                $name(self.0 & ( ((1 as $type) << $bits) -1))
-            }
         }
         
-        implement_common_traits!($name, $bits, $type);
+        implement_common!($name, $bits, $type);
         
     }
 }
 
-macro_rules! implement_common_traits {
+
+macro_rules! implement_common {
     ($name:ident, $bits:expr, $type:ty) => {
+        impl $name {
+            /// Returns the smallest value that can be represented by this integer type.
+            pub fn min_value() -> $name {
+                $name::MIN
+            }
+            pub fn max_value() -> $name {
+                $name::MAX
+            }
+            
+            fn mask(self) -> Self {
+                $name(self.0 & ( ((1 as $type) << $bits) -1))
+            }
+        }
+
+        
         impl PartialEq for $name {
             fn eq(&self, other: &Self) -> bool {
                 self.mask().0 == other.mask().0
