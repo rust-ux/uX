@@ -85,6 +85,10 @@ macro_rules! implement_common {
             pub fn max_value() -> $name {
                 $name::MAX
             }
+
+            pub fn wrapping_add(self, rhs: Self) -> Self {
+                $name(self.0.wrapping_add(rhs.0)).mask()
+            }
             
         }
 
@@ -330,4 +334,14 @@ mod tests {
 
         
     }
+
+    #[test]
+    fn test_wrapping_add() {
+        assert_eq!(u5::MAX.wrapping_add(u5(1)), u5(0));
+        assert_eq!(u5::MAX.wrapping_add(u5(4)), u5(3));
+        
+        assert_eq!(i7::MAX.wrapping_add(i7(1)), i7::MIN);
+        assert_eq!(i7::MAX.wrapping_add(i7(4)), i7(-61));
+    }
+
 }
