@@ -36,6 +36,22 @@ macro_rules! define_unsigned {
     }
 }
 
+macro_rules! define_signed {
+    ($name:ident, $bits:expr, $type:ty) => {
+        #[allow(non_camel_case_types)]
+        #[derive(Default, Clone, Copy, Debug)]
+        pub struct $name($type);
+
+        impl $name {
+            pub const MAX: Self = $name(((1 as $type) << ($bits - 1)) - 1);
+            pub const MIN: Self = $name(-((1 as $type) << ($bits - 1)));
+
+        }
+        
+        implement_common!($name, $bits, $type);
+        
+    }
+}
 
 macro_rules! implement_common {
     ($name:ident, $bits:expr, $type:ty) => {
@@ -44,12 +60,13 @@ macro_rules! implement_common {
             pub fn min_value() -> $name {
                 $name::MIN
             }
+            /// Returns the largest value that can be represented by this integer type.
             pub fn max_value() -> $name {
                 $name::MAX
             }
             
             fn mask(self) -> Self {
-                $name(self.0 & ( ((1 as $type) << $bits) -1))
+                $name(self.0 & ( ((1 as $type) << $bits).overflowing_sub(1).0))
             }
         }
 
@@ -164,5 +181,73 @@ define_unsigned!(u60, 60, u64);
 define_unsigned!(u61, 61, u64);
 define_unsigned!(u62, 62, u64);
 define_unsigned!(u63, 63, u64);
-                
+
+
+define_signed!(i2, 2, i8);
+define_signed!(i3, 3, i8);
+define_signed!(i4, 4, i8);
+define_signed!(i5, 5, i8);
+define_signed!(i6, 6, i8);
+define_signed!(i7, 7, i8);
+               
+define_signed!(i9, 9, i16);
+define_signed!(i10, 10, i16);
+define_signed!(i11, 11, i16);
+define_signed!(i12, 12, i16);
+define_signed!(i13, 13, i16);
+define_signed!(i14, 14, i16);
+define_signed!(i15, 15, i16);
+                        
+define_signed!(i17, 17, i32);
+define_signed!(i18, 18, i32);
+define_signed!(i19, 19, i32);
+define_signed!(i20, 20, i32);
+define_signed!(i21, 21, i32);
+define_signed!(i22, 22, i32);
+define_signed!(i23, 23, i32);
+define_signed!(i24, 24, i32);
+                        
+define_signed!(i25, 25, i32);
+define_signed!(i26, 26, i32);
+define_signed!(i27, 27, i32);
+define_signed!(i28, 28, i32);
+define_signed!(i29, 29, i32);
+define_signed!(i30, 30, i32);
+define_signed!(i31, 31, i32);
+                        
+define_signed!(i33, 33, i64);
+define_signed!(i34, 34, i64);
+define_signed!(i35, 35, i64);
+define_signed!(i36, 36, i64);
+define_signed!(i37, 37, i64);
+define_signed!(i38, 38, i64);
+define_signed!(i39, 39, i64);
+define_signed!(i40, 40, i64);
+                        
+define_signed!(i41, 41, i64);
+define_signed!(i42, 42, i64);
+define_signed!(i43, 43, i64);
+define_signed!(i44, 44, i64);
+define_signed!(i45, 45, i64);
+define_signed!(i46, 46, i64);
+define_signed!(i47, 47, i64);
+define_signed!(i48, 48, i64);
+                        
+define_signed!(i49, 49, i64);
+define_signed!(i50, 50, i64);
+define_signed!(i51, 51, i64);
+define_signed!(i52, 52, i64);
+define_signed!(i53, 53, i64);
+define_signed!(i54, 54, i64);
+define_signed!(i55, 55, i64);
+define_signed!(i56, 56, i64);
+                        
+define_signed!(i57, 57, i64);
+define_signed!(i58, 58, i64);
+define_signed!(i59, 59, i64);
+define_signed!(i60, 60, i64);
+define_signed!(i61, 61, i64);
+define_signed!(i62, 62, i64);
+define_signed!(i63, 63, i64);
+
             
