@@ -118,7 +118,22 @@ macro_rules! implement_common {
 
             /// Crates a new variable
             ///
+            /// This function mainly exists as there is currently not a better way to construct these types.
+            /// May be deprecated or removed if a better way to construct these types becomes available.
+            ///
+            /// # Examples
+            ///
+            /// Basic usage:
+            ///
+            /// ```
+            /// use ux::*
+            ///
+            /// assert_eq!(u31::new(64), u31::from(64u8));
+            ///
+            /// ```
+            ///
             /// # Panic
+            ///
             /// This function will panic if `value` is not representable by this type
             pub fn new(value: $type) -> $name {
                 assert!(value <= $name::MAX.0 && value >= $name::MIN.0);
