@@ -126,7 +126,7 @@ macro_rules! implement_common {
             /// Basic usage:
             ///
             /// ```
-            /// use ux::*
+            /// use ux::*;
             ///
             /// assert_eq!(u31::new(64), u31::from(64u8));
             ///
