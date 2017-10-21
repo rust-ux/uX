@@ -10,6 +10,8 @@ mod lib {
     }
 }
 
+mod conversion;
+
 use lib::core::ops::{
     Shr,
     Shl,
