@@ -1,3 +1,15 @@
+//! #uX - non-standard-width integers types
+//!
+//! When non-standard-width integers is required in an applications, the norm is to use a larger container and make sure the value is within range after manipulation. uX aims to take care of this once and for all by:
+//! 
+//! - Providing `u2`-`u63` and `i2`-`i63` types that should behave as similar as possible to the built in rust types
+//!     - The methods of the defined types are the same as for the built in types (far from all is implemented at this point but fill out an issue or create a PR if something essential for you is missing)
+//!     - Overflow will panic in debug and wrap in release.
+//! - When `i128` and `u128` is stabilized this crate will also support `u65-u127` and `i65-i127`
+//! - All possible lossless conversions is possible by using `From`.
+//! - When `TryFrom` is stabilized fallible conversions will also be supported.
+
+
 #![cfg_attr(not(feature="std"), no_std)]
 
 
