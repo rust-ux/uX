@@ -17,6 +17,8 @@ use lib::core::ops::{
     ShrAssign,
     Shl,
     ShlAssign,
+    BitOr,
+    BitOrAssign,
 };
 
 use lib::core::hash::{
@@ -232,6 +234,47 @@ macro_rules! implement_common {
                 self.0.shl_assign(rhs);
             }
         }
+
+        impl BitOr<$name> for $name {
+            type Output = $name;
+            
+            fn bitor(self, rhs: $name) -> Self::Output {
+                $name(self.mask().0.bitor(rhs.mask().0))
+            }
+        }
+
+        impl<'a> BitOr<&'a $name> for $name {
+            type Output = <$name as BitOr<$name>>::Output;
+            
+            fn bitor(self, rhs: &'a $name) -> Self::Output {
+                $name(self.mask().0.bitor(rhs.mask().0))
+            }
+        }
+
+        impl<'a> BitOr<$name> for &'a $name {
+            type Output = <$name as BitOr<$name>>::Output;
+            
+            fn bitor(self, rhs: $name) -> Self::Output {
+                $name(self.mask().0.bitor(rhs.mask().0))
+            }
+        }
+
+        impl<'a> BitOr<&'a $name> for &'a $name {
+            type Output = <$name as BitOr<$name>>::Output;
+            
+            fn bitor(self, rhs: &'a $name) -> Self::Output {
+                $name(self.mask().0.bitor(rhs.mask().0))
+            }
+        }
+
+        impl BitOrAssign<$name> for $name {
+            fn bitor_assign(&mut self, other: $name) {
+                *self = self.mask();
+                self.0.bitor_assign(other.mask().0)
+            }
+        }
+
+        
 
         
     };
@@ -495,6 +538,27 @@ mod tests {
         x <<= 1u8;
         assert_eq!(x, u9(256));
     }
+
+    #[test]
+    fn test_bitor() {
+        assert_eq!(u9(1) | u9(8), u9(9));
+        assert_eq!(&u9(1) | u9(8), u9(9));
+        assert_eq!(u9(1) | &u9(8), u9(9));
+        assert_eq!(&u9(1) | &u9(8), u9(9));
+    }
+    
+    #[test]
+    fn test_bitor_assign() {
+        let mut x = u12(4);
+        x |= u12(1);
+        assert_eq!(x, u12(5));
+        x |= u12(128);
+        assert_eq!(x, u12(133));
+        x = u12(1);
+        x |= u12(127);
+        assert_eq!(x, u12(127));
+    }
+    
 
 
 }
