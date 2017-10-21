@@ -54,7 +54,10 @@ use lib::core::fmt::{
 };
 
 macro_rules! define_unsigned {
-    ($name:ident, $bits:expr, $type:ident) => {
+    ($name:ident, $bits:expr, $type:ident) => {define_unsigned!(#[doc=""], $name, $bits, $type);};
+    (#[$doc:meta], $name:ident, $bits:expr, $type:ident) => {
+
+       #[$doc]
         #[allow(non_camel_case_types)]
         #[derive(Default, Clone, Copy, Debug)]
         pub struct $name($type);
@@ -74,11 +77,15 @@ macro_rules! define_unsigned {
 }
 
 macro_rules! define_signed {
-    ($name:ident, $bits:expr, $type:ident) => {
+    ($name:ident, $bits:expr, $type:ident) => {define_signed!(#[doc=""], $name, $bits, $type);};
+    (#[$doc:meta], $name:ident, $bits:expr, $type:ident) => {
+        
+        #[$doc]
         #[allow(non_camel_case_types)]
         #[derive(Default, Clone, Copy, Debug)]
         pub struct $name($type);
 
+        #[$doc]
         impl $name {
             pub const MAX: Self = $name(((1 as $type) << ($bits - 1)) - 1);
             pub const MIN: Self = $name(-((1 as $type) << ($bits - 1)));
@@ -293,140 +300,140 @@ macro_rules! implement_common {
 }
 
 
-define_unsigned!(u2, 2, u8);
-define_unsigned!(u3, 3, u8);
-define_unsigned!(u4, 4, u8);
-define_unsigned!(u5, 5, u8);
-define_unsigned!(u6, 6, u8);
-define_unsigned!(u7, 7, u8);
+define_unsigned!(#[doc="The 2-bit unsigned integer type."], u2, 2, u8);
+define_unsigned!(#[doc="The 3-bit unsigned integer type."], u3, 3, u8);
+define_unsigned!(#[doc="The 4-bit unsigned integer type."], u4, 4, u8);
+define_unsigned!(#[doc="The 5-bit unsigned integer type."], u5, 5, u8);
+define_unsigned!(#[doc="The 6-bit unsigned integer type."], u6, 6, u8);
+define_unsigned!(#[doc="The 7-bit unsigned integer type."], u7, 7, u8);
 
-define_unsigned!(u9, 9, u16);
-define_unsigned!(u10, 10, u16);
-define_unsigned!(u11, 11, u16);
-define_unsigned!(u12, 12, u16);
-define_unsigned!(u13, 13, u16);
-define_unsigned!(u14, 14, u16);
-define_unsigned!(u15, 15, u16);
+define_unsigned!(#[doc="The 9-bit unsigned integer type."], u9, 9, u16);
+define_unsigned!(#[doc="The 10-bit unsigned integer type."], u10, 10, u16);
+define_unsigned!(#[doc="The 11-bit unsigned integer type."], u11, 11, u16);
+define_unsigned!(#[doc="The 12-bit unsigned integer type."], u12, 12, u16);
+define_unsigned!(#[doc="The 13-bit unsigned integer type."], u13, 13, u16);
+define_unsigned!(#[doc="The 14-bit unsigned integer type."], u14, 14, u16);
+define_unsigned!(#[doc="The 15-bit unsigned integer type."], u15, 15, u16);
 
-define_unsigned!(u17, 17, u32);
-define_unsigned!(u18, 18, u32);
-define_unsigned!(u19, 19, u32);
-define_unsigned!(u20, 20, u32);
-define_unsigned!(u21, 21, u32);
-define_unsigned!(u22, 22, u32);
-define_unsigned!(u23, 23, u32);
-define_unsigned!(u24, 24, u32);
+define_unsigned!(#[doc="The 17-bit unsigned integer type."], u17, 17, u32);
+define_unsigned!(#[doc="The 18-bit unsigned integer type."], u18, 18, u32);
+define_unsigned!(#[doc="The 19-bit unsigned integer type."], u19, 19, u32);
+define_unsigned!(#[doc="The 20-bit unsigned integer type."], u20, 20, u32);
+define_unsigned!(#[doc="The 21-bit unsigned integer type."], u21, 21, u32);
+define_unsigned!(#[doc="The 22-bit unsigned integer type."], u22, 22, u32);
+define_unsigned!(#[doc="The 23-bit unsigned integer type."], u23, 23, u32);
+define_unsigned!(#[doc="The 24-bit unsigned integer type."], u24, 24, u32);
 
-define_unsigned!(u25, 25, u32);
-define_unsigned!(u26, 26, u32);
-define_unsigned!(u27, 27, u32);
-define_unsigned!(u28, 28, u32);
-define_unsigned!(u29, 29, u32);
-define_unsigned!(u30, 30, u32);
-define_unsigned!(u31, 31, u32);
+define_unsigned!(#[doc="The 25-bit unsigned integer type."], u25, 25, u32);
+define_unsigned!(#[doc="The 26-bit unsigned integer type."], u26, 26, u32);
+define_unsigned!(#[doc="The 27-bit unsigned integer type."], u27, 27, u32);
+define_unsigned!(#[doc="The 28-bit unsigned integer type."], u28, 28, u32);
+define_unsigned!(#[doc="The 29-bit unsigned integer type."], u29, 29, u32);
+define_unsigned!(#[doc="The 30-bit unsigned integer type."], u30, 30, u32);
+define_unsigned!(#[doc="The 31-bit unsigned integer type."], u31, 31, u32);
 
-define_unsigned!(u33, 33, u64);
-define_unsigned!(u34, 34, u64);
-define_unsigned!(u35, 35, u64);
-define_unsigned!(u36, 36, u64);
-define_unsigned!(u37, 37, u64);
-define_unsigned!(u38, 38, u64);
-define_unsigned!(u39, 39, u64);
-define_unsigned!(u40, 40, u64);
+define_unsigned!(#[doc="The 33-bit unsigned integer type."], u33, 33, u64);
+define_unsigned!(#[doc="The 34-bit unsigned integer type."], u34, 34, u64);
+define_unsigned!(#[doc="The 35-bit unsigned integer type."], u35, 35, u64);
+define_unsigned!(#[doc="The 36-bit unsigned integer type."], u36, 36, u64);
+define_unsigned!(#[doc="The 37-bit unsigned integer type."], u37, 37, u64);
+define_unsigned!(#[doc="The 38-bit unsigned integer type."], u38, 38, u64);
+define_unsigned!(#[doc="The 39-bit unsigned integer type."], u39, 39, u64);
+define_unsigned!(#[doc="The 40-bit unsigned integer type."], u40, 40, u64);
 
-define_unsigned!(u41, 41, u64);
-define_unsigned!(u42, 42, u64);
-define_unsigned!(u43, 43, u64);
-define_unsigned!(u44, 44, u64);
-define_unsigned!(u45, 45, u64);
-define_unsigned!(u46, 46, u64);
-define_unsigned!(u47, 47, u64);
-define_unsigned!(u48, 48, u64);
+define_unsigned!(#[doc="The 41-bit unsigned integer type."], u41, 41, u64);
+define_unsigned!(#[doc="The 42-bit unsigned integer type."], u42, 42, u64);
+define_unsigned!(#[doc="The 43-bit unsigned integer type."], u43, 43, u64);
+define_unsigned!(#[doc="The 44-bit unsigned integer type."], u44, 44, u64);
+define_unsigned!(#[doc="The 45-bit unsigned integer type."], u45, 45, u64);
+define_unsigned!(#[doc="The 46-bit unsigned integer type."], u46, 46, u64);
+define_unsigned!(#[doc="The 47-bit unsigned integer type."], u47, 47, u64);
+define_unsigned!(#[doc="The 48-bit unsigned integer type."], u48, 48, u64);
 
-define_unsigned!(u49, 49, u64);
-define_unsigned!(u50, 50, u64);
-define_unsigned!(u51, 51, u64);
-define_unsigned!(u52, 52, u64);
-define_unsigned!(u53, 53, u64);
-define_unsigned!(u54, 54, u64);
-define_unsigned!(u55, 55, u64);
-define_unsigned!(u56, 56, u64);
+define_unsigned!(#[doc="The 49-bit unsigned integer type."], u49, 49, u64);
+define_unsigned!(#[doc="The 50-bit unsigned integer type."], u50, 50, u64);
+define_unsigned!(#[doc="The 51-bit unsigned integer type."], u51, 51, u64);
+define_unsigned!(#[doc="The 52-bit unsigned integer type."], u52, 52, u64);
+define_unsigned!(#[doc="The 53-bit unsigned integer type."], u53, 53, u64);
+define_unsigned!(#[doc="The 54-bit unsigned integer type."], u54, 54, u64);
+define_unsigned!(#[doc="The 55-bit unsigned integer type."], u55, 55, u64);
+define_unsigned!(#[doc="The 56-bit unsigned integer type."], u56, 56, u64);
 
-define_unsigned!(u57, 57, u64);
-define_unsigned!(u58, 58, u64);
-define_unsigned!(u59, 59, u64);
-define_unsigned!(u60, 60, u64);
-define_unsigned!(u61, 61, u64);
-define_unsigned!(u62, 62, u64);
-define_unsigned!(u63, 63, u64);
+define_unsigned!(#[doc="The 57-bit unsigned integer type."], u57, 57, u64);
+define_unsigned!(#[doc="The 58-bit unsigned integer type."], u58, 58, u64);
+define_unsigned!(#[doc="The 59-bit unsigned integer type."], u59, 59, u64);
+define_unsigned!(#[doc="The 60-bit unsigned integer type."], u60, 60, u64);
+define_unsigned!(#[doc="The 61-bit unsigned integer type."], u61, 61, u64);
+define_unsigned!(#[doc="The 62-bit unsigned integer type."], u62, 62, u64);
+define_unsigned!(#[doc="The 63-bit unsigned integer type."], u63, 63, u64);
 
 
-define_signed!(i2, 2, i8);
-define_signed!(i3, 3, i8);
-define_signed!(i4, 4, i8);
-define_signed!(i5, 5, i8);
-define_signed!(i6, 6, i8);
-define_signed!(i7, 7, i8);
-               
-define_signed!(i9, 9, i16);
-define_signed!(i10, 10, i16);
-define_signed!(i11, 11, i16);
-define_signed!(i12, 12, i16);
-define_signed!(i13, 13, i16);
-define_signed!(i14, 14, i16);
-define_signed!(i15, 15, i16);
-                        
-define_signed!(i17, 17, i32);
-define_signed!(i18, 18, i32);
-define_signed!(i19, 19, i32);
-define_signed!(i20, 20, i32);
-define_signed!(i21, 21, i32);
-define_signed!(i22, 22, i32);
-define_signed!(i23, 23, i32);
-define_signed!(i24, 24, i32);
-                        
-define_signed!(i25, 25, i32);
-define_signed!(i26, 26, i32);
-define_signed!(i27, 27, i32);
-define_signed!(i28, 28, i32);
-define_signed!(i29, 29, i32);
-define_signed!(i30, 30, i32);
-define_signed!(i31, 31, i32);
-                        
-define_signed!(i33, 33, i64);
-define_signed!(i34, 34, i64);
-define_signed!(i35, 35, i64);
-define_signed!(i36, 36, i64);
-define_signed!(i37, 37, i64);
-define_signed!(i38, 38, i64);
-define_signed!(i39, 39, i64);
-define_signed!(i40, 40, i64);
-                        
-define_signed!(i41, 41, i64);
-define_signed!(i42, 42, i64);
-define_signed!(i43, 43, i64);
-define_signed!(i44, 44, i64);
-define_signed!(i45, 45, i64);
-define_signed!(i46, 46, i64);
-define_signed!(i47, 47, i64);
-define_signed!(i48, 48, i64);
-                        
-define_signed!(i49, 49, i64);
-define_signed!(i50, 50, i64);
-define_signed!(i51, 51, i64);
-define_signed!(i52, 52, i64);
-define_signed!(i53, 53, i64);
-define_signed!(i54, 54, i64);
-define_signed!(i55, 55, i64);
-define_signed!(i56, 56, i64);
-                        
-define_signed!(i57, 57, i64);
-define_signed!(i58, 58, i64);
-define_signed!(i59, 59, i64);
-define_signed!(i60, 60, i64);
-define_signed!(i61, 61, i64);
-define_signed!(i62, 62, i64);
-define_signed!(i63, 63, i64);
+define_signed!(#[doc="The 2-bit signed integer type."], i2, 2, i8);
+define_signed!(#[doc="The 3-bit signed integer type."], i3, 3, i8);
+define_signed!(#[doc="The 4-bit signed integer type."], i4, 4, i8);
+define_signed!(#[doc="The 5-bit signed integer type."], i5, 5, i8);
+define_signed!(#[doc="The 6-bit signed integer type."], i6, 6, i8);
+define_signed!(#[doc="The 7-bit signed integer type."], i7, 7, i8);
+                                                          
+define_signed!(#[doc="The 9-bit signed integer type."], i9, 9, i16);
+define_signed!(#[doc="The 10-bit signed integer type."], i10, 10, i16);
+define_signed!(#[doc="The 11-bit signed integer type."], i11, 11, i16);
+define_signed!(#[doc="The 12-bit signed integer type."], i12, 12, i16);
+define_signed!(#[doc="The 13-bit signed integer type."], i13, 13, i16);
+define_signed!(#[doc="The 14-bit signed integer type."], i14, 14, i16);
+define_signed!(#[doc="The 15-bit signed integer type."], i15, 15, i16);
+                                                                   
+define_signed!(#[doc="The 17-bit signed integer type."], i17, 17, i32);
+define_signed!(#[doc="The 18-bit signed integer type."], i18, 18, i32);
+define_signed!(#[doc="The 19-bit signed integer type."], i19, 19, i32);
+define_signed!(#[doc="The 20-bit signed integer type."], i20, 20, i32);
+define_signed!(#[doc="The 21-bit signed integer type."], i21, 21, i32);
+define_signed!(#[doc="The 22-bit signed integer type."], i22, 22, i32);
+define_signed!(#[doc="The 23-bit signed integer type."], i23, 23, i32);
+define_signed!(#[doc="The 24-bit signed integer type."], i24, 24, i32);
+                                                                   
+define_signed!(#[doc="The 25-bit signed integer type."], i25, 25, i32);
+define_signed!(#[doc="The 26-bit signed integer type."], i26, 26, i32);
+define_signed!(#[doc="The 27-bit signed integer type."], i27, 27, i32);
+define_signed!(#[doc="The 28-bit signed integer type."], i28, 28, i32);
+define_signed!(#[doc="The 29-bit signed integer type."], i29, 29, i32);
+define_signed!(#[doc="The 30-bit signed integer type."], i30, 30, i32);
+define_signed!(#[doc="The 31-bit signed integer type."], i31, 31, i32);
+                                                                   
+define_signed!(#[doc="The 33-bit signed integer type."], i33, 33, i64);
+define_signed!(#[doc="The 34-bit signed integer type."], i34, 34, i64);
+define_signed!(#[doc="The 35-bit signed integer type."], i35, 35, i64);
+define_signed!(#[doc="The 36-bit signed integer type."], i36, 36, i64);
+define_signed!(#[doc="The 37-bit signed integer type."], i37, 37, i64);
+define_signed!(#[doc="The 38-bit signed integer type."], i38, 38, i64);
+define_signed!(#[doc="The 39-bit signed integer type."], i39, 39, i64);
+define_signed!(#[doc="The 40-bit signed integer type."], i40, 40, i64);
+                                                                   
+define_signed!(#[doc="The 41-bit signed integer type."], i41, 41, i64);
+define_signed!(#[doc="The 42-bit signed integer type."], i42, 42, i64);
+define_signed!(#[doc="The 43-bit signed integer type."], i43, 43, i64);
+define_signed!(#[doc="The 44-bit signed integer type."], i44, 44, i64);
+define_signed!(#[doc="The 45-bit signed integer type."], i45, 45, i64);
+define_signed!(#[doc="The 46-bit signed integer type."], i46, 46, i64);
+define_signed!(#[doc="The 47-bit signed integer type."], i47, 47, i64);
+define_signed!(#[doc="The 48-bit signed integer type."], i48, 48, i64);
+                                                                   
+define_signed!(#[doc="The 49-bit signed integer type."], i49, 49, i64);
+define_signed!(#[doc="The 50-bit signed integer type."], i50, 50, i64);
+define_signed!(#[doc="The 51-bit signed integer type."], i51, 51, i64);
+define_signed!(#[doc="The 52-bit signed integer type."], i52, 52, i64);
+define_signed!(#[doc="The 53-bit signed integer type."], i53, 53, i64);
+define_signed!(#[doc="The 54-bit signed integer type."], i54, 54, i64);
+define_signed!(#[doc="The 55-bit signed integer type."], i55, 55, i64);
+define_signed!(#[doc="The 56-bit signed integer type."], i56, 56, i64);
+                                                                   
+define_signed!(#[doc="The 57-bit signed integer type."], i57, 57, i64);
+define_signed!(#[doc="The 58-bit signed integer type."], i58, 58, i64);
+define_signed!(#[doc="The 59-bit signed integer type."], i59, 59, i64);
+define_signed!(#[doc="The 60-bit signed integer type."], i60, 60, i64);
+define_signed!(#[doc="The 61-bit signed integer type."], i61, 61, i64);
+define_signed!(#[doc="The 62-bit signed integer type."], i62, 62, i64);
+define_signed!(#[doc="The 63-bit signed integer type."], i63, 63, i64);
 
             
 #[cfg(test)]
