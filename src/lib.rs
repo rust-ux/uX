@@ -14,7 +14,9 @@ mod conversion;
 
 use lib::core::ops::{
     Shr,
+    ShrAssign,
     Shl,
+    ShlAssign,
 };
 
 use lib::core::hash::{
@@ -214,6 +216,20 @@ macro_rules! implement_common {
 
             fn shl(self, rhs: T) -> $name {
                 $name(self.mask().0.shl(rhs))
+            }
+        }
+
+        impl<T> ShrAssign<T> for $name where $type: ShrAssign<T> {
+            fn shr_assign(&mut self, rhs: T) {
+                *self = self.mask();
+                self.0.shr_assign(rhs);
+            }
+        }
+
+        impl<T> ShlAssign<T> for $name where $type: ShlAssign<T> {
+            fn shl_assign(&mut self, rhs: T) {
+                *self = self.mask();
+                self.0.shl_assign(rhs);
             }
         }
 
@@ -447,5 +463,38 @@ mod tests {
         assert_eq!(i5(16) << 1, i5(0));
         assert_eq!(i7(1) << 3, i7(8));
     }
+
+    #[test]
+    fn test_shr_assign() {
+        let mut x = u10(512);
+        x >>= 1usize;
+        assert_eq!(x, u10(256));
+        x >>= 1isize;
+        assert_eq!(x, u10(128));
+        x >>= 1u8;
+        assert_eq!(x, u10(64));
+        x >>= 1i8;
+        assert_eq!(x, u10(32));
+        x >>= 2u64;
+        assert_eq!(x, u10(8));
+        x >>= 3i32;
+        assert_eq!(x, u10(1));
+    }
+    
+    #[test]
+    fn test_shl_assign() {
+        let mut x = u9(1);
+        x <<= 3i32;
+        assert_eq!(x, u9(8));
+        x <<= 2u64;
+        assert_eq!(x, u9(32));
+        x <<= 1usize;
+        assert_eq!(x, u9(64));
+        x <<= 1isize;
+        assert_eq!(x, u9(128));
+        x <<= 1u8;
+        assert_eq!(x, u9(256));
+    }
+
 
 }
