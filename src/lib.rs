@@ -38,7 +38,7 @@ use lib::core::fmt::{
 };
 
 macro_rules! define_unsigned {
-    ($name:ident, $bits:expr, $type:ty) => {
+    ($name:ident, $bits:expr, $type:ident) => {
         #[allow(non_camel_case_types)]
         #[derive(Default, Clone, Copy, Debug)]
         pub struct $name($type);
@@ -58,7 +58,7 @@ macro_rules! define_unsigned {
 }
 
 macro_rules! define_signed {
-    ($name:ident, $bits:expr, $type:ty) => {
+    ($name:ident, $bits:expr, $type:ident) => {
         #[allow(non_camel_case_types)]
         #[derive(Default, Clone, Copy, Debug)]
         pub struct $name($type);
@@ -82,7 +82,7 @@ macro_rules! define_signed {
 }
 
 macro_rules! implement_common {
-    ($name:ident, $bits:expr, $type:ty) => {
+    ($name:ident, $bits:expr, $type:ident) => {
         impl $name {
             /// Returns the smallest value that can be represented by this integer type.
             pub fn min_value() -> $name {
@@ -201,18 +201,18 @@ macro_rules! implement_common {
             }
         }
 
-        impl Shr<usize> for $name {
+        impl<T> Shr<T> for $name where $type: Shr<T, Output=$type>{
             type Output = $name;
 
-            fn shr(self, rhs: usize) -> $name {
+            fn shr(self, rhs: T) -> $name {
                 $name(self.mask().0.shr(rhs))
             }
         }
 
-        impl Shl<usize> for $name {
+        impl<T> Shl<T> for $name where $type: Shl<T, Output=$type> {
             type Output = $name;
 
-            fn shl(self, rhs: usize) -> $name {
+            fn shl(self, rhs: T) -> $name {
                 $name(self.mask().0.shl(rhs))
             }
         }
@@ -413,7 +413,17 @@ mod tests {
 
     #[test]
     fn test_shr() {
-        assert_eq!(u5(8) >> 1, u5(4));
+        assert_eq!(u5(8) >> 1usize, u5(4));
+        assert_eq!(u5(8) >> 1u8, u5(4));
+        assert_eq!(u5(8) >> 1u16, u5(4));
+        assert_eq!(u5(8) >> 1u32, u5(4));
+        assert_eq!(u5(8) >> 1u64, u5(4));
+        assert_eq!(u5(8) >> 1isize, u5(4));
+        assert_eq!(u5(8) >> 1i8, u5(4));
+        assert_eq!(u5(8) >> 1i16, u5(4));
+        assert_eq!(u5(8) >> 1i32, u5(4));
+        assert_eq!(u5(8) >> 1i64, u5(4));
+        
         assert_eq!(u5::MAX >> 4, u5(1));
         
         assert_eq!(i7(-1) >> 5, i7(-1));
@@ -421,7 +431,17 @@ mod tests {
     
     #[test]
     fn test_shl() {
-        assert_eq!(u5(16) << 1, u5(32));
+        assert_eq!(u5(16) << 1usize, u5(32));
+        assert_eq!(u5(16) << 1u8, u5(32));
+        assert_eq!(u5(16) << 1u16, u5(32));
+        assert_eq!(u5(16) << 1u32, u5(32));
+        assert_eq!(u5(16) << 1u64, u5(32));
+        assert_eq!(u5(16) << 1isize, u5(32));
+        assert_eq!(u5(16) << 1i8, u5(32));
+        assert_eq!(u5(16) << 1i16, u5(32));
+        assert_eq!(u5(16) << 1i32, u5(32));
+        assert_eq!(u5(16) << 1i64, u5(32));
+
         assert_eq!(u5::MAX << 4, u5(16));
         
         assert_eq!(i5(16) << 1, i5(0));
