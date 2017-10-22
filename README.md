@@ -1,4 +1,4 @@
-# uX [![Build Status](https://travis-ci.org/kjetilkjeka/uX.svg?branch=master)](https://travis-ci.org/kjetilkjeka/uX)
+# uX [![Build Status](https://travis-ci.org/kjetilkjeka/uX.svg?branch=master)](https://travis-ci.org/kjetilkjeka/uX) [![Crates.io](https://img.shields.io/crates/v/ux.svg)](https://crates.io/crates/ux)
 
 > Non standard integer types like `u7`, `u9`, `u10`, `u63`, `i7`, `i9` etc
 
