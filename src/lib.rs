@@ -308,6 +308,32 @@ macro_rules! implement_common {
             }
         }
 
+        impl lib::core::ops::Add<$name> for $name {
+            type Output = $name;
+            #[allow(unused_comparisons)]
+            fn add(self, other: $name) -> $name {
+                if self.0 > 0 && other.0 > 0 {
+                    debug_assert!(Self::MAX.0 - other.0 >= self.0);
+                } else if self.0 < 0 && other.0 < 0 {
+                    debug_assert!(Self::MIN.0 - other.0 <= self.0);
+                }
+                self.wrapping_add(other)
+            }               
+        }
+    
+        impl lib::core::ops::Sub<$name> for $name {
+            type Output = $name;
+            #[allow(unused_comparisons)]
+            fn sub(self, other: $name) -> $name {
+                if self > other {
+                    debug_assert!(Self::MAX.0 + other.0 >= self.0);
+                } else if self < other {
+                    debug_assert!(Self::MIN.0 + other.0 <= self.0);
+                }
+                self.wrapping_sub(other)
+            }               
+        }
+        
         
 
         
@@ -502,6 +528,56 @@ mod tests {
         
         assert_eq!(i7::MAX.wrapping_add(i7(1)), i7::MIN);
         assert_eq!(i7::MAX.wrapping_add(i7(4)), i7(-61));
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_add_overflow() {
+        let _s = u5::MAX + u5(1);
+    }
+        
+    #[test]
+    #[should_panic]
+    fn test_add_underflow() {
+        let _s = i17::MIN + i17(-1);
+    }
+        
+    #[test]
+    fn test_add() {
+        assert_eq!(u5(1) + u5(2), u5(3));
+        
+        assert_eq!(i7::MAX + i7::MIN, i7(-1));
+        assert_eq!(i7(4) + i7(-3), i7(1));
+        assert_eq!(i7(-4) + i7(3), i7(-1));
+        assert_eq!(i7(-3) + i7(-20), i7(-23));
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_sub_overflow() {
+        let _s = i23::MIN - i23::MAX;
+    }
+        
+    #[test]
+    #[should_panic]
+    fn test_sub_underflow_unsigned() {
+        let _s = u5::MIN - u5(1);
+    }
+        
+    #[test]
+    #[should_panic]
+    fn test_sub_underflow_signed() {
+        let _s = i5::MIN - i5(1);
+    }
+        
+    #[test]
+    fn test_sub() {
+        assert_eq!(u5(3) - u5(2), u5(1));
+        
+        assert_eq!(i7::MIN - i7::MIN , i7(0));
+        assert_eq!(i7(4) - i7(-3), i7(7));
+        assert_eq!(i7(-4) - i7(3), i7(-7));
+        assert_eq!(i7(-3) - i7(-20), i7(17));
     }
 
     #[test]
