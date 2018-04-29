@@ -31,6 +31,8 @@ use lib::core::ops::{
     ShlAssign,
     BitOr,
     BitOrAssign,
+    BitAnd,
+    BitAndAssign,
 };
 
 use lib::core::hash::{
@@ -305,6 +307,45 @@ macro_rules! implement_common {
             fn bitor_assign(&mut self, other: $name) {
                 *self = self.mask();
                 self.0.bitor_assign(other.mask().0)
+            }
+        }
+
+        impl BitAnd<$name> for $name {
+            type Output = $name;
+
+            fn bitand(self, rhs: $name) -> Self::Output {
+                $name(self.mask().0.bitand(rhs.mask().0))
+            }
+        }
+
+        impl<'a> BitAnd<&'a $name> for $name {
+            type Output = <$name as BitOr<$name>>::Output;
+
+            fn bitand(self, rhs: &'a $name) -> Self::Output {
+                $name(self.mask().0.bitand(rhs.mask().0))
+            }
+        }
+
+        impl<'a> BitAnd<$name> for &'a $name {
+            type Output = <$name as BitOr<$name>>::Output;
+
+            fn bitand(self, rhs: $name) -> Self::Output {
+                $name(self.mask().0.bitand(rhs.mask().0))
+            }
+        }
+
+        impl<'a> BitAnd<&'a $name> for &'a $name {
+            type Output = <$name as BitOr<$name>>::Output;
+
+            fn bitand(self, rhs: &'a $name) -> Self::Output {
+                $name(self.mask().0.bitand(rhs.mask().0))
+            }
+        }
+
+        impl BitAndAssign<$name> for $name {
+            fn bitand_assign(&mut self, other: $name) {
+                *self = self.mask();
+                self.0.bitand_assign(other.mask().0)
             }
         }
 
@@ -667,6 +708,32 @@ mod tests {
         x = u12(1);
         x |= u12(127);
         assert_eq!(x, u12(127));
+    }
+
+    #[test]
+    fn test_bitand() {
+        assert_eq!(i9(-7) & i9(-9), i9::from(-7i8 & -9i8));
+        assert_eq!(&i9(-7) & i9(-9), i9::from(&-7i8 & -9i8));
+        assert_eq!(i9(-7) & &i9(-9), i9::from(-7i8 & &-9i8));
+        assert_eq!(&i9(-7) & &i9(-9), i9::from(&-7i8 & &-9i8));
+
+        assert_eq!(u9(8) & u9(9), u9(8));
+        assert_eq!(&u9(8) & u9(9), u9(8));
+        assert_eq!(u9(8) & &u9(9), u9(8));
+        assert_eq!(&u9(8) & &u9(9), u9(8));
+    }
+
+    #[test]
+    fn test_bitand_assign() {
+        let mut x = u12(255);
+        x &= u12(127);
+        assert_eq!(x, u12(127));
+        x &= u12(7);
+        assert_eq!(x, u12(7));
+        x &= u12(127);
+        assert_eq!(x, u12(7));
+        x &= u12(4);
+        assert_eq!(x, u12(4));
     }
     
 

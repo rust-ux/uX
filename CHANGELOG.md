@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+ - Implemented `BitAnd` and `BitAndAssign` for all types
 ### Changed
 ### Deprecated
 ### Removed
