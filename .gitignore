@@ -11,6 +11,10 @@ Cargo.lock
 # Backup files for emacs
 **/*~
 
+# Idea (Intelij) project file
+.idea
+*.iml
+
 # scripts in parent folder
 *.sh
 
