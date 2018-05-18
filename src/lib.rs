@@ -769,6 +769,27 @@ mod tests {
     }
 
     #[test]
+    fn test_bitxor() {
+        assert_eq!(u7(0x7F) ^ u7(42), u7(85));
+        assert_eq!(&u7(0) ^ u7(42), u7(42));
+        assert_eq!(u7(0x10) ^ &u7(0x1), u7(0x11));
+        assert_eq!(&u7(11) ^ &u7(1), u7(10));
+    }
+
+    #[test]
+    fn test_bitxor_assign() {
+        let mut x = u12(4);
+        x ^= u12(1);
+        assert_eq!(x, u12(5));
+        x ^= u12(128);
+        assert_eq!(x, u12(133));
+        x ^= u12(1);
+        assert_eq!(x, u12(132));
+        x ^= u12(127);
+        assert_eq!(x, u12(251));
+    }
+
+    #[test]
     fn test_bitand() {
         assert_eq!(i9(-7) & i9(-9), i9::from(-7i8 & -9i8));
         assert_eq!(&i9(-7) & i9(-9), i9::from(&-7i8 & -9i8));
@@ -794,6 +815,12 @@ mod tests {
         assert_eq!(x, u12(4));
     }
 
-
+    #[test]
+    fn test_not() {
+        assert_eq!(!u7(42), u7(85));
+        assert_eq!(!u7(0x7F), u7(0));
+        assert_eq!(!u7(0), u7(0x7F));
+        assert_eq!(!u7(56), u7(71));
+    }
 
 }
