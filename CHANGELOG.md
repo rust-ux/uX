@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 ### Fixed
 ### Security
+
+## [0.1.2] - 2018-05-18
+### Added
+ - Implemented `BitXor` and `BitXorAssign` for all types
+
+
 ## [0.1.1] - 2018-05-01
 ### Added
  - Implemented `BitAnd` and `BitAndAssign` for all types
