@@ -1,7 +1,7 @@
 //! #uX - non-standard-width integers types
 //!
 //! When non-standard-width integers is required in an applications, the norm is to use a larger container and make sure the value is within range after manipulation. uX aims to take care of this once and for all by:
-//! 
+//!
 //! - Providing `u2`-`u63` and `i2`-`i63` types that should behave as similar as possible to the built in rust types
 //!     - The methods of the defined types are the same as for the built in types (far from all is implemented at this point but fill out an issue or create a PR if something essential for you is missing)
 //!     - Overflow will panic in debug and wrap in release.
@@ -31,8 +31,11 @@ use lib::core::ops::{
     ShlAssign,
     BitOr,
     BitOrAssign,
+    BitXor,
+    BitXorAssign,
     BitAnd,
     BitAndAssign,
+    Not
 };
 
 use lib::core::hash::{
@@ -72,16 +75,16 @@ macro_rules! define_unsigned {
                 $name(self.0 & ( ((1 as $type) << $bits).overflowing_sub(1).0))
             }
         }
-        
+
         implement_common!($name, $bits, $type);
-        
+
     }
 }
 
 macro_rules! define_signed {
     ($name:ident, $bits:expr, $type:ident) => {define_signed!(#[doc=""], $name, $bits, $type);};
     (#[$doc:meta], $name:ident, $bits:expr, $type:ident) => {
-        
+
         #[$doc]
         #[allow(non_camel_case_types)]
         #[derive(Default, Clone, Copy, Debug)]
@@ -100,9 +103,9 @@ macro_rules! define_signed {
                 }
             }
         }
-        
+
         implement_common!($name, $bits, $type);
-        
+
     }
 }
 
@@ -160,7 +163,7 @@ macro_rules! implement_common {
             pub fn wrapping_sub(self, rhs: Self) -> Self {
                 $name(self.0.wrapping_sub(rhs.0)).mask()
             }
-            
+
             /// Wrapping (modular) addition. Computes `self + other`,
             /// wrapping around at the boundary of the type.
             ///
@@ -179,16 +182,16 @@ macro_rules! implement_common {
             pub fn wrapping_add(self, rhs: Self) -> Self {
                 $name(self.0.wrapping_add(rhs.0)).mask()
             }
-            
+
         }
 
-        
+
         impl PartialEq for $name {
             fn eq(&self, other: &Self) -> bool {
                 self.mask().0 == other.mask().0
             }
         }
-        
+
         impl Eq for $name {}
 
         impl PartialOrd for $name {
@@ -208,7 +211,7 @@ macro_rules! implement_common {
                 self.mask().0.hash(h)
             }
         }
-        
+
         // Implement formating functions
         impl Display for $name {
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
@@ -273,7 +276,7 @@ macro_rules! implement_common {
 
         impl BitOr<$name> for $name {
             type Output = $name;
-            
+
             fn bitor(self, rhs: $name) -> Self::Output {
                 $name(self.mask().0.bitor(rhs.mask().0))
             }
@@ -281,7 +284,7 @@ macro_rules! implement_common {
 
         impl<'a> BitOr<&'a $name> for $name {
             type Output = <$name as BitOr<$name>>::Output;
-            
+
             fn bitor(self, rhs: &'a $name) -> Self::Output {
                 $name(self.mask().0.bitor(rhs.mask().0))
             }
@@ -289,7 +292,7 @@ macro_rules! implement_common {
 
         impl<'a> BitOr<$name> for &'a $name {
             type Output = <$name as BitOr<$name>>::Output;
-            
+
             fn bitor(self, rhs: $name) -> Self::Output {
                 $name(self.mask().0.bitor(rhs.mask().0))
             }
@@ -297,7 +300,7 @@ macro_rules! implement_common {
 
         impl<'a> BitOr<&'a $name> for &'a $name {
             type Output = <$name as BitOr<$name>>::Output;
-            
+
             fn bitor(self, rhs: &'a $name) -> Self::Output {
                 $name(self.mask().0.bitor(rhs.mask().0))
             }
@@ -307,6 +310,61 @@ macro_rules! implement_common {
             fn bitor_assign(&mut self, other: $name) {
                 *self = self.mask();
                 self.0.bitor_assign(other.mask().0)
+            }
+        }
+
+        impl BitXor<$name> for $name {
+            type Output = $name;
+
+            fn bitxor(self, rhs: $name) -> Self::Output {
+                $name(self.mask().0.bitxor(rhs.mask().0))
+            }
+        }
+
+        impl<'a> BitXor<&'a $name> for $name {
+            type Output = <$name as BitOr<$name>>::Output;
+
+            fn bitxor(self, rhs: &'a $name) -> Self::Output {
+                $name(self.mask().0.bitxor(rhs.mask().0))
+            }
+        }
+
+        impl<'a> BitXor<$name> for &'a $name {
+            type Output = <$name as BitOr<$name>>::Output;
+
+            fn bitxor(self, rhs: $name) -> Self::Output {
+                $name(self.mask().0.bitxor(rhs.mask().0))
+            }
+        }
+
+        impl<'a> BitXor<&'a $name> for &'a $name {
+            type Output = <$name as BitOr<$name>>::Output;
+
+            fn bitxor(self, rhs: &'a $name) -> Self::Output {
+                $name(self.mask().0.bitxor(rhs.mask().0))
+            }
+        }
+
+        impl BitXorAssign<$name> for $name {
+            fn bitxor_assign(&mut self, other: $name) {
+                *self = self.mask();
+                self.0.bitxor_assign(other.mask().0)
+            }
+        }
+
+        impl Not for $name {
+            type Output = $name;
+
+            fn not(self) -> $name {
+                $name(self.mask().0.not())
+            }
+        }
+
+        impl<'a> Not for &'a $name {
+            type Output = <$name as Not>::Output;
+
+            fn not(self) -> $name {
+                $name(self.mask().0.not())
             }
         }
 
@@ -359,9 +417,9 @@ macro_rules! implement_common {
                     debug_assert!(Self::MIN.0 - other.0 <= self.0);
                 }
                 self.wrapping_add(other)
-            }               
+            }
         }
-    
+
         impl lib::core::ops::Sub<$name> for $name {
             type Output = $name;
             #[allow(unused_comparisons)]
@@ -372,12 +430,12 @@ macro_rules! implement_common {
                     debug_assert!(Self::MIN.0 + other.0 <= self.0);
                 }
                 self.wrapping_sub(other)
-            }               
+            }
         }
-        
-        
 
-        
+
+
+
     };
 }
 
@@ -456,7 +514,7 @@ define_signed!(#[doc="The 4-bit signed integer type."], i4, 4, i8);
 define_signed!(#[doc="The 5-bit signed integer type."], i5, 5, i8);
 define_signed!(#[doc="The 6-bit signed integer type."], i6, 6, i8);
 define_signed!(#[doc="The 7-bit signed integer type."], i7, 7, i8);
-                                                          
+
 define_signed!(#[doc="The 9-bit signed integer type."], i9, 9, i16);
 define_signed!(#[doc="The 10-bit signed integer type."], i10, 10, i16);
 define_signed!(#[doc="The 11-bit signed integer type."], i11, 11, i16);
@@ -464,7 +522,7 @@ define_signed!(#[doc="The 12-bit signed integer type."], i12, 12, i16);
 define_signed!(#[doc="The 13-bit signed integer type."], i13, 13, i16);
 define_signed!(#[doc="The 14-bit signed integer type."], i14, 14, i16);
 define_signed!(#[doc="The 15-bit signed integer type."], i15, 15, i16);
-                                                                   
+
 define_signed!(#[doc="The 17-bit signed integer type."], i17, 17, i32);
 define_signed!(#[doc="The 18-bit signed integer type."], i18, 18, i32);
 define_signed!(#[doc="The 19-bit signed integer type."], i19, 19, i32);
@@ -473,7 +531,7 @@ define_signed!(#[doc="The 21-bit signed integer type."], i21, 21, i32);
 define_signed!(#[doc="The 22-bit signed integer type."], i22, 22, i32);
 define_signed!(#[doc="The 23-bit signed integer type."], i23, 23, i32);
 define_signed!(#[doc="The 24-bit signed integer type."], i24, 24, i32);
-                                                                   
+
 define_signed!(#[doc="The 25-bit signed integer type."], i25, 25, i32);
 define_signed!(#[doc="The 26-bit signed integer type."], i26, 26, i32);
 define_signed!(#[doc="The 27-bit signed integer type."], i27, 27, i32);
@@ -481,7 +539,7 @@ define_signed!(#[doc="The 28-bit signed integer type."], i28, 28, i32);
 define_signed!(#[doc="The 29-bit signed integer type."], i29, 29, i32);
 define_signed!(#[doc="The 30-bit signed integer type."], i30, 30, i32);
 define_signed!(#[doc="The 31-bit signed integer type."], i31, 31, i32);
-                                                                   
+
 define_signed!(#[doc="The 33-bit signed integer type."], i33, 33, i64);
 define_signed!(#[doc="The 34-bit signed integer type."], i34, 34, i64);
 define_signed!(#[doc="The 35-bit signed integer type."], i35, 35, i64);
@@ -490,7 +548,7 @@ define_signed!(#[doc="The 37-bit signed integer type."], i37, 37, i64);
 define_signed!(#[doc="The 38-bit signed integer type."], i38, 38, i64);
 define_signed!(#[doc="The 39-bit signed integer type."], i39, 39, i64);
 define_signed!(#[doc="The 40-bit signed integer type."], i40, 40, i64);
-                                                                   
+
 define_signed!(#[doc="The 41-bit signed integer type."], i41, 41, i64);
 define_signed!(#[doc="The 42-bit signed integer type."], i42, 42, i64);
 define_signed!(#[doc="The 43-bit signed integer type."], i43, 43, i64);
@@ -499,7 +557,7 @@ define_signed!(#[doc="The 45-bit signed integer type."], i45, 45, i64);
 define_signed!(#[doc="The 46-bit signed integer type."], i46, 46, i64);
 define_signed!(#[doc="The 47-bit signed integer type."], i47, 47, i64);
 define_signed!(#[doc="The 48-bit signed integer type."], i48, 48, i64);
-                                                                   
+
 define_signed!(#[doc="The 49-bit signed integer type."], i49, 49, i64);
 define_signed!(#[doc="The 50-bit signed integer type."], i50, 50, i64);
 define_signed!(#[doc="The 51-bit signed integer type."], i51, 51, i64);
@@ -508,7 +566,7 @@ define_signed!(#[doc="The 53-bit signed integer type."], i53, 53, i64);
 define_signed!(#[doc="The 54-bit signed integer type."], i54, 54, i64);
 define_signed!(#[doc="The 55-bit signed integer type."], i55, 55, i64);
 define_signed!(#[doc="The 56-bit signed integer type."], i56, 56, i64);
-                                                                   
+
 define_signed!(#[doc="The 57-bit signed integer type."], i57, 57, i64);
 define_signed!(#[doc="The 58-bit signed integer type."], i58, 58, i64);
 define_signed!(#[doc="The 59-bit signed integer type."], i59, 59, i64);
@@ -517,23 +575,23 @@ define_signed!(#[doc="The 61-bit signed integer type."], i61, 61, i64);
 define_signed!(#[doc="The 62-bit signed integer type."], i62, 62, i64);
 define_signed!(#[doc="The 63-bit signed integer type."], i63, 63, i64);
 
-            
+
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     #[test]
     fn test_masking() {
         assert_eq!(u4(0b11000110).mask().0, 0b00000110);
         assert_eq!(u4(0b00001000).mask().0, 0b00001000);
         assert_eq!(u4(0b00001110).mask().0, 0b00001110);
-        
+
         assert_eq!(i4(0b11000110u8 as i8).mask().0, 0b00000110u8 as i8);
         assert_eq!(i4(0b00001000u8 as i8).mask().0, 0b11111000u8 as i8);
         assert_eq!(i4(0b00001110u8 as i8).mask().0, 0b11111110u8 as i8);
-        
+
     }
-    
+
     #[test]
     fn min_max_values() {
         assert_eq!(u2::MAX, u2(3));
@@ -541,32 +599,32 @@ mod tests {
         assert_eq!(u7::MAX, u7(127));
         assert_eq!(u9::MAX, u9(511));
 
-        
+
         assert_eq!(i2::MAX, i2(1));
         assert_eq!(i3::MAX, i3(3));
         assert_eq!(i7::MAX, i7(63));
         assert_eq!(i9::MAX, i9(255));
 
-        
+
         assert_eq!(u2::MIN, u2(0));
         assert_eq!(u3::MIN, u3(0));
         assert_eq!(u7::MIN, u7(0));
         assert_eq!(u9::MIN, u9(0));
 
-        
+
         assert_eq!(i2::MIN, i2(-2));
         assert_eq!(i3::MIN, i3(-4));
         assert_eq!(i7::MIN, i7(-64));
         assert_eq!(i9::MIN, i9(-256));
 
-        
+
     }
 
     #[test]
     fn test_wrapping_add() {
         assert_eq!(u5::MAX.wrapping_add(u5(1)), u5(0));
         assert_eq!(u5::MAX.wrapping_add(u5(4)), u5(3));
-        
+
         assert_eq!(i7::MAX.wrapping_add(i7(1)), i7::MIN);
         assert_eq!(i7::MAX.wrapping_add(i7(4)), i7(-61));
     }
@@ -576,17 +634,17 @@ mod tests {
     fn test_add_overflow() {
         let _s = u5::MAX + u5(1);
     }
-        
+
     #[test]
     #[should_panic]
     fn test_add_underflow() {
         let _s = i17::MIN + i17(-1);
     }
-        
+
     #[test]
     fn test_add() {
         assert_eq!(u5(1) + u5(2), u5(3));
-        
+
         assert_eq!(i7::MAX + i7::MIN, i7(-1));
         assert_eq!(i7(4) + i7(-3), i7(1));
         assert_eq!(i7(-4) + i7(3), i7(-1));
@@ -598,23 +656,23 @@ mod tests {
     fn test_sub_overflow() {
         let _s = i23::MIN - i23::MAX;
     }
-        
+
     #[test]
     #[should_panic]
     fn test_sub_underflow_unsigned() {
         let _s = u5::MIN - u5(1);
     }
-        
+
     #[test]
     #[should_panic]
     fn test_sub_underflow_signed() {
         let _s = i5::MIN - i5(1);
     }
-        
+
     #[test]
     fn test_sub() {
         assert_eq!(u5(3) - u5(2), u5(1));
-        
+
         assert_eq!(i7::MIN - i7::MIN , i7(0));
         assert_eq!(i7(4) - i7(-3), i7(7));
         assert_eq!(i7(-4) - i7(3), i7(-7));
@@ -633,12 +691,12 @@ mod tests {
         assert_eq!(u5(8) >> 1i16, u5(4));
         assert_eq!(u5(8) >> 1i32, u5(4));
         assert_eq!(u5(8) >> 1i64, u5(4));
-        
+
         assert_eq!(u5::MAX >> 4, u5(1));
-        
+
         assert_eq!(i7(-1) >> 5, i7(-1));
     }
-    
+
     #[test]
     fn test_shl() {
         assert_eq!(u5(16) << 1usize, u5(32));
@@ -653,7 +711,7 @@ mod tests {
         assert_eq!(u5(16) << 1i64, u5(32));
 
         assert_eq!(u5::MAX << 4, u5(16));
-        
+
         assert_eq!(i5(16) << 1, i5(0));
         assert_eq!(i7(1) << 3, i7(8));
     }
@@ -674,7 +732,7 @@ mod tests {
         x >>= 3i32;
         assert_eq!(x, u10(1));
     }
-    
+
     #[test]
     fn test_shl_assign() {
         let mut x = u9(1);
@@ -697,7 +755,7 @@ mod tests {
         assert_eq!(u9(1) | &u9(8), u9(9));
         assert_eq!(&u9(1) | &u9(8), u9(9));
     }
-    
+
     #[test]
     fn test_bitor_assign() {
         let mut x = u12(4);
@@ -708,6 +766,27 @@ mod tests {
         x = u12(1);
         x |= u12(127);
         assert_eq!(x, u12(127));
+    }
+
+    #[test]
+    fn test_bitxor() {
+        assert_eq!(u7(0x7F) ^ u7(42), u7(85));
+        assert_eq!(&u7(0) ^ u7(42), u7(42));
+        assert_eq!(u7(0x10) ^ &u7(0x1), u7(0x11));
+        assert_eq!(&u7(11) ^ &u7(1), u7(10));
+    }
+
+    #[test]
+    fn test_bitxor_assign() {
+        let mut x = u12(4);
+        x ^= u12(1);
+        assert_eq!(x, u12(5));
+        x ^= u12(128);
+        assert_eq!(x, u12(133));
+        x ^= u12(1);
+        assert_eq!(x, u12(132));
+        x ^= u12(127);
+        assert_eq!(x, u12(251));
     }
 
     #[test]
@@ -735,7 +814,13 @@ mod tests {
         x &= u12(4);
         assert_eq!(x, u12(4));
     }
-    
 
+    #[test]
+    fn test_not() {
+        assert_eq!(!u7(42), u7(85));
+        assert_eq!(!u7(0x7F), u7(0));
+        assert_eq!(!u7(0), u7(0x7F));
+        assert_eq!(!u7(56), u7(71));
+    }
 
 }
