@@ -2,7 +2,7 @@
 //!
 //! When non-standard-width integers is required in an applications, the norm is to use a larger container and make sure the value is within range after manipulation. uX aims to take care of this once and for all by:
 //!
-//! - Providing `u2`-`u63` and `i2`-`i63` types that should behave as similar as possible to the built in rust types
+//! - Providing `u1`-`u63` and `i1`-`i63` types that should behave as similar as possible to the built in rust types
 //!     - The methods of the defined types are the same as for the built in types (far from all is implemented at this point but fill out an issue or create a PR if something essential for you is missing)
 //!     - Overflow will panic in debug and wrap in release.
 //! - When `i128` and `u128` is stabilized this crate will also support `u65-u127` and `i65-i127`
@@ -440,6 +440,7 @@ macro_rules! implement_common {
 }
 
 
+define_unsigned!(#[doc="The 1-bit unsigned integer type."], u1, 1, u8);
 define_unsigned!(#[doc="The 2-bit unsigned integer type."], u2, 2, u8);
 define_unsigned!(#[doc="The 3-bit unsigned integer type."], u3, 3, u8);
 define_unsigned!(#[doc="The 4-bit unsigned integer type."], u4, 4, u8);
@@ -508,6 +509,7 @@ define_unsigned!(#[doc="The 62-bit unsigned integer type."], u62, 62, u64);
 define_unsigned!(#[doc="The 63-bit unsigned integer type."], u63, 63, u64);
 
 
+define_signed!(#[doc="The 1-bit signed integer type."], i1, 1, i8);
 define_signed!(#[doc="The 2-bit signed integer type."], i2, 2, i8);
 define_signed!(#[doc="The 3-bit signed integer type."], i3, 3, i8);
 define_signed!(#[doc="The 4-bit signed integer type."], i4, 4, i8);
@@ -594,24 +596,28 @@ mod tests {
 
     #[test]
     fn min_max_values() {
+        assert_eq!(u1::MAX, u1(1));
         assert_eq!(u2::MAX, u2(3));
         assert_eq!(u3::MAX, u3(7));
         assert_eq!(u7::MAX, u7(127));
         assert_eq!(u9::MAX, u9(511));
 
 
+        assert_eq!(i1::MAX, i1(0));
         assert_eq!(i2::MAX, i2(1));
         assert_eq!(i3::MAX, i3(3));
         assert_eq!(i7::MAX, i7(63));
         assert_eq!(i9::MAX, i9(255));
 
 
+        assert_eq!(u1::MIN, u1(0));
         assert_eq!(u2::MIN, u2(0));
         assert_eq!(u3::MIN, u3(0));
         assert_eq!(u7::MIN, u7(0));
         assert_eq!(u9::MIN, u9(0));
 
 
+        assert_eq!(i1::MIN, i1(-1));
         assert_eq!(i2::MIN, i2(-2));
         assert_eq!(i3::MIN, i3(-4));
         assert_eq!(i7::MIN, i7(-64));
@@ -622,8 +628,14 @@ mod tests {
 
     #[test]
     fn test_wrapping_add() {
+        assert_eq!(u1::MAX.wrapping_add(u1(1)), u1(0));
+        assert_eq!(u1::MAX.wrapping_add(u1(0)), u1(1));
+
         assert_eq!(u5::MAX.wrapping_add(u5(1)), u5(0));
         assert_eq!(u5::MAX.wrapping_add(u5(4)), u5(3));
+
+        assert_eq!(i1::MAX.wrapping_add(i1(0)), i1(0));
+        assert_eq!(i1::MAX.wrapping_add(i1(-1)), i1(-1));
 
         assert_eq!(i7::MAX.wrapping_add(i7(1)), i7::MIN);
         assert_eq!(i7::MAX.wrapping_add(i7(4)), i7(-61));
@@ -671,8 +683,10 @@ mod tests {
 
     #[test]
     fn test_sub() {
+        assert_eq!(u5(1) - u5(1), u5(0));
         assert_eq!(u5(3) - u5(2), u5(1));
 
+        assert_eq!(i1(-1) - i1(-1) , i1(0));
         assert_eq!(i7::MIN - i7::MIN , i7(0));
         assert_eq!(i7(4) - i7(-3), i7(7));
         assert_eq!(i7(-4) - i7(3), i7(-7));

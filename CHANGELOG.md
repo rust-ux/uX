@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+ - Added `i1` and `u1` types.
 ### Changed
 ### Deprecated
 ### Removed
