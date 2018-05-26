@@ -1,11 +1,10 @@
-//! #uX - non-standard-width integers types
+//! # uX - non-standard-width integers types
 //!
 //! When non-standard-width integers is required in an applications, the norm is to use a larger container and make sure the value is within range after manipulation. uX aims to take care of this once and for all by:
 //!
-//! - Providing `u2`-`u63` and `i2`-`i63` types that should behave as similar as possible to the built in rust types
+//! - Providing `u1`-`u127` and `i1`-`i127` types that should behave as similar as possible to the built in rust types
 //!     - The methods of the defined types are the same as for the built in types (far from all is implemented at this point but fill out an issue or create a PR if something essential for you is missing)
 //!     - Overflow will panic in debug and wrap in release.
-//! - When `i128` and `u128` is stabilized this crate will also support `u65-u127` and `i65-i127`
 //! - All possible lossless conversions is possible by using `From`.
 //! - When `TryFrom` is stabilized fallible conversions will also be supported.
 
@@ -440,6 +439,7 @@ macro_rules! implement_common {
 }
 
 
+define_unsigned!(#[doc="The 1-bit unsigned integer type."], u1, 1, u8);
 define_unsigned!(#[doc="The 2-bit unsigned integer type."], u2, 2, u8);
 define_unsigned!(#[doc="The 3-bit unsigned integer type."], u3, 3, u8);
 define_unsigned!(#[doc="The 4-bit unsigned integer type."], u4, 4, u8);
@@ -507,7 +507,79 @@ define_unsigned!(#[doc="The 61-bit unsigned integer type."], u61, 61, u64);
 define_unsigned!(#[doc="The 62-bit unsigned integer type."], u62, 62, u64);
 define_unsigned!(#[doc="The 63-bit unsigned integer type."], u63, 63, u64);
 
+define_unsigned!(#[doc="The 65-bit unsigned integer type."], u65, 65, u128);
+define_unsigned!(#[doc="The 66-bit unsigned integer type."], u66, 66, u128);
+define_unsigned!(#[doc="The 67-bit unsigned integer type."], u67, 67, u128);
+define_unsigned!(#[doc="The 68-bit unsigned integer type."], u68, 68, u128);
+define_unsigned!(#[doc="The 69-bit unsigned integer type."], u69, 69, u128);
+define_unsigned!(#[doc="The 70-bit unsigned integer type."], u70, 70, u128);
+define_unsigned!(#[doc="The 71-bit unsigned integer type."], u71, 71, u128);
+define_unsigned!(#[doc="The 72-bit unsigned integer type."], u72, 72, u128);
 
+define_unsigned!(#[doc="The 73-bit unsigned integer type."], u73, 73, u128);
+define_unsigned!(#[doc="The 74-bit unsigned integer type."], u74, 74, u128);
+define_unsigned!(#[doc="The 75-bit unsigned integer type."], u75, 75, u128);
+define_unsigned!(#[doc="The 76-bit unsigned integer type."], u76, 76, u128);
+define_unsigned!(#[doc="The 77-bit unsigned integer type."], u77, 77, u128);
+define_unsigned!(#[doc="The 78-bit unsigned integer type."], u78, 78, u128);
+define_unsigned!(#[doc="The 79-bit unsigned integer type."], u79, 79, u128);
+define_unsigned!(#[doc="The 80-bit unsigned integer type."], u80, 80, u128);
+
+define_unsigned!(#[doc="The 81-bit unsigned integer type."], u81, 81, u128);
+define_unsigned!(#[doc="The 82-bit unsigned integer type."], u82, 82, u128);
+define_unsigned!(#[doc="The 83-bit unsigned integer type."], u83, 83, u128);
+define_unsigned!(#[doc="The 84-bit unsigned integer type."], u84, 84, u128);
+define_unsigned!(#[doc="The 85-bit unsigned integer type."], u85, 85, u128);
+define_unsigned!(#[doc="The 86-bit unsigned integer type."], u86, 86, u128);
+define_unsigned!(#[doc="The 87-bit unsigned integer type."], u87, 87, u128);
+define_unsigned!(#[doc="The 88-bit unsigned integer type."], u88, 88, u128);
+
+define_unsigned!(#[doc="The 89-bit unsigned integer type."], u89, 89, u128);
+define_unsigned!(#[doc="The 90-bit unsigned integer type."], u90, 90, u128);
+define_unsigned!(#[doc="The 91-bit unsigned integer type."], u91, 91, u128);
+define_unsigned!(#[doc="The 92-bit unsigned integer type."], u92, 92, u128);
+define_unsigned!(#[doc="The 93-bit unsigned integer type."], u93, 93, u128);
+define_unsigned!(#[doc="The 94-bit unsigned integer type."], u94, 94, u128);
+define_unsigned!(#[doc="The 95-bit unsigned integer type."], u95, 95, u128);
+define_unsigned!(#[doc="The 96-bit unsigned integer type."], u96, 96, u128);
+
+define_unsigned!(#[doc="The 97-bit unsigned integer type."], u97, 97, u128);
+define_unsigned!(#[doc="The 98-bit unsigned integer type."], u98, 98, u128);
+define_unsigned!(#[doc="The 99-bit unsigned integer type."], u99, 99, u128);
+define_unsigned!(#[doc="The 100-bit unsigned integer type."], u100, 100, u128);
+define_unsigned!(#[doc="The 101-bit unsigned integer type."], u101, 101, u128);
+define_unsigned!(#[doc="The 102-bit unsigned integer type."], u102, 102, u128);
+define_unsigned!(#[doc="The 103-bit unsigned integer type."], u103, 103, u128);
+define_unsigned!(#[doc="The 104-bit unsigned integer type."], u104, 104, u128);
+
+define_unsigned!(#[doc="The 105-bit unsigned integer type."], u105, 105, u128);
+define_unsigned!(#[doc="The 106-bit unsigned integer type."], u106, 106, u128);
+define_unsigned!(#[doc="The 107-bit unsigned integer type."], u107, 107, u128);
+define_unsigned!(#[doc="The 108-bit unsigned integer type."], u108, 108, u128);
+define_unsigned!(#[doc="The 109-bit unsigned integer type."], u109, 109, u128);
+define_unsigned!(#[doc="The 110-bit unsigned integer type."], u110, 110, u128);
+define_unsigned!(#[doc="The 111-bit unsigned integer type."], u111, 111, u128);
+define_unsigned!(#[doc="The 112-bit unsigned integer type."], u112, 112, u128);
+
+define_unsigned!(#[doc="The 113-bit unsigned integer type."], u113, 113, u128);
+define_unsigned!(#[doc="The 114-bit unsigned integer type."], u114, 114, u128);
+define_unsigned!(#[doc="The 115-bit unsigned integer type."], u115, 115, u128);
+define_unsigned!(#[doc="The 116-bit unsigned integer type."], u116, 116, u128);
+define_unsigned!(#[doc="The 117-bit unsigned integer type."], u117, 117, u128);
+define_unsigned!(#[doc="The 118-bit unsigned integer type."], u118, 118, u128);
+define_unsigned!(#[doc="The 119-bit unsigned integer type."], u119, 119, u128);
+define_unsigned!(#[doc="The 120-bit unsigned integer type."], u120, 120, u128);
+
+define_unsigned!(#[doc="The 121-bit unsigned integer type."], u121, 121, u128);
+define_unsigned!(#[doc="The 122-bit unsigned integer type."], u122, 122, u128);
+define_unsigned!(#[doc="The 123-bit unsigned integer type."], u123, 123, u128);
+define_unsigned!(#[doc="The 124-bit unsigned integer type."], u124, 124, u128);
+define_unsigned!(#[doc="The 125-bit unsigned integer type."], u125, 125, u128);
+define_unsigned!(#[doc="The 126-bit unsigned integer type."], u126, 126, u128);
+define_unsigned!(#[doc="The 127-bit unsigned integer type."], u127, 127, u128);
+
+
+define_signed!(#[doc="The 1-bit signed integer type."], i1, 1, i8);
 define_signed!(#[doc="The 2-bit signed integer type."], i2, 2, i8);
 define_signed!(#[doc="The 3-bit signed integer type."], i3, 3, i8);
 define_signed!(#[doc="The 4-bit signed integer type."], i4, 4, i8);
@@ -575,6 +647,77 @@ define_signed!(#[doc="The 61-bit signed integer type."], i61, 61, i64);
 define_signed!(#[doc="The 62-bit signed integer type."], i62, 62, i64);
 define_signed!(#[doc="The 63-bit signed integer type."], i63, 63, i64);
 
+define_signed!(#[doc="The 65-bit signed integer type."], i65, 65, i128);
+define_signed!(#[doc="The 66-bit signed integer type."], i66, 66, i128);
+define_signed!(#[doc="The 67-bit signed integer type."], i67, 67, i128);
+define_signed!(#[doc="The 68-bit signed integer type."], i68, 68, i128);
+define_signed!(#[doc="The 69-bit signed integer type."], i69, 69, i128);
+define_signed!(#[doc="The 70-bit signed integer type."], i70, 70, i128);
+define_signed!(#[doc="The 71-bit signed integer type."], i71, 71, i128);
+define_signed!(#[doc="The 72-bit signed integer type."], i72, 72, i128);
+
+define_signed!(#[doc="The 73-bit signed integer type."], i73, 73, i128);
+define_signed!(#[doc="The 74-bit signed integer type."], i74, 74, i128);
+define_signed!(#[doc="The 75-bit signed integer type."], i75, 75, i128);
+define_signed!(#[doc="The 76-bit signed integer type."], i76, 76, i128);
+define_signed!(#[doc="The 77-bit signed integer type."], i77, 77, i128);
+define_signed!(#[doc="The 78-bit signed integer type."], i78, 78, i128);
+define_signed!(#[doc="The 79-bit signed integer type."], i79, 79, i128);
+define_signed!(#[doc="The 80-bit signed integer type."], i80, 80, i128);
+
+define_signed!(#[doc="The 81-bit signed integer type."], i81, 81, i128);
+define_signed!(#[doc="The 82-bit signed integer type."], i82, 82, i128);
+define_signed!(#[doc="The 83-bit signed integer type."], i83, 83, i128);
+define_signed!(#[doc="The 84-bit signed integer type."], i84, 84, i128);
+define_signed!(#[doc="The 85-bit signed integer type."], i85, 85, i128);
+define_signed!(#[doc="The 86-bit signed integer type."], i86, 86, i128);
+define_signed!(#[doc="The 87-bit signed integer type."], i87, 87, i128);
+define_signed!(#[doc="The 88-bit signed integer type."], i88, 88, i128);
+
+define_signed!(#[doc="The 89-bit signed integer type."], i89, 89, i128);
+define_signed!(#[doc="The 90-bit signed integer type."], i90, 90, i128);
+define_signed!(#[doc="The 91-bit signed integer type."], i91, 91, i128);
+define_signed!(#[doc="The 92-bit signed integer type."], i92, 92, i128);
+define_signed!(#[doc="The 93-bit signed integer type."], i93, 93, i128);
+define_signed!(#[doc="The 94-bit signed integer type."], i94, 94, i128);
+define_signed!(#[doc="The 95-bit signed integer type."], i95, 95, i128);
+define_signed!(#[doc="The 96-bit signed integer type."], i96, 96, i128);
+
+define_signed!(#[doc="The 97-bit signed integer type."], i97, 97, i128);
+define_signed!(#[doc="The 98-bit signed integer type."], i98, 98, i128);
+define_signed!(#[doc="The 99-bit signed integer type."], i99, 99, i128);
+define_signed!(#[doc="The 100-bit signed integer type."], i100, 100, i128);
+define_signed!(#[doc="The 101-bit signed integer type."], i101, 101, i128);
+define_signed!(#[doc="The 102-bit signed integer type."], i102, 102, i128);
+define_signed!(#[doc="The 103-bit signed integer type."], i103, 103, i128);
+define_signed!(#[doc="The 104-bit signed integer type."], i104, 104, i128);
+
+define_signed!(#[doc="The 105-bit signed integer type."], i105, 105, i128);
+define_signed!(#[doc="The 106-bit signed integer type."], i106, 106, i128);
+define_signed!(#[doc="The 107-bit signed integer type."], i107, 107, i128);
+define_signed!(#[doc="The 108-bit signed integer type."], i108, 108, i128);
+define_signed!(#[doc="The 109-bit signed integer type."], i109, 109, i128);
+define_signed!(#[doc="The 110-bit signed integer type."], i110, 110, i128);
+define_signed!(#[doc="The 111-bit signed integer type."], i111, 111, i128);
+define_signed!(#[doc="The 112-bit signed integer type."], i112, 112, i128);
+
+define_signed!(#[doc="The 113-bit signed integer type."], i113, 113, i128);
+define_signed!(#[doc="The 114-bit signed integer type."], i114, 114, i128);
+define_signed!(#[doc="The 115-bit signed integer type."], i115, 115, i128);
+define_signed!(#[doc="The 116-bit signed integer type."], i116, 116, i128);
+define_signed!(#[doc="The 117-bit signed integer type."], i117, 117, i128);
+define_signed!(#[doc="The 118-bit signed integer type."], i118, 118, i128);
+define_signed!(#[doc="The 119-bit signed integer type."], i119, 119, i128);
+define_signed!(#[doc="The 120-bit signed integer type."], i120, 120, i128);
+
+define_signed!(#[doc="The 121-bit signed integer type."], i121, 121, i128);
+define_signed!(#[doc="The 122-bit signed integer type."], i122, 122, i128);
+define_signed!(#[doc="The 123-bit signed integer type."], i123, 123, i128);
+define_signed!(#[doc="The 124-bit signed integer type."], i124, 124, i128);
+define_signed!(#[doc="The 125-bit signed integer type."], i125, 125, i128);
+define_signed!(#[doc="The 126-bit signed integer type."], i126, 126, i128);
+define_signed!(#[doc="The 127-bit signed integer type."], i127, 127, i128);
+
 
 #[cfg(test)]
 mod tests {
@@ -594,24 +737,29 @@ mod tests {
 
     #[test]
     fn min_max_values() {
+        assert_eq!(u1::MAX, u1(1));
         assert_eq!(u2::MAX, u2(3));
         assert_eq!(u3::MAX, u3(7));
         assert_eq!(u7::MAX, u7(127));
         assert_eq!(u9::MAX, u9(511));
 
 
+        assert_eq!(i1::MAX, i1(0));
         assert_eq!(i2::MAX, i2(1));
         assert_eq!(i3::MAX, i3(3));
         assert_eq!(i7::MAX, i7(63));
         assert_eq!(i9::MAX, i9(255));
 
 
+        assert_eq!(u1::MIN, u1(0));
         assert_eq!(u2::MIN, u2(0));
         assert_eq!(u3::MIN, u3(0));
         assert_eq!(u7::MIN, u7(0));
         assert_eq!(u9::MIN, u9(0));
+        assert_eq!(u127::MIN, u127(0));
 
 
+        assert_eq!(i1::MIN, i1(-1));
         assert_eq!(i2::MIN, i2(-2));
         assert_eq!(i3::MIN, i3(-4));
         assert_eq!(i7::MIN, i7(-64));
@@ -622,8 +770,17 @@ mod tests {
 
     #[test]
     fn test_wrapping_add() {
+        assert_eq!(u1::MAX.wrapping_add(u1(1)), u1(0));
+        assert_eq!(u1::MAX.wrapping_add(u1(0)), u1(1));
+
         assert_eq!(u5::MAX.wrapping_add(u5(1)), u5(0));
         assert_eq!(u5::MAX.wrapping_add(u5(4)), u5(3));
+
+        assert_eq!(u127::MAX.wrapping_add(u127(100)), u127(99));
+        assert_eq!(u127::MAX.wrapping_add(u127(1)), u127(0));
+
+        assert_eq!(i1::MAX.wrapping_add(i1(0)), i1(0));
+        assert_eq!(i1::MAX.wrapping_add(i1(-1)), i1(-1));
 
         assert_eq!(i7::MAX.wrapping_add(i7(1)), i7::MIN);
         assert_eq!(i7::MAX.wrapping_add(i7(4)), i7(-61));
@@ -631,13 +788,25 @@ mod tests {
 
     #[test]
     #[should_panic]
-    fn test_add_overflow() {
+    fn test_add_overflow_u5() {
         let _s = u5::MAX + u5(1);
     }
 
     #[test]
     #[should_panic]
-    fn test_add_underflow() {
+    fn test_add_overflow_u127() { let _s = u127::MAX + u127(1); }
+
+    #[test]
+    #[should_panic]
+    fn test_add_overflow_i96() { let _s = i96::MAX + i96(100); }
+
+    #[test]
+    #[should_panic]
+    fn test_add_underflow_i96() { let _s = i96::MIN + i96(-100); }
+
+    #[test]
+    #[should_panic]
+    fn test_add_underflow_i17() {
         let _s = i17::MIN + i17(-1);
     }
 
@@ -653,26 +822,28 @@ mod tests {
 
     #[test]
     #[should_panic]
-    fn test_sub_overflow() {
+    fn test_sub_overflow_i23() {
         let _s = i23::MIN - i23::MAX;
     }
 
     #[test]
     #[should_panic]
-    fn test_sub_underflow_unsigned() {
+    fn test_sub_underflow_u5() {
         let _s = u5::MIN - u5(1);
     }
 
     #[test]
     #[should_panic]
-    fn test_sub_underflow_signed() {
+    fn test_sub_underflow_i5() {
         let _s = i5::MIN - i5(1);
     }
 
     #[test]
     fn test_sub() {
+        assert_eq!(u5(1) - u5(1), u5(0));
         assert_eq!(u5(3) - u5(2), u5(1));
 
+        assert_eq!(i1(-1) - i1(-1) , i1(0));
         assert_eq!(i7::MIN - i7::MIN , i7(0));
         assert_eq!(i7(4) - i7(-3), i7(7));
         assert_eq!(i7(-4) - i7(3), i7(-7));
