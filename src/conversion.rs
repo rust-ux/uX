@@ -299,6 +299,24 @@ implement_from!(i62, [i2, i3, i4, i5, i6, i7, i9, i10, i11, i12, i13, i14, i15, 
 implement_from!(i63, [i2, i3, i4, i5, i6, i7, i9, i10, i11, i12, i13, i14, i15, i17, i18, i19, i20, i21, i22, i23, i24, i25, i26, i27, i28, i29, i30, i31,
                      i33, i34, i35, i36, i37, i38, i39, i40, i41, i42, i43, i44, i45, i46, i47, i48, i49, i50, i51, i52, i53, i54, i55, i56, i57, i58, i59, i60, i61, i62]);
 
+impl From<bool> for u1 {
+    fn from(b: bool) -> Self {
+        match b {
+            true => u1(1),
+            false => u1(0),
+        }
+    }
+}
+
+impl From<u1> for bool {
+    fn from(u1(x): u1) -> Self {
+        match x {
+            0 => false,
+            1 => true,
+            _ => unreachable!(),
+        }
+    }
+}
 
 #[cfg(test)]
 mod tests {
