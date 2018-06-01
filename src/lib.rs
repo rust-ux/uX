@@ -111,6 +111,8 @@ macro_rules! define_signed {
 macro_rules! implement_common {
     ($name:ident, $bits:expr, $type:ident) => {
         impl $name {
+            pub const BITS: usize = $bits;
+
             /// Returns the smallest value that can be represented by this integer type.
             pub fn min_value() -> $name {
                 $name::MIN
