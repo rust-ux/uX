@@ -11,6 +11,8 @@
 
 #![cfg_attr(not(feature="std"), no_std)]
 
+#[cfg(feature = "serde")]
+extern crate serde;
 
 mod lib {
     pub mod core {
@@ -184,6 +186,26 @@ macro_rules! implement_common {
 
         }
 
+        #[cfg(feature = "serde")]
+        impl $crate::serde::Serialize for $name {
+            fn serialize<S: $crate::serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+                self.0.serialize(serializer)
+            }
+        }
+
+        #[cfg(feature = "serde")]
+        impl<'de> $crate::serde::Deserialize<'de> for $name {
+            fn deserialize<D: $crate::serde::Deserializer<'de>>(deserializer: D) -> Result<$name, D::Error> {
+                let value = <$type as $crate::serde::Deserialize<'de>>::deserialize(deserializer)?;
+
+                if value <= $name::MAX.0 && value >= $name::MIN.0 {
+                    Ok($name(value))
+                }
+                else {
+                    Err($crate::serde::de::Error::custom("out of bounds"))
+                }
+            }
+        }
 
         impl PartialEq for $name {
             fn eq(&self, other: &Self) -> bool {
