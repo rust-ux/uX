@@ -14,11 +14,15 @@ keywords = ["integer", "unaligned", "misaligned"]
 categories = ["embedded", "no-std", "data-structures"]
 
 
-[dependencies]
+[dependencies.num-traits]
+version = "0.2.6"
+optional = true
+default-features = false
 
 [features]
 default = ["std"]
 std = []
+num = ["num-traits"]
 
 [badges]
 travis-ci = {repository = "kjetilkjeka/uX", branch = "master"}

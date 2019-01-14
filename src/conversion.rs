@@ -318,6 +318,65 @@ impl From<u1> for bool {
     }
 }
 
+#[cfg(feature="num")]
+macro_rules! num_convert {
+    {[$($name:ident),*]} => {$(num_convert!($name);)*};
+    ($name:ident) => {
+        macro_rules! from_int {
+            ($method:ident, $ty:ident) => {
+                fn $method(n: $ty) -> Option<$name> {
+                    let v = num_traits::cast::NumCast::from(n)?;
+                    if v <= $name::MAX.0 && v >= $name::MIN.0 {
+                        Some($name(v))
+                    } else {
+                        None
+                    }
+                }
+            }
+        }
+        macro_rules! to_int {
+            ($method:ident, $ty:ident) => {
+                fn $method(&self) -> Option<$ty> {
+                    (self.mask().0).$method()
+                }
+            }
+        }
+        impl num_traits::FromPrimitive for $name {
+            from_int!(from_i8, i8);
+            from_int!(from_u8, u8);
+            from_int!(from_i16, i16);
+            from_int!(from_u16, u16);
+            from_int!(from_i32, i32);
+            from_int!(from_u32, u32);
+            from_int!(from_i64, i64);
+            from_int!(from_u64, u64);
+            #[cfg(has_i128)]
+            from_int!(from_i128, i128);
+            #[cfg(has_i128)]
+            from_int!(from_u128, u128);
+        }
+
+        impl num_traits::ToPrimitive for $name {
+            to_int!(to_i8, i8);
+            to_int!(to_u8, u8);
+            to_int!(to_i16, i16);
+            to_int!(to_u16, u16);
+            to_int!(to_i32, i32);
+            to_int!(to_u32, u32);
+            to_int!(to_i64, i64);
+            to_int!(to_u64, u64);
+            #[cfg(has_i128)]
+            to_int!(to_i128, i128);
+            #[cfg(has_i128)]
+            to_int!(to_u128, u128);
+        }
+    }
+}
+
+#[cfg(feature="num")]
+num_convert!([i2, i3, i4, i5, i6, i7, i9, i10, i11, i12, i13, i14, i15, i17, i18, i19, i20, i21, i22, i23, i24, i25, i26, i27, i28, i29, i30, i31,
+                     i33, i34, i35, i36, i37, i38, i39, i40, i41, i42, i43, i44, i45, i46, i47, i48, i49, i50, i51, i52, i53, i54, i55, i56, i57, i58, i59, i60, i61, i62, i63]);
+
 #[cfg(test)]
 mod tests {
     use super::*;
