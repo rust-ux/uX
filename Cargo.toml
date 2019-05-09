@@ -15,6 +15,7 @@ categories = ["embedded", "no-std", "data-structures"]
 
 
 [dependencies]
+cfg-if = "0.1.6"
 
 [features]
 default = ["std"]

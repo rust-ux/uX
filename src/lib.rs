@@ -11,6 +11,7 @@
 
 #![cfg_attr(not(feature="std"), no_std)]
 
+#[macro_use] extern crate cfg_if;
 
 mod lib {
     pub mod core {
