@@ -57,6 +57,8 @@ use lib::core::fmt::{
     Binary,
 };
 
+use std::mem;
+
 macro_rules! define_unsigned {
     ($name:ident, $bits:expr, $type:ident) => {define_unsigned!(#[doc=""], $name, $bits, $type);};
     (#[$doc:meta], $name:ident, $bits:expr, $type:ident) => {
@@ -112,12 +114,16 @@ macro_rules! implement_common {
     ($name:ident, $bits:expr, $type:ident) => {
         impl $name {
             /// Returns the smallest value that can be represented by this integer type.
-            pub fn min_value() -> $name {
+            pub fn min_value() -> Self {
                 $name::MIN
             }
             /// Returns the largest value that can be represented by this integer type.
-            pub fn max_value() -> $name {
+            pub fn max_value() -> Self {
                 $name::MAX
+            }
+
+            fn is_valid(value: $type) -> bool {
+                value <= $name::MAX.0 && value >= $name::MIN.0
             }
 
             /// Crates a new variable
@@ -139,8 +145,8 @@ macro_rules! implement_common {
             /// # Panic
             ///
             /// This function will panic if `value` is not representable by this type
-            pub fn new(value: $type) -> $name {
-                assert!(value <= $name::MAX.0 && value >= $name::MIN.0);
+            pub fn new(value: $type) -> Self {
+                assert!(Self::is_valid(value));
                 $name(value)
             }
 
@@ -182,8 +188,54 @@ macro_rules! implement_common {
                 $name(self.0.wrapping_add(rhs.0)).mask()
             }
 
-        }
+            pub fn capacity(self) -> u32 {
+                $bits
+            }
 
+            fn storage_bit_size(self) -> u32 {
+                (mem::size_of::<$name>() as u32) * 8
+            }
+
+            pub fn rotate_left(self, n: u32) -> Self {
+                let shift = n % $bits;
+                let mask = self.mask().0;
+                $name((mask << shift) | (mask >> ($bits - shift)))
+            }
+
+            pub fn rotate_right(self, n: u32) -> Self {
+                let shift = n % $bits;
+                let mask = self.mask().0;
+                $name((mask >> shift) | (mask << ($bits - shift)))
+            }
+
+            pub fn count_ones(self) -> u32 {
+                self.mask().0.count_ones()
+            }
+
+            pub fn count_zeros(self) -> u32 {
+                self.capacity() - self.count_ones()
+            }
+
+            pub fn leading_zeros(self) -> u32 {
+                let bits = self.storage_bit_size();
+                let diff = bits - self.capacity();
+                self.mask().0.leading_zeros() - diff
+            }
+
+            pub fn trailing_zeros(self) -> u32 {
+                self.mask().0.trailing_zeros()
+            }
+
+            pub fn reverse_bits(self) -> Self {
+                let bit_size = self.storage_bit_size();
+                let mask = self.mask().0;
+                $name(mask.reverse_bits() >> (bit_size - $bits))
+            }
+
+            pub fn is_power_of_two(self) -> bool {
+                self.count_ones() == 1
+            }
+        }
 
         impl PartialEq for $name {
             fn eq(&self, other: &Self) -> bool {
@@ -194,13 +246,13 @@ macro_rules! implement_common {
         impl Eq for $name {}
 
         impl PartialOrd for $name {
-            fn partial_cmp(&self, other: &$name) -> Option<Ordering> {
+            fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
                 self.mask().0.partial_cmp(&other.mask().0)
             }
         }
 
         impl Ord for $name {
-            fn cmp(&self, other: &$name) -> Ordering {
+            fn cmp(&self, other: &Self) -> Ordering {
                 self.mask().0.cmp(&other.mask().0)
             }
         }
@@ -246,7 +298,7 @@ macro_rules! implement_common {
         impl<T> Shr<T> for $name where $type: Shr<T, Output=$type>{
             type Output = $name;
 
-            fn shr(self, rhs: T) -> $name {
+            fn shr(self, rhs: T) -> Self::Output {
                 $name(self.mask().0.shr(rhs))
             }
         }
@@ -254,7 +306,7 @@ macro_rules! implement_common {
         impl<T> Shl<T> for $name where $type: Shl<T, Output=$type> {
             type Output = $name;
 
-            fn shl(self, rhs: T) -> $name {
+            fn shl(self, rhs: T) -> Self::Output {
                 $name(self.mask().0.shl(rhs))
             }
         }
@@ -276,7 +328,7 @@ macro_rules! implement_common {
         impl BitOr<$name> for $name {
             type Output = $name;
 
-            fn bitor(self, rhs: $name) -> Self::Output {
+            fn bitor(self, rhs: Self) -> Self::Output {
                 $name(self.mask().0.bitor(rhs.mask().0))
             }
         }
@@ -306,7 +358,7 @@ macro_rules! implement_common {
         }
 
         impl BitOrAssign<$name> for $name {
-            fn bitor_assign(&mut self, other: $name) {
+            fn bitor_assign(&mut self, other: Self) {
                 *self = self.mask();
                 self.0.bitor_assign(other.mask().0)
             }
@@ -315,7 +367,7 @@ macro_rules! implement_common {
         impl BitXor<$name> for $name {
             type Output = $name;
 
-            fn bitxor(self, rhs: $name) -> Self::Output {
+            fn bitxor(self, rhs: Self) -> Self::Output {
                 $name(self.mask().0.bitxor(rhs.mask().0))
             }
         }
@@ -345,7 +397,7 @@ macro_rules! implement_common {
         }
 
         impl BitXorAssign<$name> for $name {
-            fn bitxor_assign(&mut self, other: $name) {
+            fn bitxor_assign(&mut self, other: Self) {
                 *self = self.mask();
                 self.0.bitxor_assign(other.mask().0)
             }
@@ -354,7 +406,7 @@ macro_rules! implement_common {
         impl Not for $name {
             type Output = $name;
 
-            fn not(self) -> $name {
+            fn not(self) -> Self::Output {
                 $name(self.mask().0.not())
             }
         }
@@ -362,7 +414,7 @@ macro_rules! implement_common {
         impl<'a> Not for &'a $name {
             type Output = <$name as Not>::Output;
 
-            fn not(self) -> $name {
+            fn not(self) -> Self::Output {
                 $name(self.mask().0.not())
             }
         }
@@ -370,7 +422,7 @@ macro_rules! implement_common {
         impl BitAnd<$name> for $name {
             type Output = $name;
 
-            fn bitand(self, rhs: $name) -> Self::Output {
+            fn bitand(self, rhs: Self) -> Self::Output {
                 $name(self.mask().0.bitand(rhs.mask().0))
             }
         }
@@ -400,7 +452,7 @@ macro_rules! implement_common {
         }
 
         impl BitAndAssign<$name> for $name {
-            fn bitand_assign(&mut self, other: $name) {
+            fn bitand_assign(&mut self, other: Self) {
                 *self = self.mask();
                 self.0.bitand_assign(other.mask().0)
             }
@@ -409,7 +461,7 @@ macro_rules! implement_common {
         impl lib::core::ops::Add<$name> for $name {
             type Output = $name;
             #[allow(unused_comparisons)]
-            fn add(self, other: $name) -> $name {
+            fn add(self, other: $name) -> Self::Output {
                 if self.0 > 0 && other.0 > 0 {
                     debug_assert!(Self::MAX.0 - other.0 >= self.0);
                 } else if self.0 < 0 && other.0 < 0 {
@@ -422,7 +474,7 @@ macro_rules! implement_common {
         impl lib::core::ops::Sub<$name> for $name {
             type Output = $name;
             #[allow(unused_comparisons)]
-            fn sub(self, other: $name) -> $name {
+            fn sub(self, other: Self) -> Self::Output {
                 if self > other {
                     debug_assert!(Self::MAX.0 + other.0 >= self.0);
                 } else if self < other {
@@ -994,4 +1046,101 @@ mod tests {
         assert_eq!(!u7(56), u7(71));
     }
 
+    #[test]
+    fn test_count_ones() {
+        let a: u12 = u12::new(0b000000101100);
+        let b: u12 = u12::new(0b000000100001);
+        let c: u12 = u12::new(0b000001111001);
+        assert!(a.count_ones() == 3);
+        assert!(b.count_ones() == 2);
+        assert!(c.count_ones() == 5);
+    }
+
+    #[test]
+    fn test_count_zeros() {
+        let a: u12 = u12::new(0b000000101100);
+        let b: u12 = u12::new(0b000000100001);
+        let c: u12 = u12::new(0b000001111001);
+
+        // let bits = mem::size_of::<$T>() * 8;
+        assert_eq!(a.count_zeros(), a.capacity() - 3);
+        assert_eq!(b.count_zeros(), b.capacity() - 2);
+        assert_eq!(c.count_zeros(), c.capacity() - 5);
+    }
+
+    #[test]
+    fn test_capacity() {
+        let a: u12 = u12::new(0b000000101100);
+        let b: u12 = u12::new(0b000000100001);
+        let c: u12 = u12::new(0b000001111001);
+
+        assert_eq!(a.count_zeros() + a.count_ones(), a.capacity());
+        assert_eq!(b.count_zeros() + b.count_ones(), b.capacity());
+        assert_eq!(c.count_zeros() + c.count_ones(), c.capacity());
+    }
+
+    #[test]
+    fn test_reverse_bits() {
+        let a: u12 = u12::new(0b000000101100);
+        let b: u12 = u12::new(0b000000100001);
+        let c: u12 = u12::new(0b000001111001);
+
+        let exp_a: u12 = u12::new(0b001101000000);
+        let exp_b: u12 = u12::new(0b100001000000);
+        let exp_c: u12 = u12::new(0b100111100000);
+
+        assert_eq!(a.reverse_bits(), exp_a);
+        assert_eq!(b.reverse_bits(), exp_b);
+        assert_eq!(c.reverse_bits(), exp_c);
+
+    }
+
+    #[test]
+    fn test_leading_zeros() {
+        let a: u12 = u12::new(0b000000101100);
+        let b: u12 = u12::new(0b000000100001);
+        let c: u12 = u12::new(0b000001111001);
+
+        assert_eq!(a.leading_zeros(), 6);
+        assert_eq!(b.leading_zeros(), 6);
+        assert_eq!(c.leading_zeros(), 5);
+    }
+
+    #[test]
+    fn test_trailing_zeros() {
+        let a: u12 = u12::new(0b000000101100);
+        let b: u12 = u12::new(0b000000100001);
+        let c: u12 = u12::new(0b000001111001);
+
+        assert_eq!(a.trailing_zeros(), 2);
+        assert_eq!(b.trailing_zeros(), 0);
+        assert_eq!(c.trailing_zeros(), 0);
+    }
+
+
+    #[test]
+    fn test_rotate() {
+        let a: u12 = u12::new(0b000000101100);
+        let b: u12 = u12::new(0b000000100001);
+        let c: u12 = u12::new(0b000001111001);
+
+        assert_eq!(a.rotate_left(6).rotate_right(2).rotate_right(4), a);
+        assert_eq!(b.rotate_left(3).rotate_left(2).rotate_right(5), b);
+        assert_eq!(c.rotate_left(6).rotate_right(2).rotate_right(4), c);
+
+
+        // Rotating by 0 should have no effect
+        assert_eq!(a.rotate_left(0), a);
+        assert_eq!(b.rotate_left(0), b);
+        assert_eq!(c.rotate_left(0), c);
+        // Rotating by a multiple of word size should also have no effect
+
+        let a: u12 = u12::new(0b000000101100);
+        let b: u12 = u12::new(0b000000100001);
+        let c: u12 = u12::new(0b000001111001);
+
+        assert_eq!(a.rotate_left(12), a);
+        assert_eq!(b.rotate_left(12), b);
+        assert_eq!(c.rotate_left(12), c);
+    }
 }
