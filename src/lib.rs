@@ -192,6 +192,9 @@ macro_rules! implement_common {
                 $bits
             }
 
+            ///
+            /// Bit size of the backing type
+            ///
             fn storage_bit_size(self) -> u32 {
                 (mem::size_of::<$name>() as u32) * 8
             }
@@ -1117,5 +1120,12 @@ mod tests {
         assert_eq!(A.rotate_left(12), A);
         assert_eq!(B.rotate_left(12), B);
         assert_eq!(C.rotate_left(12), C);
+    }
+
+    #[test]
+    fn test_is_power_of_two() {
+        let a: u12 = u12::new(0b0000001000);
+        assert!(a.is_power_of_two());
+        assert!(!A.is_power_of_two());
     }
 }
