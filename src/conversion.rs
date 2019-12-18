@@ -29,7 +29,7 @@ macro_rules! implement_into {
 
 // Implement From for all unsigned integers
 
-implement_into!([u2, u3, u4, u5, u6, u7], u8);        
+implement_into!([u2, u3, u4, u5, u6, u7], u8);
 implement_from!([u9, u10, u11, u12, u13, u14, u15], u8);
 implement_from!([u17, u18, u19, u20, u21, u22, u23, u24], u8);
 implement_from!([u25, u26, u27, u28, u29, u30, u31], u8);
@@ -38,7 +38,7 @@ implement_from!([u41, u42, u43, u44, u45, u46, u47, u48], u8);
 implement_from!([u49, u50, u51, u52, u53, u54, u55, u56], u8);
 implement_from!([u57, u58, u59, u60, u61, u62, u63], u8);
 
-implement_into!([u2, u3, u4, u5, u6, u7], u16);        
+implement_into!([u2, u3, u4, u5, u6, u7], u16);
 implement_into!([u9, u10, u11, u12, u13, u14, u15], u16);
 implement_from!([u17, u18, u19, u20, u21, u22, u23, u24], u16);
 implement_from!([u25, u26, u27, u28, u29, u30, u31], u16);
@@ -47,7 +47,7 @@ implement_from!([u41, u42, u43, u44, u45, u46, u47, u48], u16);
 implement_from!([u49, u50, u51, u52, u53, u54, u55, u56], u16);
 implement_from!([u57, u58, u59, u60, u61, u62, u63], u16);
 
-implement_into!([u2, u3, u4, u5, u6, u7], u32);        
+implement_into!([u2, u3, u4, u5, u6, u7], u32);
 implement_into!([u9, u10, u11, u12, u13, u14, u15], u32);
 implement_into!([u17, u18, u19, u20, u21, u22, u23, u24], u32);
 implement_into!([u25, u26, u27, u28, u29, u30, u31], u32);
@@ -56,7 +56,7 @@ implement_from!([u41, u42, u43, u44, u45, u46, u47, u48], u32);
 implement_from!([u49, u50, u51, u52, u53, u54, u55, u56], u32);
 implement_from!([u57, u58, u59, u60, u61, u62, u63], u32);
 
-implement_into!([u2, u3, u4, u5, u6, u7], u64);        
+implement_into!([u2, u3, u4, u5, u6, u7], u64);
 implement_into!([u9, u10, u11, u12, u13, u14, u15], u64);
 implement_into!([u17, u18, u19, u20, u21, u22, u23, u24], u64);
 implement_into!([u25, u26, u27, u28, u29, u30, u31], u64);
@@ -166,7 +166,7 @@ implement_from!(u63, [u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, 
 
 // Implement From for all signed integer
 
-implement_into!([i2, i3, i4, i5, i6, i7], i8);        
+implement_into!([i2, i3, i4, i5, i6, i7], i8);
 implement_from!([i9, i10, i11, i12, i13, i14, i15], i8);
 implement_from!([i17, i18, i19, i20, i21, i22, i23, i24], i8);
 implement_from!([i25, i26, i27, i28, i29, i30, i31], i8);
@@ -175,7 +175,7 @@ implement_from!([i41, i42, i43, i44, i45, i46, i47, i48], i8);
 implement_from!([i49, i50, i51, i52, i53, i54, i55, i56], i8);
 implement_from!([i57, i58, i59, i60, i61, i62, i63], i8);
 
-implement_into!([i2, i3, i4, i5, i6, i7], i16);        
+implement_into!([i2, i3, i4, i5, i6, i7], i16);
 implement_into!([i9, i10, i11, i12, i13, i14, i15], i16);
 implement_from!([i17, i18, i19, i20, i21, i22, i23, i24], i16);
 implement_from!([i25, i26, i27, i28, i29, i30, i31], i16);
@@ -184,7 +184,7 @@ implement_from!([i41, i42, i43, i44, i45, i46, i47, i48], i16);
 implement_from!([i49, i50, i51, i52, i53, i54, i55, i56], i16);
 implement_from!([i57, i58, i59, i60, i61, i62, i63], i16);
 
-implement_into!([i2, i3, i4, i5, i6, i7], i32);        
+implement_into!([i2, i3, i4, i5, i6, i7], i32);
 implement_into!([i9, i10, i11, i12, i13, i14, i15], i32);
 implement_into!([i17, i18, i19, i20, i21, i22, i23, i24], i32);
 implement_into!([i25, i26, i27, i28, i29, i30, i31], i32);
@@ -193,7 +193,7 @@ implement_from!([i41, i42, i43, i44, i45, i46, i47, i48], i32);
 implement_from!([i49, i50, i51, i52, i53, i54, i55, i56], i32);
 implement_from!([i57, i58, i59, i60, i61, i62, i63], i32);
 
-implement_into!([i2, i3, i4, i5, i6, i7], i64);        
+implement_into!([i2, i3, i4, i5, i6, i7], i64);
 implement_into!([i9, i10, i11, i12, i13, i14, i15], i64);
 implement_into!([i17, i18, i19, i20, i21, i22, i23, i24], i64);
 implement_into!([i25, i26, i27, i28, i29, i30, i31], i64);
@@ -321,31 +321,31 @@ impl From<u1> for bool {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     #[test]
     fn test_conversion_unsigned() {
         assert_eq!(u16::from(u9(12)), 12u16);
         assert_eq!(u32::from(u9(12)), 12u32);
-        
+
         assert_eq!(u9(127), 127u8.into());
-        
+
         assert_eq!(u7::from(u6(65)), u7(65));
 
     }
-    
+
     #[test]
     fn test_conversion_signed() {
         assert_eq!(i16::from(i9(12)), 12i16);
         assert_eq!(i32::from(i9(12)), 12i32);
-        
+
         assert_eq!(i16::from(i9(-12)), -12i16);
         assert_eq!(i32::from(i9(-12)), -12i32);
-        
+
         assert_eq!(i9(127), 127i8.into());
-        
+
         assert_eq!(i7::from(i6(65)), i7(65));
         assert_eq!(i7::from(i6(-65)), i7(-65));
 
     }
-    
+
 }
