@@ -1133,12 +1133,8 @@ mod tests {
         assert_eq!(a.rotate_left(0), a);
         assert_eq!(b.rotate_left(0), b);
         assert_eq!(c.rotate_left(0), c);
+
         // Rotating by a multiple of word size should also have no effect
-
-        let a: u12 = u12::new(0b000000101100);
-        let b: u12 = u12::new(0b000000100001);
-        let c: u12 = u12::new(0b000001111001);
-
         assert_eq!(a.rotate_left(12), a);
         assert_eq!(b.rotate_left(12), b);
         assert_eq!(c.rotate_left(12), c);
