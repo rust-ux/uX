@@ -1081,7 +1081,7 @@ mod tests {
 
         assert_eq!(A.reverse_bits(), exp_a);
         assert_eq!(B.reverse_bits(), exp_b);
-        assert_eq!(B.reverse_bits(), exp_c);
+        assert_eq!(C.reverse_bits(), exp_c);
     }
 
     #[test]
