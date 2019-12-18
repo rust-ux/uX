@@ -1049,7 +1049,6 @@ mod tests {
         assert_eq!(!u7(56), u7(71));
     }
 
-
     const A: u12 = u12(0b000000101100);
     const B: u12 = u12(0b000000100001);
     const C: u12 = u12(0b000001111001);
@@ -1095,7 +1094,6 @@ mod tests {
         assert_eq!(C.leading_zeros(), 5);
     }
 
-
     #[test]
     fn test_trailing_zeros() {
 
@@ -1103,7 +1101,6 @@ mod tests {
         assert_eq!(B.trailing_zeros(), 0);
         assert_eq!(C.trailing_zeros(), 0);
     }
-
 
     #[test]
     fn test_rotate() {
