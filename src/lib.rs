@@ -220,8 +220,7 @@ macro_rules! implement_common {
             }
 
             pub fn leading_zeros(self) -> u32 {
-                let bits = self.storage_bit_size();
-                let diff = bits - self.capacity();
+                let diff = self.storage_bit_size() - self.capacity();
                 self.mask().0.leading_zeros() - diff
             }
 
@@ -1076,7 +1075,6 @@ mod tests {
 
     #[test]
     fn test_reverse_bits() {
-
         let exp_a: u12 = u12::new(0b001101000000);
         let exp_b: u12 = u12::new(0b100001000000);
         let exp_c: u12 = u12::new(0b100111100000);
@@ -1088,7 +1086,6 @@ mod tests {
 
     #[test]
     fn test_leading_zeros() {
-
         assert_eq!(A.leading_zeros(), 6);
         assert_eq!(B.leading_zeros(), 6);
         assert_eq!(C.leading_zeros(), 5);
@@ -1096,7 +1093,6 @@ mod tests {
 
     #[test]
     fn test_trailing_zeros() {
-
         assert_eq!(A.trailing_zeros(), 2);
         assert_eq!(B.trailing_zeros(), 0);
         assert_eq!(C.trailing_zeros(), 0);
