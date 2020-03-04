@@ -181,9 +181,30 @@ macro_rules! implement_common {
             pub fn wrapping_add(self, rhs: Self) -> Self {
                 $name(self.0.wrapping_add(rhs.0)).mask()
             }
-
         }
 
+        impl lib::core::convert::TryFrom<$type> for $name {
+            type Error = lib::core::num::TryFromIntError;
+
+            fn try_from(value: $type) -> Result<Self, Self::Error> {
+                if value <= $name::MAX.0 && value >= $name::MIN.0 {
+                    Ok($name(value))
+                } else {
+                    // This hack is required to coerce rustc into generating *remotely* competent
+                    // assembly in debug builds.  As far as I'm aware, this is true in all current
+                    // cases, but this *can* change, in which case we'll fall back to the slower path.
+                    const TRYFROMINTERROR_IS_A_ZST: bool =
+                        lib::core::mem::size_of::<lib::core::num::TryFromIntError>() == 0;
+                    if TRYFROMINTERROR_IS_A_ZST {
+                        // SAFETY: Constructing a zeroed ZST is sound.
+                        unsafe { Err(lib::core::mem::zeroed()) }
+                    } else {
+                        let res: Result<u8, _> = lib::core::convert::TryFrom::<u16>::try_from(256);
+                        Err(res.unwrap_err())
+                    }
+                }
+            }
+        }
 
         impl PartialEq for $name {
             fn eq(&self, other: &Self) -> bool {
