@@ -7,6 +7,11 @@
 //!     - Overflow will panic in debug and wrap in release.
 //! - All possible lossless conversions is possible by using `From`.
 //! - When `TryFrom` is stabilized fallible conversions will also be supported.
+//!
+//! The uX types take up as much space as the smallest integer type that can contain them;
+//! the compiler can not yet be made aware of further optimization potential,
+//! and thus does not use it:
+//! an `Option<u7>` still takes up two bytes.
 
 
 #![cfg_attr(not(feature="std"), no_std)]
