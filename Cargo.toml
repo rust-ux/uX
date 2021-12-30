@@ -20,6 +20,3 @@ categories = ["embedded", "no-std", "data-structures"]
 [features]
 default = ["std"]
 std = []
-
-[badges]
-maintenance = {status = "actively-developed"}
