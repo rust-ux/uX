@@ -14,13 +14,29 @@ macro_rules! implement_from {
     };
 }
 
+// Only implement if $from can be converted into $name lossless.
+// Specifying the $inner type is needed because Rust doesn't implement `From/Into<U> for usize` for types of U larger than u16.
+#[cfg(any(target_pointer_width = "16", target_pointer_width = "32"))]
+macro_rules! implement_from_with_inner {
+    {[$($name:ident),*], [$($from:ident),*], $inner:ident } => {$(implement_from_with_inner!($name, $from, $inner);)*};
+    {$name:ident, [$($from:ident),*], $inner:ident } => {$(implement_from_with_inner!($name, $from, $inner);)*};
+    {[$($name:ident),*], $from:ident, $inner:ident } => {$(implement_from_with_inner!($name, $from, $inner);)*};
+    {$name:ident, $from:ty, $inner:ty} => {
+        impl From<$from> for $name {
+            fn from(x: $from) -> $name {
+                $name(x as $inner)
+            }
+        }
+    };
+}
+
 // Only implement if $type can be converted from $name lossless
 macro_rules! implement_into {
     {[$($name:ident),*], $from:ident } => {$(implement_into!($name, $from);)*};
     {$name:ident, $into:ident} => {
         impl From<$name> for $into {
             fn from(x: $name) -> $into {
-                $into::from(x.0)
+                $into::from(x.0 as $into) // the `as` cast supports `usize` and `isize` too.
             }
         }
     };
@@ -66,6 +82,40 @@ implement_into!([u49, u50, u51, u52, u53, u54, u55, u56], u64);
 implement_into!([u57, u58, u59, u60, u61, u62, u63], u64);
 
 
+cfg_if! {
+    // Rust follows the C99 standard, which says that the minimum target pointer width (usize) is 16 bits.
+    // Thus, `usize` natively implements `From` for both `u8` and `u16`.
+    if #[cfg(target_pointer_width = "16")] {
+        implement_into!([u2, u3, u4, u5, u6, u7], usize);        
+        implement_into!([u9, u10, u11, u12, u13, u14, u15], usize);
+        implement_from_with_inner!([u17, u18, u19, u20, u21, u22, u23, u24], usize, u32);
+        implement_from_with_inner!([u25, u26, u27, u28, u29, u30, u31], usize, u32);
+        implement_from_with_inner!([u33, u34, u35, u36, u37, u38, u39, u40], usize, u64);
+        implement_from_with_inner!([u41, u42, u43, u44, u45, u46, u47, u48], usize, u64);
+        implement_from_with_inner!([u49, u50, u51, u52, u53, u54, u55, u56], usize, u64);
+        implement_from_with_inner!([u57, u58, u59, u60, u61, u62, u63], usize, u64);
+    }
+    else if #[cfg(target_pointer_width = "32")] {
+        implement_into!([u2, u3, u4, u5, u6, u7], usize);        
+        implement_into!([u9, u10, u11, u12, u13, u14, u15], usize);
+        implement_into!([u17, u18, u19, u20, u21, u22, u23, u24], usize);
+        implement_into!([u25, u26, u27, u28, u29, u30, u31], usize);
+        implement_from_with_inner!([u33, u34, u35, u36, u37, u38, u39, u40], usize, u64);
+        implement_from_with_inner!([u41, u42, u43, u44, u45, u46, u47, u48], usize, u64);
+        implement_from_with_inner!([u49, u50, u51, u52, u53, u54, u55, u56], usize, u64);
+        implement_from_with_inner!([u57, u58, u59, u60, u61, u62, u63], usize, u64);
+    }
+    else if #[cfg(target_pointer_width = "64")] {
+        implement_into!([u2, u3, u4, u5, u6, u7], usize);        
+        implement_into!([u9, u10, u11, u12, u13, u14, u15], usize);
+        implement_into!([u17, u18, u19, u20, u21, u22, u23, u24], usize);
+        implement_into!([u25, u26, u27, u28, u29, u30, u31], usize);
+        implement_into!([u33, u34, u35, u36, u37, u38, u39, u40], usize);
+        implement_into!([u41, u42, u43, u44, u45, u46, u47, u48], usize);
+        implement_into!([u49, u50, u51, u52, u53, u54, u55, u56], usize);
+        implement_into!([u57, u58, u59, u60, u61, u62, u63], usize);
+    }
+}
 
 implement_from!(u3, [u2]);
 implement_from!(u4, [u2, u3]);
@@ -203,6 +253,40 @@ implement_into!([i49, i50, i51, i52, i53, i54, i55, i56], i64);
 implement_into!([i57, i58, i59, i60, i61, i62, i63], i64);
 
 
+cfg_if! {
+    // Rust follows the C99 standard, which says that the minimum target pointer width (isize) is 16 bits.
+    // Thus, `isize` natively implements `From` for both `i8` and `i16`. 
+    if #[cfg(target_pointer_width = "16")] {
+        implement_into!([i2, i3, i4, i5, i6, i7], isize);        
+        implement_into!([i9, i10, i11, i12, i13, i14, i15], isize);
+        implement_from_with_inner!([i17, i18, i19, i20, i21, i22, i23, i24], isize, i32);
+        implement_from_with_inner!([i25, i26, i27, i28, i29, i30, i31], isize, i32);
+        implement_from_with_inner!([i33, i34, i35, i36, i37, i38, i39, i40], isize, i64);
+        implement_from_with_inner!([i41, i42, i43, i44, i45, i46, i47, i48], isize, i64);
+        implement_from_with_inner!([i49, i50, i51, i52, i53, i54, i55, i56], isize, i64);
+        implement_from_with_inner!([i57, i58, i59, i60, i61, i62, i63], isize, i64);
+    }
+    else if #[cfg(target_pointer_width = "32")] {
+        implement_into!([i2, i3, i4, i5, i6, i7], isize);        
+        implement_into!([i9, i10, i11, i12, i13, i14, i15], isize);
+        implement_into!([i17, i18, i19, i20, i21, i22, i23, i24], isize);
+        implement_into!([i25, i26, i27, i28, i29, i30, i31], isize);
+        implement_from_with_inner!([i33, i34, i35, i36, i37, i38, i39, i40], isize, i64);
+        implement_from_with_inner!([i41, i42, i43, i44, i45, i46, i47, i48], isize, i64);
+        implement_from_with_inner!([i49, i50, i51, i52, i53, i54, i55, i56], isize, i64);
+        implement_from_with_inner!([i57, i58, i59, i60, i61, i62, i63], isize, i64);
+    }
+    else if #[cfg(target_pointer_width = "64")] {
+        implement_into!([i2, i3, i4, i5, i6, i7], isize);        
+        implement_into!([i9, i10, i11, i12, i13, i14, i15], isize);
+        implement_into!([i17, i18, i19, i20, i21, i22, i23, i24], isize);
+        implement_into!([i25, i26, i27, i28, i29, i30, i31], isize);
+        implement_into!([i33, i34, i35, i36, i37, i38, i39, i40], isize);
+        implement_into!([i41, i42, i43, i44, i45, i46, i47, i48], isize);
+        implement_into!([i49, i50, i51, i52, i53, i54, i55, i56], isize);
+        implement_into!([i57, i58, i59, i60, i61, i62, i63], isize);
+    }
+}
 
 implement_from!(i3, [i2]);
 implement_from!(i4, [i2, i3]);
@@ -331,6 +415,11 @@ mod tests {
         
         assert_eq!(u7::from(u6(65)), u7(65));
 
+        assert_eq!(usize::from(u9(12)), 12usize);
+        #[cfg(any(target_pointer_width = "32", target_pointer_width = "64"))]
+        assert_eq!(usize::from(u19(12)), 12usize);
+        #[cfg(target_pointer_width = "64")]
+        assert_eq!(usize::from(u39(12)), 12usize);
     }
     
     #[test]
@@ -346,6 +435,16 @@ mod tests {
         assert_eq!(i7::from(i6(65)), i7(65));
         assert_eq!(i7::from(i6(-65)), i7(-65));
 
+        assert_eq!(isize::from(i9(12)), 12isize);
+        assert_eq!(isize::from(i9(-12)), -12isize);
+        #[cfg(any(target_pointer_width = "32", target_pointer_width = "64"))] {
+            assert_eq!(isize::from(i19(12)), 12isize);
+            assert_eq!(isize::from(i19(-12)), -12isize);
+        }
+        #[cfg(target_pointer_width = "64")] {
+            assert_eq!(isize::from(i39(12)), 12isize);
+            assert_eq!(isize::from(i39(-12)), -12isize);
+        }
     }
     
 }
