@@ -13,54 +13,29 @@
 //! and thus does not use it:
 //! an `Option<u7>` still takes up two bytes.
 
-
-#![cfg_attr(not(feature="std"), no_std)]
-
+#![cfg_attr(not(feature = "std"), no_std)]
 
 mod lib {
     pub mod core {
-        #[cfg(feature="std")]
-        pub use std::*;
-        #[cfg(not(feature="std"))]
+        #[cfg(not(feature = "std"))]
         pub use core::*;
+        #[cfg(feature = "std")]
+        pub use std::*;
     }
 }
 
 mod conversion;
 
 use lib::core::ops::{
-    Shr,
+    BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not, Shl, ShlAssign, Shr,
     ShrAssign,
-    Shl,
-    ShlAssign,
-    BitOr,
-    BitOrAssign,
-    BitXor,
-    BitXorAssign,
-    BitAnd,
-    BitAndAssign,
-    Not
 };
 
-use lib::core::hash::{
-    Hash,
-    Hasher,
-};
+use lib::core::hash::{Hash, Hasher};
 
-use lib::core::cmp::{
-    Ordering,
-    Ord,
-    PartialOrd,
-};
+use lib::core::cmp::{Ord, Ordering, PartialOrd};
 
-use lib::core::fmt::{
-    Display,
-    Formatter,
-    UpperHex,
-    LowerHex,
-    Octal,
-    Binary,
-};
+use lib::core::fmt::{Binary, Display, Formatter, LowerHex, Octal, UpperHex};
 
 macro_rules! define_unsigned {
     ($name:ident, $bits:expr, $type:ident) => {define_unsigned!(#[doc=""], $name, $bits, $type);};
@@ -186,9 +161,7 @@ macro_rules! implement_common {
             pub fn wrapping_add(self, rhs: Self) -> Self {
                 $name(self.0.wrapping_add(rhs.0)).mask()
             }
-
         }
-
 
         impl PartialEq for $name {
             fn eq(&self, other: &Self) -> bool {
@@ -248,7 +221,10 @@ macro_rules! implement_common {
             }
         }
 
-        impl<T> Shr<T> for $name where $type: Shr<T, Output=$type>{
+        impl<T> Shr<T> for $name
+        where
+            $type: Shr<T, Output = $type>,
+        {
             type Output = $name;
 
             fn shr(self, rhs: T) -> $name {
@@ -256,7 +232,10 @@ macro_rules! implement_common {
             }
         }
 
-        impl<T> Shl<T> for $name where $type: Shl<T, Output=$type> {
+        impl<T> Shl<T> for $name
+        where
+            $type: Shl<T, Output = $type>,
+        {
             type Output = $name;
 
             fn shl(self, rhs: T) -> $name {
@@ -264,14 +243,20 @@ macro_rules! implement_common {
             }
         }
 
-        impl<T> ShrAssign<T> for $name where $type: ShrAssign<T> {
+        impl<T> ShrAssign<T> for $name
+        where
+            $type: ShrAssign<T>,
+        {
             fn shr_assign(&mut self, rhs: T) {
                 *self = self.mask();
                 self.0.shr_assign(rhs);
             }
         }
 
-        impl<T> ShlAssign<T> for $name where $type: ShlAssign<T> {
+        impl<T> ShlAssign<T> for $name
+        where
+            $type: ShlAssign<T>,
+        {
             fn shl_assign(&mut self, rhs: T) {
                 *self = self.mask();
                 self.0.shl_assign(rhs);
@@ -436,13 +421,8 @@ macro_rules! implement_common {
                 self.wrapping_sub(other)
             }
         }
-
-
-
-
     };
 }
-
 
 define_unsigned!(#[doc="The 1-bit unsigned integer type."], u1, 1, u8);
 define_unsigned!(#[doc="The 2-bit unsigned integer type."], u2, 2, u8);
@@ -583,7 +563,6 @@ define_unsigned!(#[doc="The 125-bit unsigned integer type."], u125, 125, u128);
 define_unsigned!(#[doc="The 126-bit unsigned integer type."], u126, 126, u128);
 define_unsigned!(#[doc="The 127-bit unsigned integer type."], u127, 127, u128);
 
-
 define_signed!(#[doc="The 1-bit signed integer type."], i1, 1, i8);
 define_signed!(#[doc="The 2-bit signed integer type."], i2, 2, i8);
 define_signed!(#[doc="The 3-bit signed integer type."], i3, 3, i8);
@@ -723,7 +702,6 @@ define_signed!(#[doc="The 125-bit signed integer type."], i125, 125, i128);
 define_signed!(#[doc="The 126-bit signed integer type."], i126, 126, i128);
 define_signed!(#[doc="The 127-bit signed integer type."], i127, 127, i128);
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -737,7 +715,6 @@ mod tests {
         assert_eq!(i4(0b11000110u8 as i8).mask().0, 0b00000110u8 as i8);
         assert_eq!(i4(0b00001000u8 as i8).mask().0, 0b11111000u8 as i8);
         assert_eq!(i4(0b00001110u8 as i8).mask().0, 0b11111110u8 as i8);
-
     }
 
     #[test]
@@ -748,13 +725,11 @@ mod tests {
         assert_eq!(u7::MAX, u7(127));
         assert_eq!(u9::MAX, u9(511));
 
-
         assert_eq!(i1::MAX, i1(0));
         assert_eq!(i2::MAX, i2(1));
         assert_eq!(i3::MAX, i3(3));
         assert_eq!(i7::MAX, i7(63));
         assert_eq!(i9::MAX, i9(255));
-
 
         assert_eq!(u1::MIN, u1(0));
         assert_eq!(u2::MIN, u2(0));
@@ -763,14 +738,11 @@ mod tests {
         assert_eq!(u9::MIN, u9(0));
         assert_eq!(u127::MIN, u127(0));
 
-
         assert_eq!(i1::MIN, i1(-1));
         assert_eq!(i2::MIN, i2(-2));
         assert_eq!(i3::MIN, i3(-4));
         assert_eq!(i7::MIN, i7(-64));
         assert_eq!(i9::MIN, i9(-256));
-
-
     }
 
     #[test]
@@ -799,15 +771,21 @@ mod tests {
 
     #[test]
     #[should_panic]
-    fn test_add_overflow_u127() { let _s = u127::MAX + u127(1); }
+    fn test_add_overflow_u127() {
+        let _s = u127::MAX + u127(1);
+    }
 
     #[test]
     #[should_panic]
-    fn test_add_overflow_i96() { let _s = i96::MAX + i96(100); }
+    fn test_add_overflow_i96() {
+        let _s = i96::MAX + i96(100);
+    }
 
     #[test]
     #[should_panic]
-    fn test_add_underflow_i96() { let _s = i96::MIN + i96(-100); }
+    fn test_add_underflow_i96() {
+        let _s = i96::MIN + i96(-100);
+    }
 
     #[test]
     #[should_panic]
@@ -848,8 +826,8 @@ mod tests {
         assert_eq!(u5(1) - u5(1), u5(0));
         assert_eq!(u5(3) - u5(2), u5(1));
 
-        assert_eq!(i1(-1) - i1(-1) , i1(0));
-        assert_eq!(i7::MIN - i7::MIN , i7(0));
+        assert_eq!(i1(-1) - i1(-1), i1(0));
+        assert_eq!(i7::MIN - i7::MIN, i7(0));
         assert_eq!(i7(4) - i7(-3), i7(7));
         assert_eq!(i7(-4) - i7(3), i7(-7));
         assert_eq!(i7(-3) - i7(-20), i7(17));
@@ -998,5 +976,4 @@ mod tests {
         assert_eq!(!u7(0), u7(0x7F));
         assert_eq!(!u7(56), u7(71));
     }
-
 }
