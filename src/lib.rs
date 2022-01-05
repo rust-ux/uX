@@ -118,7 +118,7 @@ macro_rules! implement_common {
             /// # Panic
             ///
             /// This function will panic if `value` is not representable by this type
-            pub fn new(value: $type) -> $name {
+            pub const fn new(value: $type) -> $name {
                 assert!(value <= $name::MAX.0 && value >= $name::MIN.0);
                 $name(value)
             }
