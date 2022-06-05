@@ -221,8 +221,7 @@ implement_try_from!(
     [
         u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22, u23, u24, u25, u26, u27,
         u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41, u42, u43, u44, u45, u46,
-        u47, u48, u49, u50, u51, u52, u53, u54, u55, u56, u57, u58, u59, u60, u61, u62, u63,
-        usize
+        u47, u48, u49, u50, u51, u52, u53, u54, u55, u56, u57, u58, u59, u60, u61, u62, u63, usize
     ]
 );
 
@@ -791,7 +790,10 @@ implement_from!(
         u42, u43, u44, u45, u46, u47, u48, u49, u50, u51
     ]
 );
-implement_try_from!(u52, [u53, u54, u55, u56, u57, u58, u59, u60, u61, u62, u63, usize]);
+implement_try_from!(
+    u52,
+    [u53, u54, u55, u56, u57, u58, u59, u60, u61, u62, u63, usize]
+);
 
 implement_from!(
     u53,
@@ -801,7 +803,10 @@ implement_from!(
         u42, u43, u44, u45, u46, u47, u48, u49, u50, u51, u52
     ]
 );
-implement_try_from!(u53, [u54, u55, u56, u57, u58, u59, u60, u61, u62, u63, usize]);
+implement_try_from!(
+    u53,
+    [u54, u55, u56, u57, u58, u59, u60, u61, u62, u63, usize]
+);
 
 implement_from!(
     u54,
@@ -1776,6 +1781,13 @@ mod tests {
         assert_eq!(u2::try_from(1usize), Ok(u2(1)));
         assert!(u2::try_from(4usize).is_err());
         assert_eq!(u2(1).try_into(), Ok(1usize));
+
+        // Make sure that uX types behave the same as standard types with regards to usize
+        // conversion.
+        assert_eq!(
+            usize::try_from(0x1_FFFF_FFFFu64).is_err(),
+            usize::try_from(u33::MAX).is_err()
+        );
     }
 
     #[test]
