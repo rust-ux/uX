@@ -12,15 +12,10 @@
 //! and thus does not use it:
 //! an `Option<u7>` still takes up two bytes.
 
-#![cfg_attr(not(feature = "std"), no_std)]
+#![no_std]
 
 mod lib {
-    pub mod core {
-        #[cfg(not(feature = "std"))]
-        pub use core::*;
-        #[cfg(feature = "std")]
-        pub use std::*;
-    }
+    pub use core;
 }
 
 mod conversion;
