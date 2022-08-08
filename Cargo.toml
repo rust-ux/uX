@@ -18,5 +18,8 @@ categories = ["embedded", "no-std", "data-structures"]
 [dependencies]
 
 [features]
-default = ["std"]
+default = []
+# This is a no-op feature only provided for compatibility in case it is
+# explicitly selected by a user. This crate works without explicit indication
+# both on std and no_std systems.
 std = []
