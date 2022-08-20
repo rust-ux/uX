@@ -80,7 +80,7 @@ macro_rules! implement_try_into {
 
 // Implement From for all unsigned integers
 
-implement_try_from!([u2, u3, u4, u5, u6, u7], u8);
+implement_try_from!([u1, u2, u3, u4, u5, u6, u7], u8);
 implement_from!([u9, u10, u11, u12, u13, u14, u15], u8);
 implement_from!([u17, u18, u19, u20, u21, u22, u23, u24], u8);
 implement_from!([u25, u26, u27, u28, u29, u30, u31], u8);
@@ -89,7 +89,7 @@ implement_from!([u41, u42, u43, u44, u45, u46, u47, u48], u8);
 implement_from!([u49, u50, u51, u52, u53, u54, u55, u56], u8);
 implement_from!([u57, u58, u59, u60, u61, u62, u63], u8);
 
-implement_into!([u2, u3, u4, u5, u6, u7], u8);
+implement_into!([u1, u2, u3, u4, u5, u6, u7], u8);
 implement_try_into!([u9, u10, u11, u12, u13, u14, u15], u8);
 implement_try_into!([u17, u18, u19, u20, u21, u22, u23, u24], u8);
 implement_try_into!([u25, u26, u27, u28, u29, u30, u31], u8);
@@ -98,7 +98,7 @@ implement_try_into!([u41, u42, u43, u44, u45, u46, u47, u48], u8);
 implement_try_into!([u49, u50, u51, u52, u53, u54, u55, u56], u8);
 implement_try_into!([u57, u58, u59, u60, u61, u62, u63], u8);
 
-implement_try_from!([u2, u3, u4, u5, u6, u7], u16);
+implement_try_from!([u1, u2, u3, u4, u5, u6, u7], u16);
 implement_try_from!([u9, u10, u11, u12, u13, u14, u15], u16);
 implement_from!([u17, u18, u19, u20, u21, u22, u23, u24], u16);
 implement_from!([u25, u26, u27, u28, u29, u30, u31], u16);
@@ -116,7 +116,7 @@ implement_try_into!([u41, u42, u43, u44, u45, u46, u47, u48], u16);
 implement_try_into!([u49, u50, u51, u52, u53, u54, u55, u56], u16);
 implement_try_into!([u57, u58, u59, u60, u61, u62, u63], u16);
 
-implement_try_from!([u2, u3, u4, u5, u6, u7], u32);
+implement_try_from!([u1, u2, u3, u4, u5, u6, u7], u32);
 implement_try_from!([u9, u10, u11, u12, u13, u14, u15], u32);
 implement_try_from!([u17, u18, u19, u20, u21, u22, u23, u24], u32);
 implement_try_from!([u25, u26, u27, u28, u29, u30, u31], u32);
@@ -125,7 +125,7 @@ implement_from!([u41, u42, u43, u44, u45, u46, u47, u48], u32);
 implement_from!([u49, u50, u51, u52, u53, u54, u55, u56], u32);
 implement_from!([u57, u58, u59, u60, u61, u62, u63], u32);
 
-implement_into!([u2, u3, u4, u5, u6, u7], u32);
+implement_into!([u1, u2, u3, u4, u5, u6, u7], u32);
 implement_into!([u9, u10, u11, u12, u13, u14, u15], u32);
 implement_into!([u17, u18, u19, u20, u21, u22, u23, u24], u32);
 implement_into!([u25, u26, u27, u28, u29, u30, u31], u32);
@@ -134,7 +134,7 @@ implement_try_into!([u41, u42, u43, u44, u45, u46, u47, u48], u32);
 implement_try_into!([u49, u50, u51, u52, u53, u54, u55, u56], u32);
 implement_try_into!([u57, u58, u59, u60, u61, u62, u63], u32);
 
-implement_try_from!([u2, u3, u4, u5, u6, u7], u64);
+implement_try_from!([u1, u2, u3, u4, u5, u6, u7], u64);
 implement_try_from!([u9, u10, u11, u12, u13, u14, u15], u64);
 implement_try_from!([u17, u18, u19, u20, u21, u22, u23, u24], u64);
 implement_try_from!([u25, u26, u27, u28, u29, u30, u31], u64);
@@ -143,7 +143,7 @@ implement_try_from!([u41, u42, u43, u44, u45, u46, u47, u48], u64);
 implement_try_from!([u49, u50, u51, u52, u53, u54, u55, u56], u64);
 implement_try_from!([u57, u58, u59, u60, u61, u62, u63], u64);
 
-implement_into!([u2, u3, u4, u5, u6, u7], u64);
+implement_into!([u1, u2, u3, u4, u5, u6, u7], u64);
 implement_into!([u9, u10, u11, u12, u13, u14, u15], u64);
 implement_into!([u17, u18, u19, u20, u21, u22, u23, u24], u64);
 implement_into!([u25, u26, u27, u28, u29, u30, u31], u64);
@@ -152,7 +152,7 @@ implement_into!([u41, u42, u43, u44, u45, u46, u47, u48], u64);
 implement_into!([u49, u50, u51, u52, u53, u54, u55, u56], u64);
 implement_into!([u57, u58, u59, u60, u61, u62, u63], u64);
 
-implement_try_into!([u2, u3, u4, u5, u6, u7], usize);
+implement_try_into!([u1, u2, u3, u4, u5, u6, u7], usize);
 implement_try_into!([u9, u10, u11, u12, u13, u14, u15], usize);
 implement_try_into!([u17, u18, u19, u20, u21, u22, u23, u24], usize);
 implement_try_into!([u25, u26, u27, u28, u29, u30, u31], usize);
@@ -161,6 +161,17 @@ implement_try_into!([u41, u42, u43, u44, u45, u46, u47, u48], usize);
 implement_try_into!([u49, u50, u51, u52, u53, u54, u55, u56], usize);
 implement_try_into!([u57, u58, u59, u60, u61, u62, u63], usize);
 
+implement_try_from!(
+    u1,
+    [
+        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
+        u42, u43, u44, u45, u46, u47, u48, u49, u50, u51, u52, u53, u54, u55, u56, u57, u58, u59,
+        u60, u61, u62, u63, usize
+    ]
+);
+
+implement_from!(u2, [u1]);
 implement_try_from!(
     u2,
     [
@@ -171,7 +182,7 @@ implement_try_from!(
     ]
 );
 
-implement_from!(u3, [u2]);
+implement_from!(u3, [u2, u1]);
 implement_try_from!(
     u3,
     [
@@ -182,7 +193,7 @@ implement_try_from!(
     ]
 );
 
-implement_from!(u4, [u2, u3]);
+implement_from!(u4, [u1, u2, u3]);
 implement_try_from!(
     u4,
     [
@@ -193,7 +204,7 @@ implement_try_from!(
     ]
 );
 
-implement_from!(u5, [u2, u3, u4]);
+implement_from!(u5, [u1, u2, u3, u4]);
 implement_try_from!(
     u5,
     [
@@ -204,7 +215,7 @@ implement_try_from!(
     ]
 );
 
-implement_from!(u6, [u2, u3, u4, u5]);
+implement_from!(u6, [u1, u2, u3, u4, u5]);
 implement_try_from!(
     u6,
     [
@@ -215,7 +226,7 @@ implement_try_from!(
     ]
 );
 
-implement_from!(u7, [u2, u3, u4, u5, u6]);
+implement_from!(u7, [u1, u2, u3, u4, u5, u6]);
 implement_try_from!(
     u7,
     [
@@ -225,7 +236,7 @@ implement_try_from!(
     ]
 );
 
-implement_from!(u9, [u2, u3, u4, u5, u6, u7]);
+implement_from!(u9, [u1, u2, u3, u4, u5, u6, u7]);
 implement_try_from!(
     u9,
     [
@@ -235,7 +246,7 @@ implement_try_from!(
     ]
 );
 
-implement_from!(u10, [u2, u3, u4, u5, u6, u7, u9]);
+implement_from!(u10, [u1, u2, u3, u4, u5, u6, u7, u9]);
 implement_try_from!(
     u10,
     [
@@ -245,7 +256,7 @@ implement_try_from!(
     ]
 );
 
-implement_from!(u11, [u2, u3, u4, u5, u6, u7, u9, u10]);
+implement_from!(u11, [u1, u2, u3, u4, u5, u6, u7, u9, u10]);
 implement_try_from!(
     u11,
     [
@@ -255,7 +266,7 @@ implement_try_from!(
     ]
 );
 
-implement_from!(u12, [u2, u3, u4, u5, u6, u7, u9, u10, u11]);
+implement_from!(u12, [u1, u2, u3, u4, u5, u6, u7, u9, u10, u11]);
 implement_try_from!(
     u12,
     [
@@ -265,7 +276,7 @@ implement_try_from!(
     ]
 );
 
-implement_from!(u13, [u2, u3, u4, u5, u6, u7, u9, u10, u11, u12]);
+implement_from!(u13, [u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12]);
 implement_try_from!(
     u13,
     [
@@ -275,7 +286,7 @@ implement_try_from!(
     ]
 );
 
-implement_from!(u14, [u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13]);
+implement_from!(u14, [u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13]);
 implement_try_from!(
     u14,
     [
@@ -285,7 +296,10 @@ implement_try_from!(
     ]
 );
 
-implement_from!(u15, [u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14]);
+implement_from!(
+    u15,
+    [u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14]
+);
 implement_try_from!(
     u15,
     [
@@ -297,7 +311,7 @@ implement_try_from!(
 
 implement_from!(
     u17,
-    [u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15]
+    [u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15]
 );
 implement_try_from!(
     u17,
@@ -310,7 +324,7 @@ implement_try_from!(
 
 implement_from!(
     u18,
-    [u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17]
+    [u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17]
 );
 implement_try_from!(
     u18,
@@ -323,7 +337,7 @@ implement_try_from!(
 
 implement_from!(
     u19,
-    [u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18]
+    [u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18]
 );
 implement_try_from!(
     u19,
@@ -336,7 +350,7 @@ implement_try_from!(
 
 implement_from!(
     u20,
-    [u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19]
+    [u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19]
 );
 implement_try_from!(
     u20,
@@ -349,7 +363,7 @@ implement_try_from!(
 
 implement_from!(
     u21,
-    [u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20]
+    [u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20]
 );
 implement_try_from!(
     u21,
@@ -362,7 +376,7 @@ implement_try_from!(
 
 implement_from!(
     u22,
-    [u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21]
+    [u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21]
 );
 implement_try_from!(
     u22,
@@ -375,7 +389,7 @@ implement_try_from!(
 
 implement_from!(
     u23,
-    [u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22]
+    [u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22]
 );
 implement_try_from!(
     u23,
@@ -388,7 +402,10 @@ implement_try_from!(
 
 implement_from!(
     u24,
-    [u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22, u23]
+    [
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u23
+    ]
 );
 implement_try_from!(
     u24,
@@ -402,7 +419,7 @@ implement_try_from!(
 implement_from!(
     u25,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24
     ]
 );
@@ -418,7 +435,7 @@ implement_try_from!(
 implement_from!(
     u26,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25
     ]
 );
@@ -434,7 +451,7 @@ implement_try_from!(
 implement_from!(
     u27,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26
     ]
 );
@@ -449,7 +466,7 @@ implement_try_from!(
 implement_from!(
     u28,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27
     ]
 );
@@ -464,7 +481,7 @@ implement_try_from!(
 implement_from!(
     u29,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28
     ]
 );
@@ -479,7 +496,7 @@ implement_try_from!(
 implement_from!(
     u30,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29
     ]
 );
@@ -494,7 +511,7 @@ implement_try_from!(
 implement_from!(
     u31,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30
     ]
 );
@@ -509,7 +526,7 @@ implement_try_from!(
 implement_from!(
     u33,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31
     ]
 );
@@ -524,7 +541,7 @@ implement_try_from!(
 implement_from!(
     u34,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33
     ]
 );
@@ -539,7 +556,7 @@ implement_try_from!(
 implement_from!(
     u35,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34
     ]
 );
@@ -554,7 +571,7 @@ implement_try_from!(
 implement_from!(
     u36,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35
     ]
 );
@@ -569,7 +586,7 @@ implement_try_from!(
 implement_from!(
     u37,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36
     ]
 );
@@ -584,7 +601,7 @@ implement_try_from!(
 implement_from!(
     u38,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37
     ]
 );
@@ -599,7 +616,7 @@ implement_try_from!(
 implement_from!(
     u39,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38
     ]
 );
@@ -614,7 +631,7 @@ implement_try_from!(
 implement_from!(
     u40,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39
     ]
 );
@@ -629,7 +646,7 @@ implement_try_from!(
 implement_from!(
     u41,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40
     ]
 );
@@ -644,7 +661,7 @@ implement_try_from!(
 implement_from!(
     u42,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41
     ]
 );
@@ -659,7 +676,7 @@ implement_try_from!(
 implement_from!(
     u43,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42
     ]
@@ -675,7 +692,7 @@ implement_try_from!(
 implement_from!(
     u44,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43
     ]
@@ -691,7 +708,7 @@ implement_try_from!(
 implement_from!(
     u45,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44
     ]
@@ -707,7 +724,7 @@ implement_try_from!(
 implement_from!(
     u46,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45
     ]
@@ -720,7 +737,7 @@ implement_try_from!(
 implement_from!(
     u47,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45, u46
     ]
@@ -733,7 +750,7 @@ implement_try_from!(
 implement_from!(
     u48,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45, u46, u47
     ]
@@ -746,7 +763,7 @@ implement_try_from!(
 implement_from!(
     u49,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45, u46, u47, u48
     ]
@@ -759,7 +776,7 @@ implement_try_from!(
 implement_from!(
     u50,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45, u46, u47, u48, u49
     ]
@@ -772,7 +789,7 @@ implement_try_from!(
 implement_from!(
     u51,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45, u46, u47, u48, u49, u50
     ]
@@ -785,7 +802,7 @@ implement_try_from!(
 implement_from!(
     u52,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45, u46, u47, u48, u49, u50, u51
     ]
@@ -798,7 +815,7 @@ implement_try_from!(
 implement_from!(
     u53,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45, u46, u47, u48, u49, u50, u51, u52
     ]
@@ -811,7 +828,7 @@ implement_try_from!(
 implement_from!(
     u54,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45, u46, u47, u48, u49, u50, u51, u52, u53
     ]
@@ -821,7 +838,7 @@ implement_try_from!(u54, [u55, u56, u57, u58, u59, u60, u61, u62, u63, usize]);
 implement_from!(
     u55,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45, u46, u47, u48, u49, u50, u51, u52, u53, u54
     ]
@@ -831,7 +848,7 @@ implement_try_from!(u55, [u56, u57, u58, u59, u60, u61, u62, u63, usize]);
 implement_from!(
     u56,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45, u46, u47, u48, u49, u50, u51, u52, u53, u54, u55
     ]
@@ -841,7 +858,7 @@ implement_try_from!(u56, [u57, u58, u59, u60, u61, u62, u63, usize]);
 implement_from!(
     u57,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45, u46, u47, u48, u49, u50, u51, u52, u53, u54, u55, u56
     ]
@@ -851,7 +868,7 @@ implement_try_from!(u57, [u58, u59, u60, u61, u62, u63, usize]);
 implement_from!(
     u58,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45, u46, u47, u48, u49, u50, u51, u52, u53, u54, u55, u56, u57
     ]
@@ -861,7 +878,7 @@ implement_try_from!(u58, [u59, u60, u61, u62, u63, usize]);
 implement_from!(
     u59,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45, u46, u47, u48, u49, u50, u51, u52, u53, u54, u55, u56, u57, u58
     ]
@@ -871,7 +888,7 @@ implement_try_from!(u59, [u60, u61, u62, u63, usize]);
 implement_from!(
     u60,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45, u46, u47, u48, u49, u50, u51, u52, u53, u54, u55, u56, u57, u58, u59
     ]
@@ -881,7 +898,7 @@ implement_try_from!(u60, [u61, u62, u63, usize]);
 implement_from!(
     u61,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45, u46, u47, u48, u49, u50, u51, u52, u53, u54, u55, u56, u57, u58, u59,
         u60
@@ -892,7 +909,7 @@ implement_try_from!(u61, [u62, u63, usize]);
 implement_from!(
     u62,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45, u46, u47, u48, u49, u50, u51, u52, u53, u54, u55, u56, u57, u58, u59,
         u60, u61
@@ -901,7 +918,7 @@ implement_from!(
 implement_from!(
     u63,
     [
-        u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
+        u1, u2, u3, u4, u5, u6, u7, u9, u10, u11, u12, u13, u14, u15, u17, u18, u19, u20, u21, u22,
         u23, u24, u25, u26, u27, u28, u29, u30, u31, u33, u34, u35, u36, u37, u38, u39, u40, u41,
         u42, u43, u44, u45, u46, u47, u48, u49, u50, u51, u52, u53, u54, u55, u56, u57, u58, u59,
         u60, u61, u62
