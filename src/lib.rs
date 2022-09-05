@@ -701,100 +701,92 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_masking() {
-        assert_eq!(u4(0b11000110).mask().0, 0b00000110);
-        assert_eq!(u4(0b00001000).mask().0, 0b00001000);
-        assert_eq!(u4(0b00001110).mask().0, 0b00001110);
-
-        assert_eq!(i4(0b11000110u8 as i8).mask().0, 0b00000110u8 as i8);
-        assert_eq!(i4(0b00001000u8 as i8).mask().0, 0b11111000u8 as i8);
-        assert_eq!(i4(0b00001110u8 as i8).mask().0, 0b11111110u8 as i8);
-    }
-
-    #[test]
     fn min_max_values() {
-        assert_eq!(u1::MAX, u1(1));
-        assert_eq!(u2::MAX, u2(3));
-        assert_eq!(u3::MAX, u3(7));
-        assert_eq!(u7::MAX, u7(127));
-        assert_eq!(u9::MAX, u9(511));
+        let a = u1::MAX;
+        let b = u1::new(1);
+        assert_eq!(a, b);
+        assert_eq!(u1::MAX, u1::new(1));
+        assert_eq!(u2::MAX, u2::new(3));
+        assert_eq!(u3::MAX, u3::new(7));
+        assert_eq!(u7::MAX, u7::new(127));
+        assert_eq!(u9::MAX, u9::new(511));
 
-        assert_eq!(i1::MAX, i1(0));
-        assert_eq!(i2::MAX, i2(1));
-        assert_eq!(i3::MAX, i3(3));
-        assert_eq!(i7::MAX, i7(63));
-        assert_eq!(i9::MAX, i9(255));
+        assert_eq!(i1::MAX, i1::new(0));
+        assert_eq!(i2::MAX, i2::new(1));
+        assert_eq!(i3::MAX, i3::new(3));
+        assert_eq!(i7::MAX, i7::new(63));
+        assert_eq!(i9::MAX, i9::new(255));
 
-        assert_eq!(u1::MIN, u1(0));
-        assert_eq!(u2::MIN, u2(0));
-        assert_eq!(u3::MIN, u3(0));
-        assert_eq!(u7::MIN, u7(0));
-        assert_eq!(u9::MIN, u9(0));
-        assert_eq!(u127::MIN, u127(0));
+        assert_eq!(u1::MIN, u1::new(0));
+        assert_eq!(u2::MIN, u2::new(0));
+        assert_eq!(u3::MIN, u3::new(0));
+        assert_eq!(u7::MIN, u7::new(0));
+        assert_eq!(u9::MIN, u9::new(0));
+        assert_eq!(u127::MIN, u127::new(0));
 
-        assert_eq!(i1::MIN, i1(-1));
-        assert_eq!(i2::MIN, i2(-2));
-        assert_eq!(i3::MIN, i3(-4));
-        assert_eq!(i7::MIN, i7(-64));
-        assert_eq!(i9::MIN, i9(-256));
+        assert_eq!(i1::MIN, i1::new(-1));
+        assert_eq!(i2::MIN, i2::new(-2));
+        assert_eq!(i3::MIN, i3::new(-4));
+        assert_eq!(i7::MIN, i7::new(-64));
+        assert_eq!(i9::MIN, i9::new(-256));
     }
 
     #[test]
     fn test_wrapping_add() {
-        assert_eq!(u1::MAX.wrapping_add(u1(1)), u1(0));
-        assert_eq!(u1::MAX.wrapping_add(u1(0)), u1(1));
+        assert_eq!(u1::MAX.wrapping_add(u1::new(1)), u1::new(0));
+        assert_eq!(u1::MAX.wrapping_add(u1::new(0)), u1::new(1));
 
-        assert_eq!(u5::MAX.wrapping_add(u5(1)), u5(0));
-        assert_eq!(u5::MAX.wrapping_add(u5(4)), u5(3));
+        assert_eq!(u5::MAX.wrapping_add(u5::new(1)), u5::new(0));
+        assert_eq!(u5::MAX.wrapping_add(u5::new(4)), u5::new(3));
 
-        assert_eq!(u127::MAX.wrapping_add(u127(100)), u127(99));
-        assert_eq!(u127::MAX.wrapping_add(u127(1)), u127(0));
+        assert_eq!(u127::MAX.wrapping_add(u127::new(100)), u127::new(99));
+        assert_eq!(u127::MAX.wrapping_add(u127::new(1)), u127::new(0));
 
-        assert_eq!(i1::MAX.wrapping_add(i1(0)), i1(0));
-        assert_eq!(i1::MAX.wrapping_add(i1(-1)), i1(-1));
+        assert_eq!(i1::MAX.wrapping_add(i1::new(0)), i1::new(0));
+        assert_eq!(i1::MAX.wrapping_add(i1::new(-1)), i1::new(-1));
 
-        assert_eq!(i7::MAX.wrapping_add(i7(1)), i7::MIN);
-        assert_eq!(i7::MAX.wrapping_add(i7(4)), i7(-61));
+        assert_eq!(i7::MAX.wrapping_add(i7::new(1)), i7::MIN);
+        assert_eq!(i7::MAX.wrapping_add(i7::new(4)), i7::new(-61));
     }
 
     #[test]
     #[should_panic]
     fn test_add_overflow_u5() {
-        let _s = u5::MAX + u5(1);
+        let _s = u5::MAX + u5::new(1);
     }
 
     #[test]
     #[should_panic]
     fn test_add_overflow_u127() {
-        let _s = u127::MAX + u127(1);
+        let _s = u127::MAX + u127::new(1);
     }
 
     #[test]
     #[should_panic]
     fn test_add_overflow_i96() {
-        let _s = i96::MAX + i96(100);
+        let _s = i96::MAX + i96::new(100);
     }
 
     #[test]
     #[should_panic]
     fn test_add_underflow_i96() {
-        let _s = i96::MIN + i96(-100);
+        let _s = i96::MIN + i96::new(-100);
     }
 
     #[test]
     #[should_panic]
     fn test_add_underflow_i17() {
-        let _s = i17::MIN + i17(-1);
+        let _s = i17::MIN + i17::new(-1);
     }
 
     #[test]
     fn test_add() {
-        assert_eq!(u5(1) + u5(2), u5(3));
+        assert_eq!(u5::new(1) + u5::new(2), u5::new(3));
 
-        assert_eq!(i7::MAX + i7::MIN, i7(-1));
-        assert_eq!(i7(4) + i7(-3), i7(1));
-        assert_eq!(i7(-4) + i7(3), i7(-1));
-        assert_eq!(i7(-3) + i7(-20), i7(-23));
+        assert_eq!(i7::MAX + i7::MIN, i7::new(-1));
+        assert_eq!(i7::new(4) + i7::new(-3), i7::new(1));
+        assert_eq!(i7::new(-4) + i7::new(3), i7::new(-1));
+        assert_eq!(i7::new(-3) + i7::new(-20), i7::new(-23));
     }
 
     #[test]
@@ -806,168 +798,168 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_sub_underflow_u5() {
-        let _s = u5::MIN - u5(1);
+        let _s = u5::MIN - u5::new(1);
     }
 
     #[test]
     #[should_panic]
     fn test_sub_underflow_i5() {
-        let _s = i5::MIN - i5(1);
+        let _s = i5::MIN - i5::new(1);
     }
 
     #[test]
     fn test_sub() {
-        assert_eq!(u5(1) - u5(1), u5(0));
-        assert_eq!(u5(3) - u5(2), u5(1));
+        assert_eq!(u5::new(1) - u5::new(1), u5::new(0));
+        assert_eq!(u5::new(3) - u5::new(2), u5::new(1));
 
-        assert_eq!(i1(-1) - i1(-1), i1(0));
-        assert_eq!(i7::MIN - i7::MIN, i7(0));
-        assert_eq!(i7(4) - i7(-3), i7(7));
-        assert_eq!(i7(-4) - i7(3), i7(-7));
-        assert_eq!(i7(-3) - i7(-20), i7(17));
+        assert_eq!(i1::new(-1) - i1::new(-1), i1::new(0));
+        assert_eq!(i7::MIN - i7::MIN, i7::new(0));
+        assert_eq!(i7::new(4) - i7::new(-3), i7::new(7));
+        assert_eq!(i7::new(-4) - i7::new(3), i7::new(-7));
+        assert_eq!(i7::new(-3) - i7::new(-20), i7::new(17));
     }
 
     #[test]
     fn test_shr() {
-        assert_eq!(u5(8) >> 1usize, u5(4));
-        assert_eq!(u5(8) >> 1u8, u5(4));
-        assert_eq!(u5(8) >> 1u16, u5(4));
-        assert_eq!(u5(8) >> 1u32, u5(4));
-        assert_eq!(u5(8) >> 1u64, u5(4));
-        assert_eq!(u5(8) >> 1isize, u5(4));
-        assert_eq!(u5(8) >> 1i8, u5(4));
-        assert_eq!(u5(8) >> 1i16, u5(4));
-        assert_eq!(u5(8) >> 1i32, u5(4));
-        assert_eq!(u5(8) >> 1i64, u5(4));
+        assert_eq!(u5::new(8) >> 1usize, u5::new(4));
+        assert_eq!(u5::new(8) >> 1u8, u5::new(4));
+        assert_eq!(u5::new(8) >> 1u16, u5::new(4));
+        assert_eq!(u5::new(8) >> 1u32, u5::new(4));
+        assert_eq!(u5::new(8) >> 1u64, u5::new(4));
+        assert_eq!(u5::new(8) >> 1isize, u5::new(4));
+        assert_eq!(u5::new(8) >> 1i8, u5::new(4));
+        assert_eq!(u5::new(8) >> 1i16, u5::new(4));
+        assert_eq!(u5::new(8) >> 1i32, u5::new(4));
+        assert_eq!(u5::new(8) >> 1i64, u5::new(4));
 
-        assert_eq!(u5::MAX >> 4, u5(1));
+        assert_eq!(u5::MAX >> 4, u5::new(1));
 
-        assert_eq!(i7(-1) >> 5, i7(-1));
+        assert_eq!(i7::new(-1) >> 5, i7::new(-1));
     }
 
     #[test]
     fn test_shl() {
-        assert_eq!(u5(16) << 1usize, u5(32));
-        assert_eq!(u5(16) << 1u8, u5(32));
-        assert_eq!(u5(16) << 1u16, u5(32));
-        assert_eq!(u5(16) << 1u32, u5(32));
-        assert_eq!(u5(16) << 1u64, u5(32));
-        assert_eq!(u5(16) << 1isize, u5(32));
-        assert_eq!(u5(16) << 1i8, u5(32));
-        assert_eq!(u5(16) << 1i16, u5(32));
-        assert_eq!(u5(16) << 1i32, u5(32));
-        assert_eq!(u5(16) << 1i64, u5(32));
+        assert_eq!(u5::new(15) << 1usize, u5::new(30));
+        assert_eq!(u5::new(15) << 1u8, u5::new(30));
+        assert_eq!(u5::new(15) << 1u16, u5::new(30));
+        assert_eq!(u5::new(15) << 1u32, u5::new(30));
+        assert_eq!(u5::new(15) << 1u64, u5::new(30));
+        assert_eq!(u5::new(15) << 1isize, u5::new(30));
+        assert_eq!(u5::new(15) << 1i8, u5::new(30));
+        assert_eq!(u5::new(15) << 1i16, u5::new(30));
+        assert_eq!(u5::new(15) << 1i32, u5::new(30));
+        assert_eq!(u5::new(15) << 1i64, u5::new(30));
 
-        assert_eq!(u5::MAX << 4, u5(16));
+        assert_eq!(u5::MAX << 4, u5::new(16));
 
-        assert_eq!(i5(16) << 1, i5(0));
-        assert_eq!(i7(1) << 3, i7(8));
+        assert_eq!(i5::new(8) << 1, i5::new(-16));
+        assert_eq!(i7::new(1) << 3, i7::new(8));
     }
 
     #[test]
     fn test_shr_assign() {
-        let mut x = u10(512);
+        let mut x = u10::new(512);
         x >>= 1usize;
-        assert_eq!(x, u10(256));
+        assert_eq!(x, u10::new(256));
         x >>= 1isize;
-        assert_eq!(x, u10(128));
+        assert_eq!(x, u10::new(128));
         x >>= 1u8;
-        assert_eq!(x, u10(64));
+        assert_eq!(x, u10::new(64));
         x >>= 1i8;
-        assert_eq!(x, u10(32));
+        assert_eq!(x, u10::new(32));
         x >>= 2u64;
-        assert_eq!(x, u10(8));
+        assert_eq!(x, u10::new(8));
         x >>= 3i32;
-        assert_eq!(x, u10(1));
+        assert_eq!(x, u10::new(1));
     }
 
     #[test]
     fn test_shl_assign() {
-        let mut x = u9(1);
+        let mut x = u9::new(1);
         x <<= 3i32;
-        assert_eq!(x, u9(8));
+        assert_eq!(x, u9::new(8));
         x <<= 2u64;
-        assert_eq!(x, u9(32));
+        assert_eq!(x, u9::new(32));
         x <<= 1usize;
-        assert_eq!(x, u9(64));
+        assert_eq!(x, u9::new(64));
         x <<= 1isize;
-        assert_eq!(x, u9(128));
+        assert_eq!(x, u9::new(128));
         x <<= 1u8;
-        assert_eq!(x, u9(256));
+        assert_eq!(x, u9::new(256));
     }
 
     #[test]
     fn test_bitor() {
-        assert_eq!(u9(1) | u9(8), u9(9));
-        assert_eq!(&u9(1) | u9(8), u9(9));
-        assert_eq!(u9(1) | &u9(8), u9(9));
-        assert_eq!(&u9(1) | &u9(8), u9(9));
+        assert_eq!(u9::new(1) | u9::new(8), u9::new(9));
+        assert_eq!(&u9::new(1) | u9::new(8), u9::new(9));
+        assert_eq!(u9::new(1) | &u9::new(8), u9::new(9));
+        assert_eq!(&u9::new(1) | &u9::new(8), u9::new(9));
     }
 
     #[test]
     fn test_bitor_assign() {
-        let mut x = u12(4);
-        x |= u12(1);
-        assert_eq!(x, u12(5));
-        x |= u12(128);
-        assert_eq!(x, u12(133));
-        x = u12(1);
-        x |= u12(127);
-        assert_eq!(x, u12(127));
+        let mut x = u12::new(4);
+        x |= u12::new(1);
+        assert_eq!(x, u12::new(5));
+        x |= u12::new(128);
+        assert_eq!(x, u12::new(133));
+        x = u12::new(1);
+        x |= u12::new(127);
+        assert_eq!(x, u12::new(127));
     }
 
     #[test]
     fn test_bitxor() {
-        assert_eq!(u7(0x7F) ^ u7(42), u7(85));
-        assert_eq!(&u7(0) ^ u7(42), u7(42));
-        assert_eq!(u7(0x10) ^ &u7(0x1), u7(0x11));
-        assert_eq!(&u7(11) ^ &u7(1), u7(10));
+        assert_eq!(u7::new(0x7F) ^ u7::new(42), u7::new(85));
+        assert_eq!(&u7::new(0) ^ u7::new(42), u7::new(42));
+        assert_eq!(u7::new(0x10) ^ &u7::new(0x1), u7::new(0x11));
+        assert_eq!(&u7::new(11) ^ &u7::new(1), u7::new(10));
     }
 
     #[test]
     fn test_bitxor_assign() {
-        let mut x = u12(4);
-        x ^= u12(1);
-        assert_eq!(x, u12(5));
-        x ^= u12(128);
-        assert_eq!(x, u12(133));
-        x ^= u12(1);
-        assert_eq!(x, u12(132));
-        x ^= u12(127);
-        assert_eq!(x, u12(251));
+        let mut x = u12::new(4);
+        x ^= u12::new(1);
+        assert_eq!(x, u12::new(5));
+        x ^= u12::new(128);
+        assert_eq!(x, u12::new(133));
+        x ^= u12::new(1);
+        assert_eq!(x, u12::new(132));
+        x ^= u12::new(127);
+        assert_eq!(x, u12::new(251));
     }
 
     #[test]
     fn test_bitand() {
-        assert_eq!(i9(-7) & i9(-9), i9::from(-7i8 & -9i8));
-        assert_eq!(&i9(-7) & i9(-9), i9::from(&-7i8 & -9i8));
-        assert_eq!(i9(-7) & &i9(-9), i9::from(-7i8 & &-9i8));
-        assert_eq!(&i9(-7) & &i9(-9), i9::from(&-7i8 & &-9i8));
+        assert_eq!(i9::new(-7) & i9::new(-9), i9::from(-7i8 & -9i8));
+        assert_eq!(&i9::new(-7) & i9::new(-9), i9::from(&-7i8 & -9i8));
+        assert_eq!(i9::new(-7) & &i9::new(-9), i9::from(-7i8 & &-9i8));
+        assert_eq!(&i9::new(-7) & &i9::new(-9), i9::from(&-7i8 & &-9i8));
 
-        assert_eq!(u9(8) & u9(9), u9(8));
-        assert_eq!(&u9(8) & u9(9), u9(8));
-        assert_eq!(u9(8) & &u9(9), u9(8));
-        assert_eq!(&u9(8) & &u9(9), u9(8));
+        assert_eq!(u9::new(8) & u9::new(9), u9::new(8));
+        assert_eq!(&u9::new(8) & u9::new(9), u9::new(8));
+        assert_eq!(u9::new(8) & &u9::new(9), u9::new(8));
+        assert_eq!(&u9::new(8) & &u9::new(9), u9::new(8));
     }
 
     #[test]
     fn test_bitand_assign() {
-        let mut x = u12(255);
-        x &= u12(127);
-        assert_eq!(x, u12(127));
-        x &= u12(7);
-        assert_eq!(x, u12(7));
-        x &= u12(127);
-        assert_eq!(x, u12(7));
-        x &= u12(4);
-        assert_eq!(x, u12(4));
+        let mut x = u12::new(255);
+        x &= u12::new(127);
+        assert_eq!(x, u12::new(127));
+        x &= u12::new(7);
+        assert_eq!(x, u12::new(7));
+        x &= u12::new(127);
+        assert_eq!(x, u12::new(7));
+        x &= u12::new(4);
+        assert_eq!(x, u12::new(4));
     }
 
     #[test]
     fn test_not() {
-        assert_eq!(!u7(42), u7(85));
-        assert_eq!(!u7(0x7F), u7(0));
-        assert_eq!(!u7(0), u7(0x7F));
-        assert_eq!(!u7(56), u7(71));
+        assert_eq!(!u7::new(42), u7::new(85));
+        assert_eq!(!u7::new(0x7F), u7::new(0));
+        assert_eq!(!u7::new(0), u7::new(0x7F));
+        assert_eq!(!u7::new(56), u7::new(71));
     }
 }
