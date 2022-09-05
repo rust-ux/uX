@@ -1,18 +1,18 @@
 use super::new_byte;
 
-new_byte!(Max1(i8) {
+new_byte!(MaxI1(i8) {
     M1 = -1,
     V0 = 0,
 });
 
- new_byte!(Max2(i8) {
+ new_byte!(MaxI2(i8) {
     M2 = -2,
     M1 = -1,
     V0 = 0,
     V1 = 1,
 });
 
- new_byte!(Max3(i8) {
+ new_byte!(MaxI3(i8) {
     M4 = -4,
     M3 = -3,
     M2 = -2,
@@ -23,7 +23,7 @@ new_byte!(Max1(i8) {
     V3 = 3,
 });
 
- new_byte!(Max4(i8) {
+ new_byte!(MaxI4(i8) {
     M8 = -8,
     M7 = -7,
     M6 = -6,
@@ -42,7 +42,7 @@ new_byte!(Max1(i8) {
     V7 = 7,
 });
 
- new_byte!(Max5(i8) {
+ new_byte!(MaxI5(i8) {
     M16 = -16,
     M15 = -15,
     M14 = -14,
@@ -77,7 +77,7 @@ new_byte!(Max1(i8) {
     V15 = 15,
 });
 
- new_byte!(Max6(i8) {
+ new_byte!(MaxI6(i8) {
     M32 = -32,
     M31 = -31,
     M30 = -30,
@@ -144,7 +144,7 @@ new_byte!(Max1(i8) {
     V31 = 31,
 });
 
- new_byte!(Max7(i8) {
+ new_byte!(MaxI7(i8) {
     M64 = -64,
     M63 = -63,
     M62 = -62,
@@ -275,7 +275,7 @@ new_byte!(Max1(i8) {
     V63 = 63,
 });
 
- new_byte!(Max8(i8) {
+ new_byte!(MaxI8(i8) {
     M128 = -128,
     M127 = -127,
     M126 = -126,

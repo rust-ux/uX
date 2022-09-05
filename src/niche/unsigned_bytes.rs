@@ -1,22 +1,22 @@
 use super::new_byte;
 
-new_byte!(Max0(u8) {
+new_byte!(MaxU0(u8) {
     V0 = 0,
 });
 
-new_byte!(Max1(u8) {
+new_byte!(MaxU1(u8) {
     V0 = 0,
     V1 = 1,
 });
 
-new_byte!(Max2(u8) {
+new_byte!(MaxU2(u8) {
     V0 = 0,
     V1 = 1,
     V2 = 2,
     V3 = 3,
 });
 
-new_byte!(Max3(u8) {
+new_byte!(MaxU3(u8) {
     V0 = 0,
     V1 = 1,
     V2 = 2,
@@ -27,7 +27,7 @@ new_byte!(Max3(u8) {
     V7 = 7,
 });
 
-new_byte!(Max4(u8) {
+new_byte!(MaxU4(u8) {
     V0 = 0,
     V1 = 1,
     V2 = 2,
@@ -46,7 +46,7 @@ new_byte!(Max4(u8) {
     V15 = 15,
 });
 
-new_byte!(Max5(u8) {
+new_byte!(MaxU5(u8) {
     V0 = 0,
     V1 = 1,
     V2 = 2,
@@ -81,7 +81,7 @@ new_byte!(Max5(u8) {
     V31 = 31,
 });
 
-new_byte!(Max6(u8) {
+new_byte!(MaxU6(u8) {
     V0 = 0,
     V1 = 1,
     V2 = 2,
@@ -148,7 +148,7 @@ new_byte!(Max6(u8) {
     V63 = 63,
 });
 
-new_byte!(Max7(u8) {
+new_byte!(MaxU7(u8) {
     V0 = 0,
     V1 = 1,
     V2 = 2,
@@ -279,7 +279,7 @@ new_byte!(Max7(u8) {
     V127 = 127,
 });
 
-new_byte!(Max8(u8) {
+new_byte!(MaxU8(u8) {
     V0 = 0,
     V1 = 1,
     V2 = 2,
