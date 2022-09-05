@@ -1,6 +1,5 @@
 use super::new_type;
-use super::signed_bytes::*;
-use super::unsigned_bytes::*;
+use super::bytes::*;
 
 new_type! {
     (i1 i8)

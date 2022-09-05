@@ -1,5 +1,5 @@
 use super::new_type;
-use super::unsigned_bytes::*;
+use super::bytes::*;
 
 new_type! {
     (u1 u8)

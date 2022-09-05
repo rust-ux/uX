@@ -1,6 +1,5 @@
-mod signed_bytes;
+mod bytes;
 mod signed;
-mod unsigned_bytes;
 mod unsigned;
 
 pub use signed::*;
