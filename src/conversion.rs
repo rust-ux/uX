@@ -24,7 +24,7 @@ macro_rules! implement_from {
     {$name:ident, $from:ty} => {
         impl From<$from> for $name {
             fn from(x: $from) -> $name {
-                $name(x.into())
+                unsafe { $name::new_unchecked(x.into()) }
             }
         }
     };
@@ -39,14 +39,7 @@ macro_rules! implement_try_from {
             type Error = TryFromIntError;
 
             fn try_from(x: $from) -> Result<$name, Self::Error> {
-                // First get the value into the correct type
-                let value = x.try_into()?;
-
-                if value <= $name::MAX.into() && value >= $name::MIN.into() {
-                    Ok($name(value))
-                } else {
-                    Err(TryFromIntError(()))
-                }
+                Self::try_new(x.try_into()?).ok_or(TryFromIntError(()))
             }
         }
     };
@@ -58,7 +51,7 @@ macro_rules! implement_into {
     {$name:ident, $into:ident} => {
         impl From<$name> for $into {
             fn from(x: $name) -> $into {
-                $into::from(x.0)
+                x.get().into()
             }
         }
     };
@@ -72,7 +65,7 @@ macro_rules! implement_try_into {
             type Error = TryFromIntError;
 
             fn try_from(x: $name) -> Result<$into, Self::Error> {
-                Ok($into::try_from(x.0)?)
+                Ok(x.get().try_into()?)
             }
         }
     };
@@ -1735,21 +1728,19 @@ implement_from!(
 );
 
 impl From<bool> for u1 {
+    #[inline]
     fn from(b: bool) -> Self {
-        match b {
-            true => u1(1),
-            false => u1(0),
-        }
+        unsafe { Self::new_unchecked(match b {
+            true => 1,
+            false => 0,
+        }) }
     }
 }
 
 impl From<u1> for bool {
-    fn from(u1(x): u1) -> Self {
-        match x {
-            0 => false,
-            1 => true,
-            _ => unreachable!(),
-        }
+    #[inline]
+    fn from(x: u1) -> Self {
+        x.get() != 0
     }
 }
 
