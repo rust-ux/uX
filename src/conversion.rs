@@ -5,12 +5,14 @@ use crate::*;
 pub struct TryFromIntError(pub(crate) ());
 
 impl From<lib::core::num::TryFromIntError> for TryFromIntError {
+    #[inline]
     fn from(_: lib::core::num::TryFromIntError) -> TryFromIntError {
         TryFromIntError(())
     }
 }
 
 impl From<lib::core::convert::Infallible> for TryFromIntError {
+    #[inline]
     fn from(_: lib::core::convert::Infallible) -> TryFromIntError {
         TryFromIntError(())
     }
@@ -23,6 +25,7 @@ macro_rules! implement_from {
     {[$($name:ident),*], $from:ident } => {$(implement_from!($name, $from);)*};
     {$name:ident, $from:ty} => {
         impl From<$from> for $name {
+            #[inline]
             fn from(x: $from) -> $name {
                 unsafe { $name::new_unchecked(x.into()) }
             }
@@ -38,6 +41,7 @@ macro_rules! implement_try_from {
         impl TryFrom<$from> for $name {
             type Error = TryFromIntError;
 
+            #[inline]
             fn try_from(x: $from) -> Result<$name, Self::Error> {
                 Self::try_new(x.try_into()?).ok_or(TryFromIntError(()))
             }
@@ -50,6 +54,7 @@ macro_rules! implement_into {
     {[$($name:ident),*], $from:ident } => {$(implement_into!($name, $from);)*};
     {$name:ident, $into:ident} => {
         impl From<$name> for $into {
+            #[inline]
             fn from(x: $name) -> $into {
                 x.get().into()
             }
@@ -64,6 +69,7 @@ macro_rules! implement_try_into {
         impl TryFrom<$name> for $into {
             type Error = TryFromIntError;
 
+            #[inline]
             fn try_from(x: $name) -> Result<$into, Self::Error> {
                 Ok(x.get().try_into()?)
             }

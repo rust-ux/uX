@@ -37,16 +37,19 @@ macro_rules! define_unsigned {
     ($name:ident, $bits:expr, $type:ident) => {define_unsigned!(#[doc=""], $name, $bits, $type);};
     (#[$doc:meta], $name:ident, $bits:expr, $type:ident) => {
         impl $name {
+            #[inline]
             fn mask(value: $type) -> Self {
                 let value = value & (((1 as $type) << $bits).overflowing_sub(1).0);
                 unsafe { $name::new_unchecked(value) }
             }
 
+            #[inline]
             fn mask_pos(value: $type) -> Self {
                 let value = value & (((1 as $type) << $bits).overflowing_sub(1).0);
                 unsafe { $name::new_unchecked(value) }
             }
 
+            #[inline]
             fn mask_neg(value: $type) -> Self {
                 let value = value & (((1 as $type) << $bits).overflowing_sub(1).0);
                 unsafe { $name::new_unchecked(value) }
@@ -62,6 +65,7 @@ macro_rules! define_signed {
     (#[$doc:meta], $name:ident, $bits:expr, $type:ident) => {
         #[$doc]
         impl $name {
+            #[inline]
             fn mask(value: $type) -> Self {
                 let value = if value & (1 << ($bits - 1)) == 0 {
                     value & (((1 as $type) << $bits).overflowing_sub(1).0)
@@ -71,11 +75,13 @@ macro_rules! define_signed {
                 unsafe { $name::new_unchecked(value) }
             }
 
+            #[inline]
             fn mask_pos(value: $type) -> Self {
                 let value = value & (((1 as $type) << $bits).overflowing_sub(1).0);
                 unsafe { $name::new_unchecked(value) }
             }
 
+            #[inline]
             fn mask_neg(value: $type) -> Self {
                 let value = value | !(((1 as $type) << $bits).overflowing_sub(1).0);
                 unsafe { $name::new_unchecked(value) }
@@ -101,11 +107,13 @@ macro_rules! implement_common {
             pub const MIN: Self = $name::new(crate::niche::$name::MIN);
 
             /// Returns the smallest value that can be represented by this integer type.
+            #[inline]
             pub fn min_value() -> $name {
                 $name::MIN
             }
 
             /// Returns the largest value that can be represented by this integer type.
+            #[inline]
             pub fn max_value() -> $name {
                 $name::MAX
             }
@@ -130,6 +138,7 @@ macro_rules! implement_common {
             ///
             /// This function will panic if `value` is not representable by this type
             #[allow(unreachable_patterns)]
+            #[inline]
             pub const fn new(value: $type) -> $name {
                 const MIN: $type = crate::niche::$name::MIN;
                 const MAX: $type = crate::niche::$name::MAX;
@@ -150,6 +159,7 @@ macro_rules! implement_common {
             /// assert_eq!(i15::try_new(0x4000), None);
             /// ```
             #[allow(unreachable_patterns)]
+            #[inline]
             pub const fn try_new(value: core::primitive::$type) -> Option<$name> {
                 const MIN: core::primitive::$type = crate::niche::$name::MIN;
                 const MAX: core::primitive::$type = crate::niche::$name::MAX;
@@ -209,6 +219,7 @@ macro_rules! implement_common {
             /// assert_eq!(i5::new(-10).wrapping_sub(i5::new(5)), i5::new(-15));
             /// assert_eq!(i5::new(-15).wrapping_sub(i5::new(5)), i5::new(12));
             /// ```
+            #[inline]
             pub fn wrapping_sub(self, rhs: Self) -> Self {
                 $name::mask(self.get().wrapping_sub(rhs.get()))
             }
@@ -228,18 +239,21 @@ macro_rules! implement_common {
             /// assert_eq!(i5::new(10).wrapping_add(i5::new(5)), i5::new(15));
             /// assert_eq!(i5::new(15).wrapping_add(i5::new(5)), i5::new(-12));
             /// ```
+            #[inline]
             pub fn wrapping_add(self, rhs: Self) -> Self {
                 $name::mask(self.get().wrapping_add(rhs.get()))
             }
         }
 
         impl Default for $name {
+            #[inline]
             fn default() -> Self {
                 unsafe { $name::new_unchecked(0) }
             }
         }
 
         impl PartialEq for $name {
+            #[inline]
             fn eq(&self, other: &Self) -> bool {
                 self.get() == other.get()
             }
@@ -248,18 +262,21 @@ macro_rules! implement_common {
         impl Eq for $name {}
 
         impl PartialOrd for $name {
+            #[inline]
             fn partial_cmp(&self, other: &$name) -> Option<Ordering> {
                 self.get().partial_cmp(&other.get())
             }
         }
 
         impl Ord for $name {
+            #[inline]
             fn cmp(&self, other: &$name) -> Ordering {
                 self.get().cmp(&other.get())
             }
         }
 
         impl Hash for $name {
+            #[inline]
             fn hash<H: Hasher>(&self, h: &mut H) {
                 self.get().hash(h)
             }
@@ -267,31 +284,42 @@ macro_rules! implement_common {
 
         // Implement formating functions
         impl Debug for $name {
+            #[inline]
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
                 Debug::fmt(&self.get(), f)
             }
         }
+
         impl Display for $name {
+            #[inline]
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
                 Display::fmt(&self.get(), f)
             }
         }
+
         impl UpperHex for $name {
+            #[inline]
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
                 UpperHex::fmt(&self.get(), f)
             }
         }
+
         impl LowerHex for $name {
+            #[inline]
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
                 LowerHex::fmt(&self.get(), f)
             }
         }
+
         impl Octal for $name {
+            #[inline]
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
                 Octal::fmt(&self.get(), f)
             }
         }
+
         impl Binary for $name {
+            #[inline]
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
                 Binary::fmt(&self.get(), f)
             }
@@ -303,6 +331,7 @@ macro_rules! implement_common {
         {
             type Output = $name;
 
+            #[inline]
             #[allow(unused_comparisons)]
             fn shr(self, rhs: T) -> $name {
                 let value = self.get();
@@ -320,6 +349,7 @@ macro_rules! implement_common {
         {
             type Output = $name;
 
+            #[inline]
             fn shl(self, rhs: T) -> $name {
                 $name::mask(self.get().shl(rhs))
             }
@@ -329,6 +359,7 @@ macro_rules! implement_common {
         where
             $type: Shr<T, Output = $type>,
         {
+            #[inline]
             fn shr_assign(&mut self, rhs: T) {
                 *self = self.shr(rhs);
             }
@@ -338,6 +369,7 @@ macro_rules! implement_common {
         where
             $type: Shl<T, Output = $type>,
         {
+            #[inline]
             fn shl_assign(&mut self, rhs: T) {
                 *self = self.shl(rhs);
             }
@@ -346,6 +378,7 @@ macro_rules! implement_common {
         impl BitOr<$name> for $name {
             type Output = $name;
 
+            #[inline]
             fn bitor(self, rhs: $name) -> Self::Output {
                 $name::mask(self.get().bitor(rhs.get()))
             }
@@ -354,6 +387,7 @@ macro_rules! implement_common {
         impl<'a> BitOr<&'a $name> for $name {
             type Output = <$name as BitOr<$name>>::Output;
 
+            #[inline]
             fn bitor(self, rhs: &'a $name) -> Self::Output {
                 $name::mask(self.get().bitor(rhs.get()))
             }
@@ -362,6 +396,7 @@ macro_rules! implement_common {
         impl<'a> BitOr<$name> for &'a $name {
             type Output = <$name as BitOr<$name>>::Output;
 
+            #[inline]
             fn bitor(self, rhs: $name) -> Self::Output {
                 $name::mask(self.get().bitor(rhs.get()))
             }
@@ -370,12 +405,14 @@ macro_rules! implement_common {
         impl<'a> BitOr<&'a $name> for &'a $name {
             type Output = <$name as BitOr<$name>>::Output;
 
+            #[inline]
             fn bitor(self, rhs: &'a $name) -> Self::Output {
                 $name::mask(self.get().bitor(rhs.get()))
             }
         }
 
         impl BitOrAssign<$name> for $name {
+            #[inline]
             fn bitor_assign(&mut self, other: $name) {
                 *self = self.bitor(other);
             }
@@ -384,6 +421,7 @@ macro_rules! implement_common {
         impl BitXor<$name> for $name {
             type Output = $name;
 
+            #[inline]
             fn bitxor(self, rhs: $name) -> Self::Output {
                 $name::mask(self.get().bitxor(rhs.get()))
             }
@@ -392,6 +430,7 @@ macro_rules! implement_common {
         impl<'a> BitXor<&'a $name> for $name {
             type Output = <$name as BitOr<$name>>::Output;
 
+            #[inline]
             fn bitxor(self, rhs: &'a $name) -> Self::Output {
                 $name::mask(self.get().bitxor(rhs.get()))
             }
@@ -400,6 +439,7 @@ macro_rules! implement_common {
         impl<'a> BitXor<$name> for &'a $name {
             type Output = <$name as BitOr<$name>>::Output;
 
+            #[inline]
             fn bitxor(self, rhs: $name) -> Self::Output {
                 $name::mask(self.get().bitxor(rhs.get()))
             }
@@ -408,12 +448,14 @@ macro_rules! implement_common {
         impl<'a> BitXor<&'a $name> for &'a $name {
             type Output = <$name as BitOr<$name>>::Output;
 
+            #[inline]
             fn bitxor(self, rhs: &'a $name) -> Self::Output {
                 $name::mask(self.get().bitxor(rhs.get()))
             }
         }
 
         impl BitXorAssign<$name> for $name {
+            #[inline]
             fn bitxor_assign(&mut self, other: $name) {
                 *self = self.bitxor(other);
             }
@@ -422,6 +464,7 @@ macro_rules! implement_common {
         impl Not for $name {
             type Output = $name;
 
+            #[inline]
             fn not(self) -> $name {
                 $name::mask(self.get().not())
             }
@@ -430,6 +473,7 @@ macro_rules! implement_common {
         impl<'a> Not for &'a $name {
             type Output = <$name as Not>::Output;
 
+            #[inline]
             fn not(self) -> $name {
                 $name::mask(self.get().not())
             }
@@ -438,6 +482,7 @@ macro_rules! implement_common {
         impl BitAnd<$name> for $name {
             type Output = $name;
 
+            #[inline]
             fn bitand(self, rhs: $name) -> Self::Output {
                 $name::mask(self.get().bitand(rhs.get()))
             }
@@ -446,6 +491,7 @@ macro_rules! implement_common {
         impl<'a> BitAnd<&'a $name> for $name {
             type Output = <$name as BitOr<$name>>::Output;
 
+            #[inline]
             fn bitand(self, rhs: &'a $name) -> Self::Output {
                 $name::mask(self.get().bitand(rhs.get()))
             }
@@ -454,6 +500,7 @@ macro_rules! implement_common {
         impl<'a> BitAnd<$name> for &'a $name {
             type Output = <$name as BitOr<$name>>::Output;
 
+            #[inline]
             fn bitand(self, rhs: $name) -> Self::Output {
                 $name::mask(self.get().bitand(rhs.get()))
             }
@@ -462,12 +509,14 @@ macro_rules! implement_common {
         impl<'a> BitAnd<&'a $name> for &'a $name {
             type Output = <$name as BitOr<$name>>::Output;
 
+            #[inline]
             fn bitand(self, rhs: &'a $name) -> Self::Output {
                 $name::mask(self.get().bitand(rhs.get()))
             }
         }
 
         impl BitAndAssign<$name> for $name {
+            #[inline]
             fn bitand_assign(&mut self, other: $name) {
                 *self = self.bitand(other);
             }
@@ -475,7 +524,9 @@ macro_rules! implement_common {
 
         impl lib::core::ops::Add<$name> for $name {
             type Output = $name;
+
             #[allow(unused_comparisons)]
+            #[inline]
             fn add(self, other: $name) -> $name {
                 if self.get() > 0 && other.get() > 0 {
                     debug_assert!($name::MAX.get() - other.get() >= self.get());
@@ -488,7 +539,9 @@ macro_rules! implement_common {
 
         impl lib::core::ops::Sub<$name> for $name {
             type Output = $name;
+
             #[allow(unused_comparisons)]
+            #[inline]
             fn sub(self, other: $name) -> $name {
                 if self > other {
                     debug_assert!($name::MAX.get() + other.get() >= self.get());
