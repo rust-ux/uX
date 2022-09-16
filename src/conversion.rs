@@ -4,14 +4,16 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct TryFromIntError(pub(crate) ());
 
-impl From<lib::core::num::TryFromIntError> for TryFromIntError {
-    fn from(_: lib::core::num::TryFromIntError) -> TryFromIntError {
+impl From<core::num::TryFromIntError> for TryFromIntError {
+    #[inline]
+    fn from(_: core::num::TryFromIntError) -> TryFromIntError {
         TryFromIntError(())
     }
 }
 
-impl From<lib::core::convert::Infallible> for TryFromIntError {
-    fn from(_: lib::core::convert::Infallible) -> TryFromIntError {
+impl From<core::convert::Infallible> for TryFromIntError {
+    #[inline]
+    fn from(_: core::convert::Infallible) -> TryFromIntError {
         TryFromIntError(())
     }
 }
@@ -23,8 +25,9 @@ macro_rules! implement_from {
     {[$($name:ident),*], $from:ident } => {$(implement_from!($name, $from);)*};
     {$name:ident, $from:ty} => {
         impl From<$from> for $name {
+            #[inline]
             fn from(x: $from) -> $name {
-                $name(x.into())
+                unsafe { $name::new_unchecked(x.into()) }
             }
         }
     };
@@ -38,15 +41,9 @@ macro_rules! implement_try_from {
         impl TryFrom<$from> for $name {
             type Error = TryFromIntError;
 
+            #[inline]
             fn try_from(x: $from) -> Result<$name, Self::Error> {
-                // First get the value into the correct type
-                let value = x.try_into()?;
-
-                if value <= $name::MAX.into() && value >= $name::MIN.into() {
-                    Ok($name(value))
-                } else {
-                    Err(TryFromIntError(()))
-                }
+                Self::try_new(x.try_into()?).ok_or(TryFromIntError(()))
             }
         }
     };
@@ -57,8 +54,9 @@ macro_rules! implement_into {
     {[$($name:ident),*], $from:ident } => {$(implement_into!($name, $from);)*};
     {$name:ident, $into:ident} => {
         impl From<$name> for $into {
+            #[inline]
             fn from(x: $name) -> $into {
-                $into::from(x.0)
+                x.get().into()
             }
         }
     };
@@ -71,8 +69,9 @@ macro_rules! implement_try_into {
         impl TryFrom<$name> for $into {
             type Error = TryFromIntError;
 
+            #[inline]
             fn try_from(x: $name) -> Result<$into, Self::Error> {
-                Ok($into::try_from(x.0)?)
+                Ok(x.get().try_into()?)
             }
         }
     };
@@ -1735,21 +1734,19 @@ implement_from!(
 );
 
 impl From<bool> for u1 {
+    #[inline]
     fn from(b: bool) -> Self {
-        match b {
-            true => u1(1),
-            false => u1(0),
-        }
+        unsafe { Self::new_unchecked(match b {
+            true => 1,
+            false => 0,
+        }) }
     }
 }
 
 impl From<u1> for bool {
-    fn from(u1(x): u1) -> Self {
-        match x {
-            0 => false,
-            1 => true,
-            _ => unreachable!(),
-        }
+    #[inline]
+    fn from(x: u1) -> Self {
+        x.get() != 0
     }
 }
 
@@ -1759,45 +1756,45 @@ mod tests {
 
     #[test]
     fn test_infallible_conversion_unsigned() {
-        assert_eq!(u16::from(u9(12)), 12u16);
-        assert_eq!(u32::from(u9(12)), 12u32);
+        assert_eq!(u16::from(u9::new(12)), 12u16);
+        assert_eq!(u32::from(u9::new(12)), 12u32);
 
-        assert_eq!(u9(127), 127u8.into());
+        assert_eq!(u9::new(127), 127u8.into());
 
-        assert_eq!(u7::from(u6(65)), u7(65));
+        assert_eq!(u7::from(u6::new(25)), u7::new(25));
     }
 
     #[test]
     fn test_infallible_conversion_signed() {
-        assert_eq!(i16::from(i9(12)), 12i16);
-        assert_eq!(i32::from(i9(12)), 12i32);
+        assert_eq!(i16::from(i9::new(12)), 12i16);
+        assert_eq!(i32::from(i9::new(12)), 12i32);
 
-        assert_eq!(i16::from(i9(-12)), -12i16);
-        assert_eq!(i32::from(i9(-12)), -12i32);
+        assert_eq!(i16::from(i9::new(-12)), -12i16);
+        assert_eq!(i32::from(i9::new(-12)), -12i32);
 
-        assert_eq!(i9(127), 127i8.into());
+        assert_eq!(i9::new(127), 127i8.into());
 
-        assert_eq!(i7::from(i6(65)), i7(65));
-        assert_eq!(i7::from(i6(-65)), i7(-65));
+        assert_eq!(i7::from(i6::new(25)), i7::new(25));
+        assert_eq!(i7::from(i6::new(-25)), i7::new(-25));
     }
 
     #[test]
     fn test_fallible_conversion_unsigned() {
-        assert_eq!(u16::try_from(u9(12)), Ok(12u16));
-        assert_eq!(u32::try_from(u9(12)), Ok(12u32));
+        assert_eq!(u16::try_from(u9::new(12)), Ok(12u16));
+        assert_eq!(u32::try_from(u9::new(12)), Ok(12u32));
 
-        assert_eq!(127u8.try_into(), Ok(u9(127)));
+        assert_eq!(127u8.try_into(), Ok(u9::new(127)));
 
-        assert_eq!(u7::try_from(u6(65)), Ok(u7(65)));
+        assert_eq!(u7::try_from(u6::new(25)), Ok(u7::new(25)));
 
-        assert!(u16::try_from(u19(0x1_ffff)).is_err());
-        assert!(u32::try_from(u39(0x1_fffff_ffff)).is_err());
+        assert!(u16::try_from(u19::new(0x1_ffff)).is_err());
+        assert!(u32::try_from(u39::new(0x1_fffff_ffff)).is_err());
 
-        assert!(u6::try_from(u7(127)).is_err());
+        assert!(u6::try_from(u7::new(127)).is_err());
 
-        assert_eq!(u2::try_from(1usize), Ok(u2(1)));
+        assert_eq!(u2::try_from(1usize), Ok(u2::new(1)));
         assert!(u2::try_from(4usize).is_err());
-        assert_eq!(u2(1).try_into(), Ok(1usize));
+        assert_eq!(u2::new(1).try_into(), Ok(1usize));
 
         // Make sure that uX types behave the same as standard types with regards to usize
         // conversion.
@@ -1809,24 +1806,24 @@ mod tests {
 
     #[test]
     fn test_fallible_conversion_signed() {
-        assert_eq!(i16::try_from(i9(12)), Ok(12i16));
-        assert_eq!(i32::try_from(i9(12)), Ok(12i32));
+        assert_eq!(i16::try_from(i9::new(12)), Ok(12i16));
+        assert_eq!(i32::try_from(i9::new(12)), Ok(12i32));
 
-        assert_eq!(i16::try_from(i9(-12)), Ok(-12i16));
-        assert_eq!(i32::try_from(i9(-12)), Ok(-12i32));
+        assert_eq!(i16::try_from(i9::new(-12)), Ok(-12i16));
+        assert_eq!(i32::try_from(i9::new(-12)), Ok(-12i32));
 
-        assert_eq!(127i8.try_into(), Ok(i9(127)));
+        assert_eq!(127i8.try_into(), Ok(i9::new(127)));
 
-        assert_eq!(i7::try_from(i6(65)), Ok(i7(65)));
-        assert_eq!(i7::try_from(i6(-65)), Ok(i7(-65)));
+        assert_eq!(i7::try_from(i6::new(25)), Ok(i7::new(25)));
+        assert_eq!(i7::try_from(i6::new(-25)), Ok(i7::new(-25)));
 
-        assert!(i16::try_from(i19(0xffff)).is_err());
-        assert!(i32::try_from(i39(0xffff_ffff)).is_err());
+        assert!(i16::try_from(i19::new(0xffff)).is_err());
+        assert!(i32::try_from(i39::new(0xffff_ffff)).is_err());
 
-        assert!(i16::try_from(i19(-0xffff)).is_err());
-        assert!(i32::try_from(i39(-0xffff_ffff)).is_err());
+        assert!(i16::try_from(i19::new(-0xffff)).is_err());
+        assert!(i32::try_from(i39::new(-0xffff_ffff)).is_err());
 
-        assert!(i6::try_from(i7(64)).is_err());
-        assert!(i6::try_from(i7(-64)).is_err());
+        assert!(i6::try_from(i7::new(63)).is_err());
+        assert!(i6::try_from(i7::new(-64)).is_err());
     }
 }
