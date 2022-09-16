@@ -14,24 +14,17 @@
 
 #![no_std]
 
-mod lib {
-    pub use core;
-}
-
 mod conversion;
-
 mod niche;
 
-use lib::core::ops::{
-    BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not, Shl, ShlAssign, Shr,
-    ShrAssign,
+use core::cmp::{Ord, Ordering, PartialOrd};
+use core::fmt::{Binary, Debug, Display, Formatter, LowerHex, Octal, UpperHex};
+use core::hash::{Hash, Hasher};
+use core::ops::{
+    Add, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not, Shl, ShlAssign, Shr,
+    ShrAssign, Sub,
 };
-
-use lib::core::hash::{Hash, Hasher};
-
-use lib::core::cmp::{Ord, Ordering, PartialOrd};
-
-use lib::core::fmt::{Binary, Debug, Display, Formatter, LowerHex, Octal, UpperHex};
+use core::{fmt, mem};
 
 macro_rules! define_unsigned {
     ($(($doc:literal $name:ident $bits:literal $type:ident))*) => {
@@ -188,7 +181,7 @@ macro_rules! implement_common {
             /// ```
             #[inline]
             pub const unsafe fn new_unchecked(value: $type) -> $name {
-                Self(lib::core::mem::transmute(value))
+                Self(mem::transmute(value))
             }
 
             /// Get the contained value
@@ -204,7 +197,7 @@ macro_rules! implement_common {
             /// ```
             #[inline]
             pub const fn get(self) -> $type {
-                unsafe { lib::core::mem::transmute(self.0) }
+                unsafe { mem::transmute(self.0) }
             }
 
             /// Wrapping (modular) subtraction. Computes `self - other`,
@@ -288,42 +281,42 @@ macro_rules! implement_common {
         // Implement formating functions
         impl Debug for $name {
             #[inline]
-            fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
+            fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {
                 Debug::fmt(&self.get(), f)
             }
         }
 
         impl Display for $name {
             #[inline]
-            fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
+            fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {
                 Display::fmt(&self.get(), f)
             }
         }
 
         impl UpperHex for $name {
             #[inline]
-            fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
+            fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {
                 UpperHex::fmt(&self.get(), f)
             }
         }
 
         impl LowerHex for $name {
             #[inline]
-            fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
+            fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {
                 LowerHex::fmt(&self.get(), f)
             }
         }
 
         impl Octal for $name {
             #[inline]
-            fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
+            fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {
                 Octal::fmt(&self.get(), f)
             }
         }
 
         impl Binary for $name {
             #[inline]
-            fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
+            fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {
                 Binary::fmt(&self.get(), f)
             }
         }
@@ -525,7 +518,7 @@ macro_rules! implement_common {
             }
         }
 
-        impl lib::core::ops::Add<$name> for $name {
+        impl Add<$name> for $name {
             type Output = $name;
 
             #[allow(unused_comparisons)]
@@ -540,7 +533,7 @@ macro_rules! implement_common {
             }
         }
 
-        impl lib::core::ops::Sub<$name> for $name {
+        impl Sub<$name> for $name {
             type Output = $name;
 
             #[allow(unused_comparisons)]
