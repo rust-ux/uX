@@ -20,6 +20,9 @@ mod lib {
 
 mod conversion;
 
+#[cfg(feature = "proptest-support")]
+mod proptest;
+
 use lib::core::ops::{
     BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not, Shl, ShlAssign, Shr,
     ShrAssign,

@@ -16,6 +16,8 @@ categories = ["embedded", "no-std", "data-structures"]
 
 
 [dependencies]
+proptest = { version = "1", optional = true, default-features = false, features = ["std"] }
+
 
 [features]
 default = []
@@ -23,3 +25,4 @@ default = []
 # explicitly selected by a user. This crate works without explicit indication
 # both on std and no_std systems.
 std = []
+proptest-support = [ "proptest" ]
