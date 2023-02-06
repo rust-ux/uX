@@ -25,10 +25,8 @@ use core::ops::{
 };
 
 macro_rules! define_unsigned {
-    ($name:ident, $bits:expr, $type:ident) => {define_unsigned!(#[doc=""], $name, $bits, $type);};
-    (#[$doc:meta], $name:ident, $bits:expr, $type:ident) => {
-
-       #[$doc]
+    ($($doc:literal $name:ident $bits:literal $type:ident)*) => { $(
+        #[doc=$doc]
         #[allow(non_camel_case_types)]
         #[derive(Default, Clone, Copy, Debug)]
         pub struct $name($type);
@@ -43,20 +41,16 @@ macro_rules! define_unsigned {
         }
 
         implement_common!($name, $bits, $type);
-
-    }
+    )* }
 }
 
 macro_rules! define_signed {
-    ($name:ident, $bits:expr, $type:ident) => {define_signed!(#[doc=""], $name, $bits, $type);};
-    (#[$doc:meta], $name:ident, $bits:expr, $type:ident) => {
-
-        #[$doc]
+    ($($doc:literal $name:ident $bits:literal $type:ident)*) => { $(
+        #[doc=$doc]
         #[allow(non_camel_case_types)]
         #[derive(Default, Clone, Copy, Debug)]
         pub struct $name($type);
 
-        #[$doc]
         impl $name {
             pub const MAX: Self = $name(((1 as $type) << ($bits - 1)) - 1);
             pub const MIN: Self = $name(-((1 as $type) << ($bits - 1)));
@@ -71,8 +65,7 @@ macro_rules! define_signed {
         }
 
         implement_common!($name, $bits, $type);
-
-    }
+    )* }
 }
 
 macro_rules! implement_common {
@@ -411,283 +404,257 @@ macro_rules! implement_common {
     };
 }
 
-define_unsigned!(#[doc="The 1-bit unsigned integer type."], u1, 1, u8);
-define_unsigned!(#[doc="The 2-bit unsigned integer type."], u2, 2, u8);
-define_unsigned!(#[doc="The 3-bit unsigned integer type."], u3, 3, u8);
-define_unsigned!(#[doc="The 4-bit unsigned integer type."], u4, 4, u8);
-define_unsigned!(#[doc="The 5-bit unsigned integer type."], u5, 5, u8);
-define_unsigned!(#[doc="The 6-bit unsigned integer type."], u6, 6, u8);
-define_unsigned!(#[doc="The 7-bit unsigned integer type."], u7, 7, u8);
+define_unsigned! {
+    "The 1-bit unsigned integer type." u1 1 u8
+    "The 2-bit unsigned integer type." u2 2 u8
+    "The 3-bit unsigned integer type." u3 3 u8
+    "The 4-bit unsigned integer type." u4 4 u8
+    "The 5-bit unsigned integer type." u5 5 u8
+    "The 6-bit unsigned integer type." u6 6 u8
+    "The 7-bit unsigned integer type." u7 7 u8
+    "The 9-bit unsigned integer type." u9 9 u16
+    "The 10-bit unsigned integer type." u10 10 u16
+    "The 11-bit unsigned integer type." u11 11 u16
+    "The 12-bit unsigned integer type." u12 12 u16
+    "The 13-bit unsigned integer type." u13 13 u16
+    "The 14-bit unsigned integer type." u14 14 u16
+    "The 15-bit unsigned integer type." u15 15 u16
+    "The 17-bit unsigned integer type." u17 17 u32
+    "The 18-bit unsigned integer type." u18 18 u32
+    "The 19-bit unsigned integer type." u19 19 u32
+    "The 20-bit unsigned integer type." u20 20 u32
+    "The 21-bit unsigned integer type." u21 21 u32
+    "The 22-bit unsigned integer type." u22 22 u32
+    "The 23-bit unsigned integer type." u23 23 u32
+    "The 24-bit unsigned integer type." u24 24 u32
+    "The 25-bit unsigned integer type." u25 25 u32
+    "The 26-bit unsigned integer type." u26 26 u32
+    "The 27-bit unsigned integer type." u27 27 u32
+    "The 28-bit unsigned integer type." u28 28 u32
+    "The 29-bit unsigned integer type." u29 29 u32
+    "The 30-bit unsigned integer type." u30 30 u32
+    "The 31-bit unsigned integer type." u31 31 u32
+    "The 33-bit unsigned integer type." u33 33 u64
+    "The 34-bit unsigned integer type." u34 34 u64
+    "The 35-bit unsigned integer type." u35 35 u64
+    "The 36-bit unsigned integer type." u36 36 u64
+    "The 37-bit unsigned integer type." u37 37 u64
+    "The 38-bit unsigned integer type." u38 38 u64
+    "The 39-bit unsigned integer type." u39 39 u64
+    "The 40-bit unsigned integer type." u40 40 u64
+    "The 41-bit unsigned integer type." u41 41 u64
+    "The 42-bit unsigned integer type." u42 42 u64
+    "The 43-bit unsigned integer type." u43 43 u64
+    "The 44-bit unsigned integer type." u44 44 u64
+    "The 45-bit unsigned integer type." u45 45 u64
+    "The 46-bit unsigned integer type." u46 46 u64
+    "The 47-bit unsigned integer type." u47 47 u64
+    "The 48-bit unsigned integer type." u48 48 u64
+    "The 49-bit unsigned integer type." u49 49 u64
+    "The 50-bit unsigned integer type." u50 50 u64
+    "The 51-bit unsigned integer type." u51 51 u64
+    "The 52-bit unsigned integer type." u52 52 u64
+    "The 53-bit unsigned integer type." u53 53 u64
+    "The 54-bit unsigned integer type." u54 54 u64
+    "The 55-bit unsigned integer type." u55 55 u64
+    "The 56-bit unsigned integer type." u56 56 u64
+    "The 57-bit unsigned integer type." u57 57 u64
+    "The 58-bit unsigned integer type." u58 58 u64
+    "The 59-bit unsigned integer type." u59 59 u64
+    "The 60-bit unsigned integer type." u60 60 u64
+    "The 61-bit unsigned integer type." u61 61 u64
+    "The 62-bit unsigned integer type." u62 62 u64
+    "The 63-bit unsigned integer type." u63 63 u64
+    "The 65-bit unsigned integer type." u65 65 u128
+    "The 66-bit unsigned integer type." u66 66 u128
+    "The 67-bit unsigned integer type." u67 67 u128
+    "The 68-bit unsigned integer type." u68 68 u128
+    "The 69-bit unsigned integer type." u69 69 u128
+    "The 70-bit unsigned integer type." u70 70 u128
+    "The 71-bit unsigned integer type." u71 71 u128
+    "The 72-bit unsigned integer type." u72 72 u128
+    "The 73-bit unsigned integer type." u73 73 u128
+    "The 74-bit unsigned integer type." u74 74 u128
+    "The 75-bit unsigned integer type." u75 75 u128
+    "The 76-bit unsigned integer type." u76 76 u128
+    "The 77-bit unsigned integer type." u77 77 u128
+    "The 78-bit unsigned integer type." u78 78 u128
+    "The 79-bit unsigned integer type." u79 79 u128
+    "The 80-bit unsigned integer type." u80 80 u128
+    "The 81-bit unsigned integer type." u81 81 u128
+    "The 82-bit unsigned integer type." u82 82 u128
+    "The 83-bit unsigned integer type." u83 83 u128
+    "The 84-bit unsigned integer type." u84 84 u128
+    "The 85-bit unsigned integer type." u85 85 u128
+    "The 86-bit unsigned integer type." u86 86 u128
+    "The 87-bit unsigned integer type." u87 87 u128
+    "The 88-bit unsigned integer type." u88 88 u128
+    "The 89-bit unsigned integer type." u89 89 u128
+    "The 90-bit unsigned integer type." u90 90 u128
+    "The 91-bit unsigned integer type." u91 91 u128
+    "The 92-bit unsigned integer type." u92 92 u128
+    "The 93-bit unsigned integer type." u93 93 u128
+    "The 94-bit unsigned integer type." u94 94 u128
+    "The 95-bit unsigned integer type." u95 95 u128
+    "The 96-bit unsigned integer type." u96 96 u128
+    "The 97-bit unsigned integer type." u97 97 u128
+    "The 98-bit unsigned integer type." u98 98 u128
+    "The 99-bit unsigned integer type." u99 99 u128
+    "The 100-bit unsigned integer type." u100 100 u128
+    "The 101-bit unsigned integer type." u101 101 u128
+    "The 102-bit unsigned integer type." u102 102 u128
+    "The 103-bit unsigned integer type." u103 103 u128
+    "The 104-bit unsigned integer type." u104 104 u128
+    "The 105-bit unsigned integer type." u105 105 u128
+    "The 106-bit unsigned integer type." u106 106 u128
+    "The 107-bit unsigned integer type." u107 107 u128
+    "The 108-bit unsigned integer type." u108 108 u128
+    "The 109-bit unsigned integer type." u109 109 u128
+    "The 110-bit unsigned integer type." u110 110 u128
+    "The 111-bit unsigned integer type." u111 111 u128
+    "The 112-bit unsigned integer type." u112 112 u128
+    "The 113-bit unsigned integer type." u113 113 u128
+    "The 114-bit unsigned integer type." u114 114 u128
+    "The 115-bit unsigned integer type." u115 115 u128
+    "The 116-bit unsigned integer type." u116 116 u128
+    "The 117-bit unsigned integer type." u117 117 u128
+    "The 118-bit unsigned integer type." u118 118 u128
+    "The 119-bit unsigned integer type." u119 119 u128
+    "The 120-bit unsigned integer type." u120 120 u128
+    "The 121-bit unsigned integer type." u121 121 u128
+    "The 122-bit unsigned integer type." u122 122 u128
+    "The 123-bit unsigned integer type." u123 123 u128
+    "The 124-bit unsigned integer type." u124 124 u128
+    "The 125-bit unsigned integer type." u125 125 u128
+    "The 126-bit unsigned integer type." u126 126 u128
+    "The 127-bit unsigned integer type." u127 127 u128
+}
 
-define_unsigned!(#[doc="The 9-bit unsigned integer type."], u9, 9, u16);
-define_unsigned!(#[doc="The 10-bit unsigned integer type."], u10, 10, u16);
-define_unsigned!(#[doc="The 11-bit unsigned integer type."], u11, 11, u16);
-define_unsigned!(#[doc="The 12-bit unsigned integer type."], u12, 12, u16);
-define_unsigned!(#[doc="The 13-bit unsigned integer type."], u13, 13, u16);
-define_unsigned!(#[doc="The 14-bit unsigned integer type."], u14, 14, u16);
-define_unsigned!(#[doc="The 15-bit unsigned integer type."], u15, 15, u16);
-
-define_unsigned!(#[doc="The 17-bit unsigned integer type."], u17, 17, u32);
-define_unsigned!(#[doc="The 18-bit unsigned integer type."], u18, 18, u32);
-define_unsigned!(#[doc="The 19-bit unsigned integer type."], u19, 19, u32);
-define_unsigned!(#[doc="The 20-bit unsigned integer type."], u20, 20, u32);
-define_unsigned!(#[doc="The 21-bit unsigned integer type."], u21, 21, u32);
-define_unsigned!(#[doc="The 22-bit unsigned integer type."], u22, 22, u32);
-define_unsigned!(#[doc="The 23-bit unsigned integer type."], u23, 23, u32);
-define_unsigned!(#[doc="The 24-bit unsigned integer type."], u24, 24, u32);
-
-define_unsigned!(#[doc="The 25-bit unsigned integer type."], u25, 25, u32);
-define_unsigned!(#[doc="The 26-bit unsigned integer type."], u26, 26, u32);
-define_unsigned!(#[doc="The 27-bit unsigned integer type."], u27, 27, u32);
-define_unsigned!(#[doc="The 28-bit unsigned integer type."], u28, 28, u32);
-define_unsigned!(#[doc="The 29-bit unsigned integer type."], u29, 29, u32);
-define_unsigned!(#[doc="The 30-bit unsigned integer type."], u30, 30, u32);
-define_unsigned!(#[doc="The 31-bit unsigned integer type."], u31, 31, u32);
-
-define_unsigned!(#[doc="The 33-bit unsigned integer type."], u33, 33, u64);
-define_unsigned!(#[doc="The 34-bit unsigned integer type."], u34, 34, u64);
-define_unsigned!(#[doc="The 35-bit unsigned integer type."], u35, 35, u64);
-define_unsigned!(#[doc="The 36-bit unsigned integer type."], u36, 36, u64);
-define_unsigned!(#[doc="The 37-bit unsigned integer type."], u37, 37, u64);
-define_unsigned!(#[doc="The 38-bit unsigned integer type."], u38, 38, u64);
-define_unsigned!(#[doc="The 39-bit unsigned integer type."], u39, 39, u64);
-define_unsigned!(#[doc="The 40-bit unsigned integer type."], u40, 40, u64);
-
-define_unsigned!(#[doc="The 41-bit unsigned integer type."], u41, 41, u64);
-define_unsigned!(#[doc="The 42-bit unsigned integer type."], u42, 42, u64);
-define_unsigned!(#[doc="The 43-bit unsigned integer type."], u43, 43, u64);
-define_unsigned!(#[doc="The 44-bit unsigned integer type."], u44, 44, u64);
-define_unsigned!(#[doc="The 45-bit unsigned integer type."], u45, 45, u64);
-define_unsigned!(#[doc="The 46-bit unsigned integer type."], u46, 46, u64);
-define_unsigned!(#[doc="The 47-bit unsigned integer type."], u47, 47, u64);
-define_unsigned!(#[doc="The 48-bit unsigned integer type."], u48, 48, u64);
-
-define_unsigned!(#[doc="The 49-bit unsigned integer type."], u49, 49, u64);
-define_unsigned!(#[doc="The 50-bit unsigned integer type."], u50, 50, u64);
-define_unsigned!(#[doc="The 51-bit unsigned integer type."], u51, 51, u64);
-define_unsigned!(#[doc="The 52-bit unsigned integer type."], u52, 52, u64);
-define_unsigned!(#[doc="The 53-bit unsigned integer type."], u53, 53, u64);
-define_unsigned!(#[doc="The 54-bit unsigned integer type."], u54, 54, u64);
-define_unsigned!(#[doc="The 55-bit unsigned integer type."], u55, 55, u64);
-define_unsigned!(#[doc="The 56-bit unsigned integer type."], u56, 56, u64);
-
-define_unsigned!(#[doc="The 57-bit unsigned integer type."], u57, 57, u64);
-define_unsigned!(#[doc="The 58-bit unsigned integer type."], u58, 58, u64);
-define_unsigned!(#[doc="The 59-bit unsigned integer type."], u59, 59, u64);
-define_unsigned!(#[doc="The 60-bit unsigned integer type."], u60, 60, u64);
-define_unsigned!(#[doc="The 61-bit unsigned integer type."], u61, 61, u64);
-define_unsigned!(#[doc="The 62-bit unsigned integer type."], u62, 62, u64);
-define_unsigned!(#[doc="The 63-bit unsigned integer type."], u63, 63, u64);
-
-define_unsigned!(#[doc="The 65-bit unsigned integer type."], u65, 65, u128);
-define_unsigned!(#[doc="The 66-bit unsigned integer type."], u66, 66, u128);
-define_unsigned!(#[doc="The 67-bit unsigned integer type."], u67, 67, u128);
-define_unsigned!(#[doc="The 68-bit unsigned integer type."], u68, 68, u128);
-define_unsigned!(#[doc="The 69-bit unsigned integer type."], u69, 69, u128);
-define_unsigned!(#[doc="The 70-bit unsigned integer type."], u70, 70, u128);
-define_unsigned!(#[doc="The 71-bit unsigned integer type."], u71, 71, u128);
-define_unsigned!(#[doc="The 72-bit unsigned integer type."], u72, 72, u128);
-
-define_unsigned!(#[doc="The 73-bit unsigned integer type."], u73, 73, u128);
-define_unsigned!(#[doc="The 74-bit unsigned integer type."], u74, 74, u128);
-define_unsigned!(#[doc="The 75-bit unsigned integer type."], u75, 75, u128);
-define_unsigned!(#[doc="The 76-bit unsigned integer type."], u76, 76, u128);
-define_unsigned!(#[doc="The 77-bit unsigned integer type."], u77, 77, u128);
-define_unsigned!(#[doc="The 78-bit unsigned integer type."], u78, 78, u128);
-define_unsigned!(#[doc="The 79-bit unsigned integer type."], u79, 79, u128);
-define_unsigned!(#[doc="The 80-bit unsigned integer type."], u80, 80, u128);
-
-define_unsigned!(#[doc="The 81-bit unsigned integer type."], u81, 81, u128);
-define_unsigned!(#[doc="The 82-bit unsigned integer type."], u82, 82, u128);
-define_unsigned!(#[doc="The 83-bit unsigned integer type."], u83, 83, u128);
-define_unsigned!(#[doc="The 84-bit unsigned integer type."], u84, 84, u128);
-define_unsigned!(#[doc="The 85-bit unsigned integer type."], u85, 85, u128);
-define_unsigned!(#[doc="The 86-bit unsigned integer type."], u86, 86, u128);
-define_unsigned!(#[doc="The 87-bit unsigned integer type."], u87, 87, u128);
-define_unsigned!(#[doc="The 88-bit unsigned integer type."], u88, 88, u128);
-
-define_unsigned!(#[doc="The 89-bit unsigned integer type."], u89, 89, u128);
-define_unsigned!(#[doc="The 90-bit unsigned integer type."], u90, 90, u128);
-define_unsigned!(#[doc="The 91-bit unsigned integer type."], u91, 91, u128);
-define_unsigned!(#[doc="The 92-bit unsigned integer type."], u92, 92, u128);
-define_unsigned!(#[doc="The 93-bit unsigned integer type."], u93, 93, u128);
-define_unsigned!(#[doc="The 94-bit unsigned integer type."], u94, 94, u128);
-define_unsigned!(#[doc="The 95-bit unsigned integer type."], u95, 95, u128);
-define_unsigned!(#[doc="The 96-bit unsigned integer type."], u96, 96, u128);
-
-define_unsigned!(#[doc="The 97-bit unsigned integer type."], u97, 97, u128);
-define_unsigned!(#[doc="The 98-bit unsigned integer type."], u98, 98, u128);
-define_unsigned!(#[doc="The 99-bit unsigned integer type."], u99, 99, u128);
-define_unsigned!(#[doc="The 100-bit unsigned integer type."], u100, 100, u128);
-define_unsigned!(#[doc="The 101-bit unsigned integer type."], u101, 101, u128);
-define_unsigned!(#[doc="The 102-bit unsigned integer type."], u102, 102, u128);
-define_unsigned!(#[doc="The 103-bit unsigned integer type."], u103, 103, u128);
-define_unsigned!(#[doc="The 104-bit unsigned integer type."], u104, 104, u128);
-
-define_unsigned!(#[doc="The 105-bit unsigned integer type."], u105, 105, u128);
-define_unsigned!(#[doc="The 106-bit unsigned integer type."], u106, 106, u128);
-define_unsigned!(#[doc="The 107-bit unsigned integer type."], u107, 107, u128);
-define_unsigned!(#[doc="The 108-bit unsigned integer type."], u108, 108, u128);
-define_unsigned!(#[doc="The 109-bit unsigned integer type."], u109, 109, u128);
-define_unsigned!(#[doc="The 110-bit unsigned integer type."], u110, 110, u128);
-define_unsigned!(#[doc="The 111-bit unsigned integer type."], u111, 111, u128);
-define_unsigned!(#[doc="The 112-bit unsigned integer type."], u112, 112, u128);
-
-define_unsigned!(#[doc="The 113-bit unsigned integer type."], u113, 113, u128);
-define_unsigned!(#[doc="The 114-bit unsigned integer type."], u114, 114, u128);
-define_unsigned!(#[doc="The 115-bit unsigned integer type."], u115, 115, u128);
-define_unsigned!(#[doc="The 116-bit unsigned integer type."], u116, 116, u128);
-define_unsigned!(#[doc="The 117-bit unsigned integer type."], u117, 117, u128);
-define_unsigned!(#[doc="The 118-bit unsigned integer type."], u118, 118, u128);
-define_unsigned!(#[doc="The 119-bit unsigned integer type."], u119, 119, u128);
-define_unsigned!(#[doc="The 120-bit unsigned integer type."], u120, 120, u128);
-
-define_unsigned!(#[doc="The 121-bit unsigned integer type."], u121, 121, u128);
-define_unsigned!(#[doc="The 122-bit unsigned integer type."], u122, 122, u128);
-define_unsigned!(#[doc="The 123-bit unsigned integer type."], u123, 123, u128);
-define_unsigned!(#[doc="The 124-bit unsigned integer type."], u124, 124, u128);
-define_unsigned!(#[doc="The 125-bit unsigned integer type."], u125, 125, u128);
-define_unsigned!(#[doc="The 126-bit unsigned integer type."], u126, 126, u128);
-define_unsigned!(#[doc="The 127-bit unsigned integer type."], u127, 127, u128);
-
-define_signed!(#[doc="The 1-bit signed integer type."], i1, 1, i8);
-define_signed!(#[doc="The 2-bit signed integer type."], i2, 2, i8);
-define_signed!(#[doc="The 3-bit signed integer type."], i3, 3, i8);
-define_signed!(#[doc="The 4-bit signed integer type."], i4, 4, i8);
-define_signed!(#[doc="The 5-bit signed integer type."], i5, 5, i8);
-define_signed!(#[doc="The 6-bit signed integer type."], i6, 6, i8);
-define_signed!(#[doc="The 7-bit signed integer type."], i7, 7, i8);
-
-define_signed!(#[doc="The 9-bit signed integer type."], i9, 9, i16);
-define_signed!(#[doc="The 10-bit signed integer type."], i10, 10, i16);
-define_signed!(#[doc="The 11-bit signed integer type."], i11, 11, i16);
-define_signed!(#[doc="The 12-bit signed integer type."], i12, 12, i16);
-define_signed!(#[doc="The 13-bit signed integer type."], i13, 13, i16);
-define_signed!(#[doc="The 14-bit signed integer type."], i14, 14, i16);
-define_signed!(#[doc="The 15-bit signed integer type."], i15, 15, i16);
-
-define_signed!(#[doc="The 17-bit signed integer type."], i17, 17, i32);
-define_signed!(#[doc="The 18-bit signed integer type."], i18, 18, i32);
-define_signed!(#[doc="The 19-bit signed integer type."], i19, 19, i32);
-define_signed!(#[doc="The 20-bit signed integer type."], i20, 20, i32);
-define_signed!(#[doc="The 21-bit signed integer type."], i21, 21, i32);
-define_signed!(#[doc="The 22-bit signed integer type."], i22, 22, i32);
-define_signed!(#[doc="The 23-bit signed integer type."], i23, 23, i32);
-define_signed!(#[doc="The 24-bit signed integer type."], i24, 24, i32);
-
-define_signed!(#[doc="The 25-bit signed integer type."], i25, 25, i32);
-define_signed!(#[doc="The 26-bit signed integer type."], i26, 26, i32);
-define_signed!(#[doc="The 27-bit signed integer type."], i27, 27, i32);
-define_signed!(#[doc="The 28-bit signed integer type."], i28, 28, i32);
-define_signed!(#[doc="The 29-bit signed integer type."], i29, 29, i32);
-define_signed!(#[doc="The 30-bit signed integer type."], i30, 30, i32);
-define_signed!(#[doc="The 31-bit signed integer type."], i31, 31, i32);
-
-define_signed!(#[doc="The 33-bit signed integer type."], i33, 33, i64);
-define_signed!(#[doc="The 34-bit signed integer type."], i34, 34, i64);
-define_signed!(#[doc="The 35-bit signed integer type."], i35, 35, i64);
-define_signed!(#[doc="The 36-bit signed integer type."], i36, 36, i64);
-define_signed!(#[doc="The 37-bit signed integer type."], i37, 37, i64);
-define_signed!(#[doc="The 38-bit signed integer type."], i38, 38, i64);
-define_signed!(#[doc="The 39-bit signed integer type."], i39, 39, i64);
-define_signed!(#[doc="The 40-bit signed integer type."], i40, 40, i64);
-
-define_signed!(#[doc="The 41-bit signed integer type."], i41, 41, i64);
-define_signed!(#[doc="The 42-bit signed integer type."], i42, 42, i64);
-define_signed!(#[doc="The 43-bit signed integer type."], i43, 43, i64);
-define_signed!(#[doc="The 44-bit signed integer type."], i44, 44, i64);
-define_signed!(#[doc="The 45-bit signed integer type."], i45, 45, i64);
-define_signed!(#[doc="The 46-bit signed integer type."], i46, 46, i64);
-define_signed!(#[doc="The 47-bit signed integer type."], i47, 47, i64);
-define_signed!(#[doc="The 48-bit signed integer type."], i48, 48, i64);
-
-define_signed!(#[doc="The 49-bit signed integer type."], i49, 49, i64);
-define_signed!(#[doc="The 50-bit signed integer type."], i50, 50, i64);
-define_signed!(#[doc="The 51-bit signed integer type."], i51, 51, i64);
-define_signed!(#[doc="The 52-bit signed integer type."], i52, 52, i64);
-define_signed!(#[doc="The 53-bit signed integer type."], i53, 53, i64);
-define_signed!(#[doc="The 54-bit signed integer type."], i54, 54, i64);
-define_signed!(#[doc="The 55-bit signed integer type."], i55, 55, i64);
-define_signed!(#[doc="The 56-bit signed integer type."], i56, 56, i64);
-
-define_signed!(#[doc="The 57-bit signed integer type."], i57, 57, i64);
-define_signed!(#[doc="The 58-bit signed integer type."], i58, 58, i64);
-define_signed!(#[doc="The 59-bit signed integer type."], i59, 59, i64);
-define_signed!(#[doc="The 60-bit signed integer type."], i60, 60, i64);
-define_signed!(#[doc="The 61-bit signed integer type."], i61, 61, i64);
-define_signed!(#[doc="The 62-bit signed integer type."], i62, 62, i64);
-define_signed!(#[doc="The 63-bit signed integer type."], i63, 63, i64);
-
-define_signed!(#[doc="The 65-bit signed integer type."], i65, 65, i128);
-define_signed!(#[doc="The 66-bit signed integer type."], i66, 66, i128);
-define_signed!(#[doc="The 67-bit signed integer type."], i67, 67, i128);
-define_signed!(#[doc="The 68-bit signed integer type."], i68, 68, i128);
-define_signed!(#[doc="The 69-bit signed integer type."], i69, 69, i128);
-define_signed!(#[doc="The 70-bit signed integer type."], i70, 70, i128);
-define_signed!(#[doc="The 71-bit signed integer type."], i71, 71, i128);
-define_signed!(#[doc="The 72-bit signed integer type."], i72, 72, i128);
-
-define_signed!(#[doc="The 73-bit signed integer type."], i73, 73, i128);
-define_signed!(#[doc="The 74-bit signed integer type."], i74, 74, i128);
-define_signed!(#[doc="The 75-bit signed integer type."], i75, 75, i128);
-define_signed!(#[doc="The 76-bit signed integer type."], i76, 76, i128);
-define_signed!(#[doc="The 77-bit signed integer type."], i77, 77, i128);
-define_signed!(#[doc="The 78-bit signed integer type."], i78, 78, i128);
-define_signed!(#[doc="The 79-bit signed integer type."], i79, 79, i128);
-define_signed!(#[doc="The 80-bit signed integer type."], i80, 80, i128);
-
-define_signed!(#[doc="The 81-bit signed integer type."], i81, 81, i128);
-define_signed!(#[doc="The 82-bit signed integer type."], i82, 82, i128);
-define_signed!(#[doc="The 83-bit signed integer type."], i83, 83, i128);
-define_signed!(#[doc="The 84-bit signed integer type."], i84, 84, i128);
-define_signed!(#[doc="The 85-bit signed integer type."], i85, 85, i128);
-define_signed!(#[doc="The 86-bit signed integer type."], i86, 86, i128);
-define_signed!(#[doc="The 87-bit signed integer type."], i87, 87, i128);
-define_signed!(#[doc="The 88-bit signed integer type."], i88, 88, i128);
-
-define_signed!(#[doc="The 89-bit signed integer type."], i89, 89, i128);
-define_signed!(#[doc="The 90-bit signed integer type."], i90, 90, i128);
-define_signed!(#[doc="The 91-bit signed integer type."], i91, 91, i128);
-define_signed!(#[doc="The 92-bit signed integer type."], i92, 92, i128);
-define_signed!(#[doc="The 93-bit signed integer type."], i93, 93, i128);
-define_signed!(#[doc="The 94-bit signed integer type."], i94, 94, i128);
-define_signed!(#[doc="The 95-bit signed integer type."], i95, 95, i128);
-define_signed!(#[doc="The 96-bit signed integer type."], i96, 96, i128);
-
-define_signed!(#[doc="The 97-bit signed integer type."], i97, 97, i128);
-define_signed!(#[doc="The 98-bit signed integer type."], i98, 98, i128);
-define_signed!(#[doc="The 99-bit signed integer type."], i99, 99, i128);
-define_signed!(#[doc="The 100-bit signed integer type."], i100, 100, i128);
-define_signed!(#[doc="The 101-bit signed integer type."], i101, 101, i128);
-define_signed!(#[doc="The 102-bit signed integer type."], i102, 102, i128);
-define_signed!(#[doc="The 103-bit signed integer type."], i103, 103, i128);
-define_signed!(#[doc="The 104-bit signed integer type."], i104, 104, i128);
-
-define_signed!(#[doc="The 105-bit signed integer type."], i105, 105, i128);
-define_signed!(#[doc="The 106-bit signed integer type."], i106, 106, i128);
-define_signed!(#[doc="The 107-bit signed integer type."], i107, 107, i128);
-define_signed!(#[doc="The 108-bit signed integer type."], i108, 108, i128);
-define_signed!(#[doc="The 109-bit signed integer type."], i109, 109, i128);
-define_signed!(#[doc="The 110-bit signed integer type."], i110, 110, i128);
-define_signed!(#[doc="The 111-bit signed integer type."], i111, 111, i128);
-define_signed!(#[doc="The 112-bit signed integer type."], i112, 112, i128);
-
-define_signed!(#[doc="The 113-bit signed integer type."], i113, 113, i128);
-define_signed!(#[doc="The 114-bit signed integer type."], i114, 114, i128);
-define_signed!(#[doc="The 115-bit signed integer type."], i115, 115, i128);
-define_signed!(#[doc="The 116-bit signed integer type."], i116, 116, i128);
-define_signed!(#[doc="The 117-bit signed integer type."], i117, 117, i128);
-define_signed!(#[doc="The 118-bit signed integer type."], i118, 118, i128);
-define_signed!(#[doc="The 119-bit signed integer type."], i119, 119, i128);
-define_signed!(#[doc="The 120-bit signed integer type."], i120, 120, i128);
-
-define_signed!(#[doc="The 121-bit signed integer type."], i121, 121, i128);
-define_signed!(#[doc="The 122-bit signed integer type."], i122, 122, i128);
-define_signed!(#[doc="The 123-bit signed integer type."], i123, 123, i128);
-define_signed!(#[doc="The 124-bit signed integer type."], i124, 124, i128);
-define_signed!(#[doc="The 125-bit signed integer type."], i125, 125, i128);
-define_signed!(#[doc="The 126-bit signed integer type."], i126, 126, i128);
-define_signed!(#[doc="The 127-bit signed integer type."], i127, 127, i128);
+define_signed! {
+    "The 1-bit signed integer type." i1 1 i8
+    "The 2-bit signed integer type." i2 2 i8
+    "The 3-bit signed integer type." i3 3 i8
+    "The 4-bit signed integer type." i4 4 i8
+    "The 5-bit signed integer type." i5 5 i8
+    "The 6-bit signed integer type." i6 6 i8
+    "The 7-bit signed integer type." i7 7 i8
+    "The 9-bit signed integer type." i9 9 i16
+    "The 10-bit signed integer type." i10 10 i16
+    "The 11-bit signed integer type." i11 11 i16
+    "The 12-bit signed integer type." i12 12 i16
+    "The 13-bit signed integer type." i13 13 i16
+    "The 14-bit signed integer type." i14 14 i16
+    "The 15-bit signed integer type." i15 15 i16
+    "The 17-bit signed integer type." i17 17 i32
+    "The 18-bit signed integer type." i18 18 i32
+    "The 19-bit signed integer type." i19 19 i32
+    "The 20-bit signed integer type." i20 20 i32
+    "The 21-bit signed integer type." i21 21 i32
+    "The 22-bit signed integer type." i22 22 i32
+    "The 23-bit signed integer type." i23 23 i32
+    "The 24-bit signed integer type." i24 24 i32
+    "The 25-bit signed integer type." i25 25 i32
+    "The 26-bit signed integer type." i26 26 i32
+    "The 27-bit signed integer type." i27 27 i32
+    "The 28-bit signed integer type." i28 28 i32
+    "The 29-bit signed integer type." i29 29 i32
+    "The 30-bit signed integer type." i30 30 i32
+    "The 31-bit signed integer type." i31 31 i32
+    "The 33-bit signed integer type." i33 33 i64
+    "The 34-bit signed integer type." i34 34 i64
+    "The 35-bit signed integer type." i35 35 i64
+    "The 36-bit signed integer type." i36 36 i64
+    "The 37-bit signed integer type." i37 37 i64
+    "The 38-bit signed integer type." i38 38 i64
+    "The 39-bit signed integer type." i39 39 i64
+    "The 40-bit signed integer type." i40 40 i64
+    "The 41-bit signed integer type." i41 41 i64
+    "The 42-bit signed integer type." i42 42 i64
+    "The 43-bit signed integer type." i43 43 i64
+    "The 44-bit signed integer type." i44 44 i64
+    "The 45-bit signed integer type." i45 45 i64
+    "The 46-bit signed integer type." i46 46 i64
+    "The 47-bit signed integer type." i47 47 i64
+    "The 48-bit signed integer type." i48 48 i64
+    "The 49-bit signed integer type." i49 49 i64
+    "The 50-bit signed integer type." i50 50 i64
+    "The 51-bit signed integer type." i51 51 i64
+    "The 52-bit signed integer type." i52 52 i64
+    "The 53-bit signed integer type." i53 53 i64
+    "The 54-bit signed integer type." i54 54 i64
+    "The 55-bit signed integer type." i55 55 i64
+    "The 56-bit signed integer type." i56 56 i64
+    "The 57-bit signed integer type." i57 57 i64
+    "The 58-bit signed integer type." i58 58 i64
+    "The 59-bit signed integer type." i59 59 i64
+    "The 60-bit signed integer type." i60 60 i64
+    "The 61-bit signed integer type." i61 61 i64
+    "The 62-bit signed integer type." i62 62 i64
+    "The 63-bit signed integer type." i63 63 i64
+    "The 65-bit signed integer type." i65 65 i128
+    "The 66-bit signed integer type." i66 66 i128
+    "The 67-bit signed integer type." i67 67 i128
+    "The 68-bit signed integer type." i68 68 i128
+    "The 69-bit signed integer type." i69 69 i128
+    "The 70-bit signed integer type." i70 70 i128
+    "The 71-bit signed integer type." i71 71 i128
+    "The 72-bit signed integer type." i72 72 i128
+    "The 73-bit signed integer type." i73 73 i128
+    "The 74-bit signed integer type." i74 74 i128
+    "The 75-bit signed integer type." i75 75 i128
+    "The 76-bit signed integer type." i76 76 i128
+    "The 77-bit signed integer type." i77 77 i128
+    "The 78-bit signed integer type." i78 78 i128
+    "The 79-bit signed integer type." i79 79 i128
+    "The 80-bit signed integer type." i80 80 i128
+    "The 81-bit signed integer type." i81 81 i128
+    "The 82-bit signed integer type." i82 82 i128
+    "The 83-bit signed integer type." i83 83 i128
+    "The 84-bit signed integer type." i84 84 i128
+    "The 85-bit signed integer type." i85 85 i128
+    "The 86-bit signed integer type." i86 86 i128
+    "The 87-bit signed integer type." i87 87 i128
+    "The 88-bit signed integer type." i88 88 i128
+    "The 89-bit signed integer type." i89 89 i128
+    "The 90-bit signed integer type." i90 90 i128
+    "The 91-bit signed integer type." i91 91 i128
+    "The 92-bit signed integer type." i92 92 i128
+    "The 93-bit signed integer type." i93 93 i128
+    "The 94-bit signed integer type." i94 94 i128
+    "The 95-bit signed integer type." i95 95 i128
+    "The 96-bit signed integer type." i96 96 i128
+    "The 97-bit signed integer type." i97 97 i128
+    "The 98-bit signed integer type." i98 98 i128
+    "The 99-bit signed integer type." i99 99 i128
+    "The 100-bit signed integer type." i100 100 i128
+    "The 101-bit signed integer type." i101 101 i128
+    "The 102-bit signed integer type." i102 102 i128
+    "The 103-bit signed integer type." i103 103 i128
+    "The 104-bit signed integer type." i104 104 i128
+    "The 105-bit signed integer type." i105 105 i128
+    "The 106-bit signed integer type." i106 106 i128
+    "The 107-bit signed integer type." i107 107 i128
+    "The 108-bit signed integer type." i108 108 i128
+    "The 109-bit signed integer type." i109 109 i128
+    "The 110-bit signed integer type." i110 110 i128
+    "The 111-bit signed integer type." i111 111 i128
+    "The 112-bit signed integer type." i112 112 i128
+    "The 113-bit signed integer type." i113 113 i128
+    "The 114-bit signed integer type." i114 114 i128
+    "The 115-bit signed integer type." i115 115 i128
+    "The 116-bit signed integer type." i116 116 i128
+    "The 117-bit signed integer type." i117 117 i128
+    "The 118-bit signed integer type." i118 118 i128
+    "The 119-bit signed integer type." i119 119 i128
+    "The 120-bit signed integer type." i120 120 i128
+    "The 121-bit signed integer type." i121 121 i128
+    "The 122-bit signed integer type." i122 122 i128
+    "The 123-bit signed integer type." i123 123 i128
+    "The 124-bit signed integer type." i124 124 i128
+    "The 125-bit signed integer type." i125 125 i128
+    "The 126-bit signed integer type." i126 126 i128
+    "The 127-bit signed integer type." i127 127 i128
+}
 
 #[cfg(test)]
 mod tests {
