@@ -14,22 +14,15 @@
 
 #![no_std]
 
-mod lib {
-    pub use core;
-}
-
 mod conversion;
 
-use lib::core::ops::{
+use core::cmp::{Ord, Ordering, PartialOrd};
+use core::fmt::{Binary, Display, Formatter, LowerHex, Octal, UpperHex};
+use core::hash::{Hash, Hasher};
+use core::ops::{
     BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not, Shl, ShlAssign, Shr,
     ShrAssign,
 };
-
-use lib::core::hash::{Hash, Hasher};
-
-use lib::core::cmp::{Ord, Ordering, PartialOrd};
-
-use lib::core::fmt::{Binary, Display, Formatter, LowerHex, Octal, UpperHex};
 
 macro_rules! define_unsigned {
     ($name:ident, $bits:expr, $type:ident) => {define_unsigned!(#[doc=""], $name, $bits, $type);};
@@ -185,31 +178,31 @@ macro_rules! implement_common {
 
         // Implement formating functions
         impl Display for $name {
-            fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
+            fn fmt(&self, f: &mut Formatter) -> Result<(), core::fmt::Error> {
                 let $name(ref value) = self.mask();
                 <$type as Display>::fmt(value, f)
             }
         }
         impl UpperHex for $name {
-            fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
+            fn fmt(&self, f: &mut Formatter) -> Result<(), core::fmt::Error> {
                 let $name(ref value) = self.mask();
                 <$type as UpperHex>::fmt(value, f)
             }
         }
         impl LowerHex for $name {
-            fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
+            fn fmt(&self, f: &mut Formatter) -> Result<(), core::fmt::Error> {
                 let $name(ref value) = self.mask();
                 <$type as LowerHex>::fmt(value, f)
             }
         }
         impl Octal for $name {
-            fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
+            fn fmt(&self, f: &mut Formatter) -> Result<(), core::fmt::Error> {
                 let $name(ref value) = self.mask();
                 <$type as Octal>::fmt(value, f)
             }
         }
         impl Binary for $name {
-            fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
+            fn fmt(&self, f: &mut Formatter) -> Result<(), core::fmt::Error> {
                 let $name(ref value) = self.mask();
                 <$type as Binary>::fmt(value, f)
             }
@@ -390,7 +383,7 @@ macro_rules! implement_common {
             }
         }
 
-        impl lib::core::ops::Add<$name> for $name {
+        impl core::ops::Add<$name> for $name {
             type Output = $name;
             #[allow(unused_comparisons)]
             fn add(self, other: $name) -> $name {
@@ -403,7 +396,7 @@ macro_rules! implement_common {
             }
         }
 
-        impl lib::core::ops::Sub<$name> for $name {
+        impl core::ops::Sub<$name> for $name {
             type Output = $name;
             #[allow(unused_comparisons)]
             fn sub(self, other: $name) -> $name {

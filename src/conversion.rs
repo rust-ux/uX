@@ -4,14 +4,14 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct TryFromIntError(pub(crate) ());
 
-impl From<lib::core::num::TryFromIntError> for TryFromIntError {
-    fn from(_: lib::core::num::TryFromIntError) -> TryFromIntError {
+impl From<core::num::TryFromIntError> for TryFromIntError {
+    fn from(_: core::num::TryFromIntError) -> TryFromIntError {
         TryFromIntError(())
     }
 }
 
-impl From<lib::core::convert::Infallible> for TryFromIntError {
-    fn from(_: lib::core::convert::Infallible) -> TryFromIntError {
+impl From<core::convert::Infallible> for TryFromIntError {
+    fn from(_: core::convert::Infallible) -> TryFromIntError {
         TryFromIntError(())
     }
 }
