@@ -191,31 +191,31 @@ macro_rules! implement_common {
         // Implement formating functions
         impl Display for $name {
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
-                let &$name(ref value) = self;
+                let $name(ref value) = self.mask();
                 <$type as Display>::fmt(value, f)
             }
         }
         impl UpperHex for $name {
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
-                let &$name(ref value) = self;
+                let $name(ref value) = self.mask();
                 <$type as UpperHex>::fmt(value, f)
             }
         }
         impl LowerHex for $name {
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
-                let &$name(ref value) = self;
+                let $name(ref value) = self.mask();
                 <$type as LowerHex>::fmt(value, f)
             }
         }
         impl Octal for $name {
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
-                let &$name(ref value) = self;
+                let $name(ref value) = self.mask();
                 <$type as Octal>::fmt(value, f)
             }
         }
         impl Binary for $name {
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
-                let &$name(ref value) = self;
+                let $name(ref value) = self.mask();
                 <$type as Binary>::fmt(value, f)
             }
         }
