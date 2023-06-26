@@ -118,6 +118,14 @@ macro_rules! implement_common {
                 $name(value)
             }
 
+            /// Creates a new instance without checking if the value is representable by this type.
+            ///
+            /// # Safety
+            /// The value must be representable by this type.
+            pub const unsafe fn new_unchecked(value: $type) -> $name {
+                $name(value)
+            }
+
             /// Wrapping (modular) subtraction. Computes `self - other`,
             /// wrapping around at the boundary of the type.
             ///
