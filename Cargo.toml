@@ -23,3 +23,4 @@ default = []
 # explicitly selected by a user. This crate works without explicit indication
 # both on std and no_std systems.
 std = []
+const-generics = []
