@@ -31,6 +31,22 @@ use lib::core::cmp::{Ord, Ordering, PartialOrd};
 
 use lib::core::fmt::{Binary, Display, Formatter, LowerHex, Octal, UpperHex};
 
+pub trait ToUnsignedType {
+    type Output;
+}
+
+pub struct ConstUnsigned<const N: usize>;
+
+pub type Unsigned<const N: usize> = <ConstUnsigned<N> as ToUnsignedType>::Output;
+
+pub trait ToSignedType {
+    type Output;
+}
+
+pub struct ConstSigned<const N: usize>;
+
+pub type Signed<const N: usize> = <ConstSigned<N> as ToSignedType>::Output;
+
 macro_rules! define_unsigned {
     ($name:ident, $bits:expr, $type:ident) => {define_unsigned!(#[doc=""], $name, $bits, $type);};
     (#[$doc:meta], $name:ident, $bits:expr, $type:ident) => {
@@ -50,6 +66,10 @@ macro_rules! define_unsigned {
         }
 
         implement_common!($name, $bits, $type);
+
+        impl ToUnsignedType for ConstUnsigned<$bits> {
+            type Output = $name;
+        }
 
     }
 }
@@ -78,6 +98,10 @@ macro_rules! define_signed {
         }
 
         implement_common!($name, $bits, $type);
+
+        impl ToSignedType for ConstSigned<$bits> {
+            type Output = $name;
+        }
 
     }
 }
