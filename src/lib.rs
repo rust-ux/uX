@@ -31,26 +31,26 @@ use lib::core::cmp::{Ord, Ordering, PartialOrd};
 
 use lib::core::fmt::{Binary, Display, Formatter, LowerHex, Octal, UpperHex};
 
-#[cfg(features = "const-generics")]
+#[cfg(feature = "const-generics")]
 pub trait ToUnsignedType {
     type Output;
 }
 
-#[cfg(features = "const-generics")]
+#[cfg(feature = "const-generics")]
 pub trait ToSignedType {
     type Output;
 }
 
-#[cfg(features = "const-generics")]
+#[cfg(feature = "const-generics")]
 pub struct Const<const N: usize>;
 
-#[cfg(features = "const-generics")]
+#[cfg(feature = "const-generics")]
 pub type Unsigned<const N: usize> = <Const<N> as ToUnsignedType>::Output;
 
-#[cfg(features = "const-generics")]
+#[cfg(feature = "const-generics")]
 pub type Signed<const N: usize> = <Const<N> as ToSignedType>::Output;
 
-#[cfg(features = "const-generics")]
+#[cfg(feature = "const-generics")]
 macro_rules! impl_type_dispatch {
     (signed, $name:ident, $bits:expr) => {
         impl ToSignedType for Const<$bits> {
@@ -64,26 +64,26 @@ macro_rules! impl_type_dispatch {
     };
 }
 
-#[cfg(features = "const-generics")]
+#[cfg(feature = "const-generics")]
 impl_type_dispatch!(signed, i8, 8);
-#[cfg(features = "const-generics")]
+#[cfg(feature = "const-generics")]
 impl_type_dispatch!(signed, i16, 16);
-#[cfg(features = "const-generics")]
+#[cfg(feature = "const-generics")]
 impl_type_dispatch!(signed, i32, 32);
-#[cfg(features = "const-generics")]
+#[cfg(feature = "const-generics")]
 impl_type_dispatch!(signed, i64, 64);
-#[cfg(features = "const-generics")]
+#[cfg(feature = "const-generics")]
 impl_type_dispatch!(signed, i128, 128);
 
-#[cfg(features = "const-generics")]
+#[cfg(feature = "const-generics")]
 impl_type_dispatch!(unsigned, u8, 8);
-#[cfg(features = "const-generics")]
+#[cfg(feature = "const-generics")]
 impl_type_dispatch!(unsigned, u16, 16);
-#[cfg(features = "const-generics")]
+#[cfg(feature = "const-generics")]
 impl_type_dispatch!(unsigned, u32, 32);
-#[cfg(features = "const-generics")]
+#[cfg(feature = "const-generics")]
 impl_type_dispatch!(unsigned, u64, 64);
-#[cfg(features = "const-generics")]
+#[cfg(feature = "const-generics")]
 impl_type_dispatch!(unsigned, u128, 128);
 
 macro_rules! define_unsigned {
@@ -106,7 +106,7 @@ macro_rules! define_unsigned {
 
         implement_common!($name, $bits, $type);
 
-        #[cfg(features = "const-generics")]
+        #[cfg(feature = "const-generics")]
         impl_type_dispatch!(unsigned, $name, $bits);
 
     }
@@ -137,7 +137,7 @@ macro_rules! define_signed {
 
         implement_common!($name, $bits, $type);
 
-        #[cfg(features = "const-generics")]
+        #[cfg(feature = "const-generics")]
         impl_type_dispatch!(signed, $name, $bits);
 
     }
