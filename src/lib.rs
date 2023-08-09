@@ -20,8 +20,8 @@ use core::cmp::{Ord, Ordering, PartialOrd};
 use core::fmt::{Binary, Display, Formatter, LowerHex, Octal, UpperHex};
 use core::hash::{Hash, Hasher};
 use core::ops::{
-    BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not, Shl, ShlAssign, Shr,
-    ShrAssign,
+    Add, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not, Shl, ShlAssign, Shr,
+    ShrAssign, Sub,
 };
 
 macro_rules! define_unsigned {
@@ -376,7 +376,7 @@ macro_rules! implement_common {
             }
         }
 
-        impl core::ops::Add<$name> for $name {
+        impl Add<$name> for $name {
             type Output = $name;
             #[allow(unused_comparisons)]
             fn add(self, other: $name) -> $name {
@@ -389,7 +389,7 @@ macro_rules! implement_common {
             }
         }
 
-        impl core::ops::Sub<$name> for $name {
+        impl Sub<$name> for $name {
             type Output = $name;
             #[allow(unused_comparisons)]
             fn sub(self, other: $name) -> $name {
