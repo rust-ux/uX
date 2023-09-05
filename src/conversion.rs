@@ -16,6 +16,15 @@ impl From<lib::core::convert::Infallible> for TryFromIntError {
     }
 }
 
+impl Display for TryFromIntError {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        write!(f, "out of range integral type conversion attempted")
+    }
+}
+
+#[cfg(feature = "std")]
+impl std::error::Error for TryFromIntError {}
+
 // Only implement if $from can be converted into $name lossless
 macro_rules! implement_from {
     {[$($name:ident),*], [$($from:ident),*] } => {$(implement_from!($name, $from);)*};
@@ -1828,5 +1837,14 @@ mod tests {
 
         assert!(i6::try_from(i7(64)).is_err());
         assert!(i6::try_from(i7(-64)).is_err());
+    }
+
+    #[test]
+    #[cfg(feature = "std")]
+    fn error_trait() {
+        assert_eq!(
+            (&TryFromIntError(()) as &dyn std::error::Error).to_string(),
+            "out of range integral type conversion attempted"
+        );
     }
 }
