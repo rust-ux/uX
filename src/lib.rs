@@ -339,7 +339,7 @@ macro_rules! implement_common {
             type Output = $name;
 
             fn not(self) -> $name {
-                $name(self.mask().0.not())
+                $name(self.0.not()).mask()
             }
         }
 
@@ -347,7 +347,7 @@ macro_rules! implement_common {
             type Output = <$name as Not>::Output;
 
             fn not(self) -> $name {
-                $name(self.mask().0.not())
+                $name(self.0.not()).mask()
             }
         }
 
@@ -969,5 +969,10 @@ mod tests {
         assert_eq!(!u7(0x7F), u7(0));
         assert_eq!(!u7(0), u7(0x7F));
         assert_eq!(!u7(56), u7(71));
+    }
+
+    #[test]
+    fn test_not_creates_valid_repr() {
+        assert_eq!((!u4(0b0101)).0, 0b1010);
     }
 }
