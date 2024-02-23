@@ -953,4 +953,17 @@ mod tests {
         assert_eq!(!u7(0), u7(0x7F));
         assert_eq!(!u7(56), u7(71));
     }
+
+    #[test]
+    fn test_match() {
+        const SEVEN: u7 = u7::new(7);
+        match u7(7) {
+            SEVEN => (),
+            _ => panic!("Pattern matching failed (7 != 7?)"),
+        }
+        match u7(42) {
+            SEVEN => panic!("Pattern matching failed (7 == 42?)"),
+            _ => (),
+        }
+    }
 }
