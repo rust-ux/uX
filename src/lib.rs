@@ -159,7 +159,7 @@ macro_rules! implement_common {
 
         impl PartialEq for $name {
             fn eq(&self, other: &Self) -> bool {
-                self.mask().0 == other.mask().0
+                self.0 == other.0
             }
         }
 
@@ -167,50 +167,50 @@ macro_rules! implement_common {
 
         impl PartialOrd for $name {
             fn partial_cmp(&self, other: &$name) -> Option<Ordering> {
-                self.mask().0.partial_cmp(&other.mask().0)
+                Some(self.cmp(other))
             }
         }
 
         impl Ord for $name {
             fn cmp(&self, other: &$name) -> Ordering {
-                self.mask().0.cmp(&other.mask().0)
+                self.0.cmp(&other.0)
             }
         }
 
         impl Hash for $name {
             fn hash<H: Hasher>(&self, h: &mut H) {
-                self.mask().0.hash(h)
+                self.0.hash(h)
             }
         }
 
         // Implement formating functions
         impl Display for $name {
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
-                let $name(ref value) = self.mask();
+                let $name(ref value) = self;
                 <$type as Display>::fmt(value, f)
             }
         }
         impl UpperHex for $name {
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
-                let $name(ref value) = self.mask();
+                let $name(ref value) = self;
                 <$type as UpperHex>::fmt(value, f)
             }
         }
         impl LowerHex for $name {
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
-                let $name(ref value) = self.mask();
+                let $name(ref value) = self;
                 <$type as LowerHex>::fmt(value, f)
             }
         }
         impl Octal for $name {
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
-                let $name(ref value) = self.mask();
+                let $name(ref value) = self;
                 <$type as Octal>::fmt(value, f)
             }
         }
         impl Binary for $name {
             fn fmt(&self, f: &mut Formatter) -> Result<(), lib::core::fmt::Error> {
-                let $name(ref value) = self.mask();
+                let $name(ref value) = self;
                 <$type as Binary>::fmt(value, f)
             }
         }
@@ -222,7 +222,7 @@ macro_rules! implement_common {
             type Output = $name;
 
             fn shr(self, rhs: T) -> $name {
-                $name(self.mask().0.shr(rhs))
+                $name(self.0.shr(rhs))
             }
         }
 
@@ -233,7 +233,7 @@ macro_rules! implement_common {
             type Output = $name;
 
             fn shl(self, rhs: T) -> $name {
-                $name(self.mask().0.shl(rhs))
+                $name(self.0.shl(rhs)).mask()
             }
         }
 
@@ -242,7 +242,6 @@ macro_rules! implement_common {
             $type: ShrAssign<T>,
         {
             fn shr_assign(&mut self, rhs: T) {
-                *self = self.mask();
                 self.0.shr_assign(rhs);
             }
         }
@@ -252,8 +251,8 @@ macro_rules! implement_common {
             $type: ShlAssign<T>,
         {
             fn shl_assign(&mut self, rhs: T) {
-                *self = self.mask();
                 self.0.shl_assign(rhs);
+                *self = self.mask();
             }
         }
 
@@ -261,7 +260,7 @@ macro_rules! implement_common {
             type Output = $name;
 
             fn bitor(self, rhs: $name) -> Self::Output {
-                $name(self.mask().0.bitor(rhs.mask().0))
+                $name(self.0.bitor(rhs.0))
             }
         }
 
@@ -269,7 +268,7 @@ macro_rules! implement_common {
             type Output = <$name as BitOr<$name>>::Output;
 
             fn bitor(self, rhs: &'a $name) -> Self::Output {
-                $name(self.mask().0.bitor(rhs.mask().0))
+                $name(self.0.bitor(rhs.0))
             }
         }
 
@@ -277,7 +276,7 @@ macro_rules! implement_common {
             type Output = <$name as BitOr<$name>>::Output;
 
             fn bitor(self, rhs: $name) -> Self::Output {
-                $name(self.mask().0.bitor(rhs.mask().0))
+                $name(self.0.bitor(rhs.0))
             }
         }
 
@@ -285,14 +284,13 @@ macro_rules! implement_common {
             type Output = <$name as BitOr<$name>>::Output;
 
             fn bitor(self, rhs: &'a $name) -> Self::Output {
-                $name(self.mask().0.bitor(rhs.mask().0))
+                $name(self.0.bitor(rhs.0))
             }
         }
 
         impl BitOrAssign<$name> for $name {
             fn bitor_assign(&mut self, other: $name) {
-                *self = self.mask();
-                self.0.bitor_assign(other.mask().0)
+                self.0.bitor_assign(other.0)
             }
         }
 
@@ -300,7 +298,7 @@ macro_rules! implement_common {
             type Output = $name;
 
             fn bitxor(self, rhs: $name) -> Self::Output {
-                $name(self.mask().0.bitxor(rhs.mask().0))
+                $name(self.0.bitxor(rhs.0))
             }
         }
 
@@ -308,7 +306,7 @@ macro_rules! implement_common {
             type Output = <$name as BitOr<$name>>::Output;
 
             fn bitxor(self, rhs: &'a $name) -> Self::Output {
-                $name(self.mask().0.bitxor(rhs.mask().0))
+                $name(self.0.bitxor(rhs.0))
             }
         }
 
@@ -316,7 +314,7 @@ macro_rules! implement_common {
             type Output = <$name as BitOr<$name>>::Output;
 
             fn bitxor(self, rhs: $name) -> Self::Output {
-                $name(self.mask().0.bitxor(rhs.mask().0))
+                $name(self.0.bitxor(rhs.0))
             }
         }
 
@@ -324,14 +322,13 @@ macro_rules! implement_common {
             type Output = <$name as BitOr<$name>>::Output;
 
             fn bitxor(self, rhs: &'a $name) -> Self::Output {
-                $name(self.mask().0.bitxor(rhs.mask().0))
+                $name(self.0.bitxor(rhs.0))
             }
         }
 
         impl BitXorAssign<$name> for $name {
             fn bitxor_assign(&mut self, other: $name) {
-                *self = self.mask();
-                self.0.bitxor_assign(other.mask().0)
+                self.0.bitxor_assign(other.0)
             }
         }
 
@@ -339,7 +336,7 @@ macro_rules! implement_common {
             type Output = $name;
 
             fn not(self) -> $name {
-                $name(self.mask().0.not())
+                $name(self.0.not()).mask()
             }
         }
 
@@ -347,7 +344,7 @@ macro_rules! implement_common {
             type Output = <$name as Not>::Output;
 
             fn not(self) -> $name {
-                $name(self.mask().0.not())
+                $name(self.0.not()).mask()
             }
         }
 
@@ -355,7 +352,7 @@ macro_rules! implement_common {
             type Output = $name;
 
             fn bitand(self, rhs: $name) -> Self::Output {
-                $name(self.mask().0.bitand(rhs.mask().0))
+                $name(self.0.bitand(rhs.0))
             }
         }
 
@@ -363,7 +360,7 @@ macro_rules! implement_common {
             type Output = <$name as BitOr<$name>>::Output;
 
             fn bitand(self, rhs: &'a $name) -> Self::Output {
-                $name(self.mask().0.bitand(rhs.mask().0))
+                $name(self.0.bitand(rhs.0))
             }
         }
 
@@ -371,7 +368,7 @@ macro_rules! implement_common {
             type Output = <$name as BitOr<$name>>::Output;
 
             fn bitand(self, rhs: $name) -> Self::Output {
-                $name(self.mask().0.bitand(rhs.mask().0))
+                $name(self.0.bitand(rhs.0))
             }
         }
 
@@ -379,14 +376,13 @@ macro_rules! implement_common {
             type Output = <$name as BitOr<$name>>::Output;
 
             fn bitand(self, rhs: &'a $name) -> Self::Output {
-                $name(self.mask().0.bitand(rhs.mask().0))
+                $name(self.0.bitand(rhs.0))
             }
         }
 
         impl BitAndAssign<$name> for $name {
             fn bitand_assign(&mut self, other: $name) {
-                *self = self.mask();
-                self.0.bitand_assign(other.mask().0)
+                self.0.bitand_assign(other.0)
             }
         }
 
@@ -758,6 +754,12 @@ mod tests {
     }
 
     #[test]
+    fn test_wrapping_sub() {
+        assert_eq!(u1::MIN.wrapping_sub(u1(1)), u1(1));
+        assert_eq!(u3(1).wrapping_sub(u3(2)), u3::MAX);
+    }
+
+    #[test]
     #[should_panic]
     fn test_add_overflow_u5() {
         let _s = u5::MAX + u5(1);
@@ -847,16 +849,16 @@ mod tests {
 
     #[test]
     fn test_shl() {
-        assert_eq!(u5(16) << 1usize, u5(32));
-        assert_eq!(u5(16) << 1u8, u5(32));
-        assert_eq!(u5(16) << 1u16, u5(32));
-        assert_eq!(u5(16) << 1u32, u5(32));
-        assert_eq!(u5(16) << 1u64, u5(32));
-        assert_eq!(u5(16) << 1isize, u5(32));
-        assert_eq!(u5(16) << 1i8, u5(32));
-        assert_eq!(u5(16) << 1i16, u5(32));
-        assert_eq!(u5(16) << 1i32, u5(32));
-        assert_eq!(u5(16) << 1i64, u5(32));
+        assert_eq!(u5(16) << 1usize, u5(0));
+        assert_eq!(u5(16) << 1u8, u5(0));
+        assert_eq!(u5(16) << 1u16, u5(0));
+        assert_eq!(u5(16) << 1u32, u5(0));
+        assert_eq!(u5(16) << 1u64, u5(0));
+        assert_eq!(u5(16) << 1isize, u5(0));
+        assert_eq!(u5(16) << 1i8, u5(0));
+        assert_eq!(u5(16) << 1i16, u5(0));
+        assert_eq!(u5(16) << 1i32, u5(0));
+        assert_eq!(u5(16) << 1i64, u5(0));
 
         assert_eq!(u5::MAX << 4, u5(16));
 
@@ -894,6 +896,8 @@ mod tests {
         assert_eq!(x, u9(128));
         x <<= 1u8;
         assert_eq!(x, u9(256));
+        x <<= 1u8;
+        assert_eq!(x, u9(0));
     }
 
     #[test]
