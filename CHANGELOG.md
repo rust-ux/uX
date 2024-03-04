@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
  - Added `TryFrom` fallible conversion.
+ - Added implementation of `proptest::Arbitrary` (feature "proptest-support").
 ### Changed
  - Made `new` a `const fn`
 ### Deprecated
