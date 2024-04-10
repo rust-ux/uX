@@ -6,13 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
- - Added `TryFrom` fallible conversion.
 ### Changed
- - Made `new` a `const fn`
 ### Deprecated
 ### Removed
 ### Fixed
 ### Security
+
+## [0.1.6] - 2024-04-03
+### Added
+ - Support conversions for u1
+ - Implement std::error::Error for TryFromIntError
+ - Add BITS associated constant
+### Changed
+ - Mask values on write instead of read
 
 ## [0.1.3] - 2018-10-29
 ### Added

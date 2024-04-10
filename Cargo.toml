@@ -1,6 +1,6 @@
 [package]
 name = "ux"
-version = "0.1.3"
+version = "0.1.6"
 authors = ["Kjetil Kjeka <kjetilkjeka@gmail.com>"]
 edition = "2021"
 
