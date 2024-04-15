@@ -19,6 +19,8 @@ mod lib {
 }
 
 mod conversion;
+#[cfg(feature = "num-traits")]
+pub mod num_traits_impls;
 
 use lib::core::ops::{
     BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not, Shl, ShlAssign, Shr,
