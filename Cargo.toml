@@ -16,6 +16,7 @@ categories = ["embedded", "no-std", "data-structures"]
 
 
 [dependencies]
+num-traits = { version = "0.2", default-features = false, optional = true }
 
 [features]
 default = []
@@ -23,3 +24,4 @@ default = []
 # types. Apart from that, this crate works without explicit indication both on
 # std and no_std systems.
 std = []
+num-traits = ['dep:num-traits']
