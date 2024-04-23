@@ -35,9 +35,11 @@ macro_rules! define_unsigned {
     ($name:ident, $bits:expr, $type:ident) => {define_unsigned!(#[doc=""], $name, $bits, $type);};
     (#[$doc:meta], $name:ident, $bits:expr, $type:ident) => {
 
-       #[$doc]
+        #[$doc]
         #[allow(non_camel_case_types)]
         #[derive(Default, Clone, Copy, Debug)]
+        #[cfg_attr(feature = "borsh", derive(borsh::BorshSerialize, borsh::BorshDeserialize))]
+        #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
         pub struct $name($type);
 
         impl $name {
@@ -62,6 +64,8 @@ macro_rules! define_signed {
         #[$doc]
         #[allow(non_camel_case_types)]
         #[derive(Default, Clone, Copy, Debug)]
+        #[cfg_attr(feature = "borsh", derive(borsh::BorshSerialize, borsh::BorshDeserialize))]        
+        #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]        
         pub struct $name($type);
 
         #[$doc]
