@@ -57,7 +57,7 @@ macro_rules! define_unsigned {
 
         implement_common!($name, $bits, $type);
 
-        // borsh is byte-size little-endian de-needs-external-schema no-bit compression serde
+        // borsh is byte-size little-endian de-needs-external-schema no-bit-compression serde
         
         #[cfg(feature = "borsh")]
         impl borsh::BorshSerialize for $name {
