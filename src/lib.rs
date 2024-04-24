@@ -37,7 +37,7 @@ macro_rules! define_unsigned {
 
         #[$doc]
         #[allow(non_camel_case_types)]
-        #[derive(Default, Clone, Copy, Debug)] 
+        #[derive(Default, Clone, Copy, Debug)]
         pub struct $name($type);
 
         impl $name {
