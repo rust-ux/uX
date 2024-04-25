@@ -1024,13 +1024,13 @@ mod tests {
     fn test_borsh() {
         use borsh::{BorshDeserialize, BorshSerialize};
         let mut buf = Vec::new();
-
-        // let input = u9(42);
-        // input.serialize(&mut buf).unwrap();
-        // let output = u9::deserialize(&mut buf.as_ref()).unwrap();
-        // assert_eq!(input, output);
-        // 8 [255, 255, 255, 255, 255, 255, 255, 127]
-        // 8 [255, 255, 255, 255, 255, 255, 255, 127]
+        
+        let input = u9::new(42);
+        input.serialize(&mut buf).unwrap();
+        let output = u9::deserialize(&mut buf.as_ref()).unwrap();
+        assert_eq!(input, output);
+        
+        let mut buf = Vec::new();
         let input = u63::MAX;
         input.serialize(&mut buf).unwrap();
         let output = u63::deserialize(&mut buf.as_ref()).unwrap();
