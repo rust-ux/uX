@@ -45,11 +45,11 @@ macro_rules! define_unsigned {
             pub const MIN: Self = $name(0);
             pub const BITS: u32 = $bits;
             /// Bytes enough to put MAX or MIN value into.
-            /// For example, 
+            /// For example,
             /// 62 bit number will require 8 bytes,
-            /// and 54 bits number will need 7 bytes.  
+            /// and 54 bits number will need 7 bytes.
             pub const BYTES: usize = ($bits + 7) >> 3;
-            
+
             fn mask(self) -> Self {
                 $name(self.0 & ( ((1 as $type) << $bits).overflowing_sub(1).0))
             }
@@ -58,29 +58,29 @@ macro_rules! define_unsigned {
         implement_common!($name, $bits, $type);
 
         // borsh is byte-size little-endian de-needs-external-schema no-bit-compression serde
-        
+
         #[cfg(feature = "borsh")]
         impl borsh::BorshSerialize for $name {
             fn serialize<W: borsh::io::Write>(&self, writer: &mut W) -> borsh::io::Result<()> {
                 // not most optimal way to write bytes, but it is simple and works
                 // more optimal to iterate depending on endinaness on transmuted mem slice
-                let buf = self.mask().0.to_le_bytes();
+                let buf = self.0.to_le_bytes(); // assumed always masked
                 writer.write(&buf[..$name::BYTES])?;
                 Ok(())
             }
         }
-        
+
         #[cfg(feature = "borsh")]
         impl borsh::BorshDeserialize for $name {
             fn deserialize_reader<R: borsh::io::Read>(reader: &mut R) -> borsh::io::Result<Self> {
                 // same non optimality as in serialize, can handle without allocation
                 let mut buf = [0u8; ($type::BITS >> 3) as usize];
                 reader.read_exact(&mut buf[0..$name::BYTES])?;
-                // TODO: use `mask(..)?`
-                Ok($name($type::from_le_bytes(buf)).mask())
+                let buf: $type = $type::from_le_bytes(buf);
+                TryFrom::try_from(buf).map_err(|_| borsh::io::Error::new(borsh::io::ErrorKind::Other, "Value out of range"))
             }
         }
-        
+
     }
 }
 
@@ -1017,15 +1017,14 @@ mod tests {
     fn test_bytes() {
         assert_eq!(u54::BYTES, 7);
         assert_eq!(u62::BYTES, 8);
-
     }
 
     #[cfg(all(feature = "borsh", feature = "std"))]
     #[test]
     fn test_borsh() {
         use borsh::{BorshDeserialize, BorshSerialize};
-        let mut buf = Vec::new(); 
-        
+        let mut buf = Vec::new();
+
         // let input = u9(42);
         // input.serialize(&mut buf).unwrap();
         // let output = u9::deserialize(&mut buf.as_ref()).unwrap();

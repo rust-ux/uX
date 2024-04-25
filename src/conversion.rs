@@ -999,6 +999,61 @@ implement_try_from!([i41, i42, i43, i44, i45, i46, i47, i48], i64);
 implement_try_from!([i49, i50, i51, i52, i53, i54, i55, i56], i64);
 implement_try_from!([i57, i58, i59, i60, i61, i62, i63], i64);
 
+implement_into!([i2, i3, i4, i5, i6, i7], i128);
+implement_into!([i9, i10, i11, i12, i13, i14, i15], i128);
+implement_into!([i17, i18, i19, i20, i21, i22, i23, i24], i128);
+implement_into!([i25, i26, i27, i28, i29, i30, i31], i128);
+implement_into!([i33, i34, i35, i36, i37, i38, i39, i40], i128);
+implement_into!([i41, i42, i43, i44, i45, i46, i47, i48], i128);
+implement_into!([i49, i50, i51, i52, i53, i54, i55, i56], i128);
+implement_into!([i57, i58, i59, i60, i61, i62, i63], i128);
+implement_into!(
+    [
+        i65, i66, i67, i68, i69, i70, i71, i72, i73, i74, i75, i76, i77, i78, i79, i80, i81, i82,
+        i83, i84, i85, i86, i87, i88, i89, i90, i91, i92, i93, i94, i95, i96, i97, i98, i99, i100,
+        i101, i102, i103, i104, i105, i106, i107, i108, i109, i110, i111, i112, i113, i114, i115,
+        i116, i117, i118, i119, i120, i127, i126, i125, i124, i123, i122, i121
+    ],
+    i128
+);
+
+implement_into!([u2, u3, u4, u5, u6, u7], u128);
+implement_into!([u9, u10, u11, u12, u13, u14, u15], u128);
+implement_into!([u17, u18, u19, u20, u21, u22, u23, u24], u128);
+implement_into!([u25, u26, u27, u28, u29, u30, u31], u128);
+implement_into!([u33, u34, u35, u36, u37, u38, u39, u40], u128);
+implement_into!([u41, u42, u43, u44, u45, u46, u47, u48], u128);
+implement_into!([u49, u50, u51, u52, u53, u54, u55, u56], u128);
+implement_into!([u57, u58, u59, u60, u61, u62, u63], u128);
+implement_into!(
+    [
+        u65, u66, u67, u68, u69, u70, u71, u72, u73, u74, u75, u76, u77, u78, u79, u80, u81, u82,
+        u83, u84, u85, u86, u87, u88, u89, u90, u91, u92, u93, u94, u95, u96, u97, u98, u99, u100,
+        u101, u102, u103, u104, u105, u106, u107, u108, u109, u110, u111, u112, u113, u114, u115,
+        u116, u117, u118, u119, u120, u127, u126, u125, u124, u123, u122, u121
+    ],
+    u128
+);
+
+implement_try_from!(
+    [
+        i65, i66, i67, i68, i69, i70, i71, i72, i73, i74, i75, i76, i77, i78, i79, i80, i81, i82,
+        i83, i84, i85, i86, i87, i88, i89, i90, i91, i92, i93, i94, i95, i96, i97, i98, i99, i100,
+        i101, i102, i103, i104, i105, i106, i107, i108, i109, i110, i111, i112, i113, i114, i115,
+        i116, i117, i118, i119, i120, i127, i126, i125, i124, i123, i122, i121
+    ],
+    i128
+);
+implement_try_from!(
+    [
+        u65, u66, u67, u68, u69, u70, u71, u72, u73, u74, u75, u76, u77, u78, u79, u80, u81, u82,
+        u83, u84, u85, u86, u87, u88, u89, u90, u91, u92, u93, u94, u95, u96, u97, u98, u99, u100,
+        u101, u102, u103, u104, u105, u106, u107, u108, u109, u110, u111, u112, u113, u114, u115,
+        u116, u117, u118, u119, u120, u127, u126, u125, u124, u123, u122, u121
+    ],
+    u128
+);
+
 implement_into!([i2, i3, i4, i5, i6, i7], i64);
 implement_into!([i9, i10, i11, i12, i13, i14, i15], i64);
 implement_into!([i17, i18, i19, i20, i21, i22, i23, i24], i64);
