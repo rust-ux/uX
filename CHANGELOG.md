@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Security
 
+## [0.2.0] - 2024-05-30
+### Added
+ - Support for using uX values in match statements
+
 ## [0.1.6] - 2024-04-03
 ### Added
  - Support conversions for u1
