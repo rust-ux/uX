@@ -25,10 +25,6 @@ use lib::core::ops::{
     ShrAssign,
 };
 
-use lib::core::hash::{Hash, Hasher};
-
-use lib::core::cmp::{Ord, Ordering, PartialOrd};
-
 use lib::core::fmt::{Binary, Display, Formatter, LowerHex, Octal, UpperHex};
 
 macro_rules! define_unsigned {
@@ -37,7 +33,7 @@ macro_rules! define_unsigned {
 
        #[$doc]
         #[allow(non_camel_case_types)]
-        #[derive(Default, Clone, Copy, Debug)]
+        #[derive(Default, Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
         pub struct $name($type);
 
         impl $name {
@@ -61,7 +57,7 @@ macro_rules! define_signed {
 
         #[$doc]
         #[allow(non_camel_case_types)]
-        #[derive(Default, Clone, Copy, Debug)]
+        #[derive(Default, Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
         pub struct $name($type);
 
         #[$doc]
@@ -156,32 +152,6 @@ macro_rules! implement_common {
             /// ```
             pub fn wrapping_add(self, rhs: Self) -> Self {
                 $name(self.0.wrapping_add(rhs.0)).mask()
-            }
-        }
-
-        impl PartialEq for $name {
-            fn eq(&self, other: &Self) -> bool {
-                self.0 == other.0
-            }
-        }
-
-        impl Eq for $name {}
-
-        impl PartialOrd for $name {
-            fn partial_cmp(&self, other: &$name) -> Option<Ordering> {
-                Some(self.cmp(other))
-            }
-        }
-
-        impl Ord for $name {
-            fn cmp(&self, other: &$name) -> Ordering {
-                self.0.cmp(&other.0)
-            }
-        }
-
-        impl Hash for $name {
-            fn hash<H: Hasher>(&self, h: &mut H) {
-                self.0.hash(h)
             }
         }
 
@@ -982,5 +952,18 @@ mod tests {
         assert_eq!(!u7(0x7F), u7(0));
         assert_eq!(!u7(0), u7(0x7F));
         assert_eq!(!u7(56), u7(71));
+    }
+
+    #[test]
+    fn test_match() {
+        const SEVEN: u7 = u7::new(7);
+        match u7(7) {
+            SEVEN => (),
+            _ => panic!("Pattern matching failed (7 != 7?)"),
+        }
+        match u7(42) {
+            SEVEN => panic!("Pattern matching failed (7 == 42?)"),
+            _ => (),
+        }
     }
 }
